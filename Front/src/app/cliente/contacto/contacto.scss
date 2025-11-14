@@ -1,0 +1,39 @@
+/* Hero */
+.ct-hero { background: linear-gradient(135deg, color-mix(in oklab, var(--primary) 8%, transparent), color-mix(in oklab, var(--primary) 18%, transparent)); padding: 40px 0; }
+.ct-hero .subtitle { color: var(--muted-foreground); max-width: 780px; }
+.badge { display:inline-flex; align-items:center; gap:6px; background: var(--primary); color:#fff; padding:6px 10px; border-radius:999px; font-size:12px; box-shadow:0 6px 16px rgba(239,68,68,.25) }
+
+/* Tarjetas */
+.ct-cards { padding: 28px 0; }
+.grid { display:grid; grid-template-columns:1fr; gap:12px; }
+.card { background:#fff; border:1px solid var(--border); border-radius:12px; padding:16px; }
+.card .icon { width:44px; height:44px; border-radius:12px; background: color-mix(in oklab, var(--primary) 10%, transparent); display:inline-flex; align-items:center; justify-content:center; margin-bottom:8px; }
+
+/* Formulario */
+.ct-form { padding: 8px 0 32px; }
+.two { display:grid; grid-template-columns:1fr; gap:16px; }
+.form { background:#fff; border:1px solid var(--border); border-radius:14px; padding:16px; }
+.form .head { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.form .head .icon { width:44px; height:44px; border-radius:999px; background: color-mix(in oklab, var(--primary) 10%, transparent); display:inline-flex; align-items:center; justify-content:center; }
+.form .grid { display:grid; grid-template-columns:1fr; gap:12px; }
+.row { display:grid; grid-template-columns:1fr; gap:12px; }
+.field span { display:block; font-size:12px; color:var(--muted-foreground); margin-bottom:6px; }
+.field input, .field textarea { width:100%; border:1px solid var(--border); border-radius:8px; padding:10px 12px; font: inherit; color:#111827; background:#fff; }
+.btn { padding:10px 14px; border-radius:10px; background: var(--primary); color:#fff; text-decoration:none; border:none; cursor:pointer; }
+.btn.outline { background:#fff; color: var(--primary); border:1px solid var(--primary); }
+
+.side .media { aspect-ratio: 16/9; border-radius:16px; background:#e5e7eb; box-shadow:0 12px 28px rgba(0,0,0,.18); margin-bottom:12px; }
+.side .card { background: linear-gradient(135deg, color-mix(in oklab, var(--primary) 5%, #fff), #fff); }
+.why ul { margin: 8px 0 0; padding:0 0 0 16px; color: var(--muted-foreground); }
+
+/* Mapa */
+.ct-map { background:#fafafa; padding:32px 0; }
+.map-card { background:#fff; border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-top:12px; }
+.placeholder { display:flex; gap:12px; align-items:center; justify-content:center; padding:32px; }
+.pin { width:56px; height:56px; border-radius:999px; background: var(--primary); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:28px; }
+
+@media (min-width: 900px) {
+	.grid { grid-template-columns: repeat(4, 1fr); }
+	.two { grid-template-columns: 1.1fr .9fr; }
+	.row { grid-template-columns: repeat(2, 1fr); }
+}

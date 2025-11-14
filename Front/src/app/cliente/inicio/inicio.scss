@@ -1,0 +1,111 @@
+.hero {
+	background: linear-gradient(135deg, color-mix(in oklab, var(--primary) 8%, transparent), color-mix(in oklab, var(--primary) 15%, transparent));
+	padding: 64px 0;
+}
+
+.hero .container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 16px;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 32px;
+}
+
+.badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	background: var(--primary);
+	color: #fff;
+	padding: 6px 10px;
+	border-radius: 999px;
+	font-size: 12px;
+	box-shadow: 0 6px 16px rgba(239,68,68,.3);
+}
+
+.hero h1 { font-size: 40px; line-height: 1.15; margin: 16px 0; color: #0f172a; }
+.hero h1 .primary { color: var(--primary); }
+.lead { color: #64748b; font-size: 18px; }
+
+.actions { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+.btn { padding: 10px 14px; border-radius: 10px; text-decoration: none; font-weight: 600; }
+.btn.primary { background: var(--primary); color: #fff; box-shadow: 0 8px 16px rgba(239,68,68,.25); }
+.btn.outline { border: 1px solid var(--primary); color: var(--primary); }
+.btn.outline:hover { background: var(--primary); color: #fff; }
+
+.hero-image .image-card { position: relative; border-radius: 16px; overflow: hidden; box-shadow: 0 12px 28px rgba(0,0,0,.18); }
+.hero-image img { width: 100%; height: auto; display: block; }
+.overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.25), transparent); }
+
+.stat { position: absolute; left: -16px; bottom: -16px; background: #fff; border-radius: 12px; padding: 12px 14px; display: flex; gap: 10px; align-items: center; box-shadow: 0 10px 24px rgba(0,0,0,.18); }
+.stat .icon { width: 44px; height: 44px; border-radius: 999px; background: color-mix(in oklab, var(--primary) 12%, transparent); color: var(--primary); display: inline-flex; align-items: center; justify-content: center; font-size: 20px; }
+.stat-number { font-size: 22px; color: #0f172a; }
+.stat-label { font-size: 12px; color: #64748b; margin-top: 2px; }
+
+.features { background: #fff; border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; padding: 32px 0; }
+.features .container { max-width: 1200px; margin: 0 auto; padding: 0 16px; display: grid; gap: 20px; grid-template-columns: 1fr; }
+.feature { display: flex; gap: 12px; align-items: center; }
+.feature-icon { width: 48px; height: 48px; border-radius: 999px; background: color-mix(in oklab, var(--primary) 12%, transparent); display: inline-flex; align-items: center; justify-content: center; font-size: 22px; color: var(--primary); flex-shrink: 0; }
+.feature h4 { margin: 0 0 2px; }
+.feature p { margin: 0; color: #6b7280; font-size: 14px; }
+
+@media (min-width: 900px) {
+	.hero .container { grid-template-columns: 1.1fr .9fr; }
+	.features .container { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Stats */
+.stats { background: linear-gradient(90deg, color-mix(in oklab, var(--primary) 85%, transparent), color-mix(in oklab, var(--primary) 70%, transparent)); color:#fff; padding: 18px 0; }
+.stats .container { max-width: 1200px; margin:0 auto; padding:0 16px; display:grid; grid-template-columns: repeat(2,1fr); gap:16px; }
+.s-item { text-align:center; }
+.s-item .num { font-size: 28px; font-weight: 800; }
+.s-item .lbl { color: rgba(255,255,255,.85); font-size: 13px; }
+@media (min-width: 900px) { .stats .container { grid-template-columns: repeat(4,1fr); } }
+
+/* Home products */
+.home-products { background:#fff; padding: 36px 0; }
+.center { text-align:center; }
+.center .badge.ghost { background: color-mix(in oklab, var(--primary) 10%, transparent); color: var(--primary); }
+.sub { margin: 18px 0 10px; }
+.cards .card { background:#fff; border:1px solid var(--border); border-radius:14px; overflow:hidden; box-shadow:0 6px 14px rgba(0,0,0,.06); transition: transform .2s ease, box-shadow .2s ease; }
+.cards .card:hover { transform: translateY(-4px); box-shadow: 0 10px 22px rgba(0,0,0,.08); }
+.cards .img { background: linear-gradient(135deg, #eef2f7, #e5e7eb); height: 140px; }
+.cards .img.meat { background: color-mix(in oklab, var(--primary) 12%, #e5e7eb); }
+.cards .body { padding: 12px; }
+.pad { margin-top: 10px; }
+
+/* Promo */
+.promo { background: linear-gradient(135deg, var(--primary), color-mix(in oklab, var(--primary) 85%, transparent)); padding: 36px 0; position: relative; }
+.promo .card { background: rgba(255,255,255,.95); border-radius:16px; display:grid; grid-template-columns: 1fr; gap:14px; padding:16px; border:0; }
+.p-media { aspect-ratio: 16/9; background:#e5e7eb; border-radius:12px; }
+.p-text .badge { background: var(--primary); color:#fff; }
+
+/* Breeds */
+.breeds { background: linear-gradient(135deg, #f5f5f5, color-mix(in oklab, var(--primary) 10%, #fdfdfd)); padding: 40px 0; }
+.b-grid { display:grid; grid-template-columns:1fr; gap:16px; }
+.b-card { background:#fff; border:1px solid var(--border); border-radius:14px; overflow:hidden; box-shadow:0 6px 16px rgba(0,0,0,.06); }
+.b-card .img { background:#e5e7eb; aspect-ratio:16/9; }
+.b-card .body { padding: 12px; }
+.row { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+.pill.small { padding:4px 8px; border-radius:999px; background: color-mix(in oklab, var(--primary) 10%, transparent); color: var(--primary); font-size:12px; }
+.btn.full { width:100%; }
+
+/* Testimonials */
+.testimonials { background:#fff; padding: 40px 0; }
+.t-grid { display:grid; grid-template-columns:1fr; gap:16px; }
+.t-card { background:#fff; border:1px solid var(--border); border-radius:14px; padding:16px; box-shadow:0 6px 16px rgba(0,0,0,.06); }
+.t-card .stars { color: var(--primary); letter-spacing: 2px; margin-bottom: 6px; }
+.quote { color: var(--muted-foreground); font-style: italic; margin-bottom: 8px; }
+.author .role { color: var(--muted-foreground); font-size: 13px; }
+
+@media (min-width: 640px) {
+	.cards { display:grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+}
+
+@media (min-width: 900px) {
+	.promo .card { grid-template-columns: 1.1fr .9fr; align-items:center; }
+	.cards { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+	.b-grid { grid-template-columns: repeat(3, 1fr); }
+	.t-grid { grid-template-columns: repeat(3, 1fr); }
+}

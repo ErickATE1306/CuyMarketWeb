@@ -1,0 +1,60 @@
+/* Hero */
+.prd-hero { background: linear-gradient(135deg, color-mix(in oklab, var(--primary) 8%, transparent), color-mix(in oklab, var(--primary) 18%, transparent)); padding: 40px 0; }
+.prd-hero .subtitle { color: var(--muted-foreground); max-width: 820px; }
+.badge { display:inline-flex; align-items:center; gap:6px; background: var(--primary); color:#fff; padding:6px 10px; border-radius:999px; font-size:12px; box-shadow:0 6px 16px rgba(239,68,68,.25) }
+.anchors { display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; }
+.pill { padding:8px 12px; border-radius:999px; background:#fff; border:1px solid var(--border); color:#374151; text-decoration:none; }
+.pill.active { background: color-mix(in oklab, var(--primary) 10%, #fff); border-color: color-mix(in oklab, var(--primary) 30%, var(--border)); color:#111827; }
+
+/* Secciones */
+.prd-section { padding: 40px 0; }
+.prd-section.alt { background:#fafafa; }
+.head h2 { margin:0 0 6px; }
+.head .muted { color: var(--muted-foreground); }
+
+/* Filtros visuales */
+.filters { display:grid; grid-template-columns:1fr; gap:12px; background:#fff; border:1px solid var(--border); border-radius:12px; padding:12px; margin:16px 0 20px; }
+.filter label { display:block; font-size:12px; color:var(--muted-foreground); margin-bottom:6px; }
+.select { display:flex; align-items:center; justify-content:space-between; border:1px solid var(--border); border-radius:8px; padding:10px 12px; color:#374151; background:#fff; }
+.select i { color:#6b7280; }
+.btn.outline { display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--primary); color:var(--primary); border-radius:8px; padding:10px 12px; text-decoration:none; }
+
+/* Tabs visuales */
+.tabs { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:8px; margin:12px 0 16px; }
+.tab { padding:10px 12px; border:1px solid var(--border); background:#fff; color:#374151; border-radius:8px; }
+.tab.active { border-color: color-mix(in oklab, var(--primary) 30%, var(--border)); background: color-mix(in oklab, var(--primary) 10%, #fff); color:#111827; }
+
+/* Grid de productos */
+.grid { display:grid; grid-template-columns: 1fr; gap:16px; }
+.p-card { background:#fff; border:1px solid var(--border); border-radius:14px; overflow:hidden; box-shadow:0 6px 16px rgba(0,0,0,.06); }
+.p-card .img { background: #e5e7eb; height: 160px; }
+.p-card.meat .img { background: color-mix(in oklab, var(--primary) 12%, #e5e7eb); }
+.p-card .body { padding: 12px; }
+.chips { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+.chip { padding:4px 8px; border-radius:999px; background: color-mix(in oklab, var(--primary) 10%, transparent); color: var(--primary); font-size:12px; }
+
+/* Beneficios carne */
+.benefits { display:grid; grid-template-columns:1fr; gap:12px; margin: 8px 0 16px; }
+.b-card { background:#fff; border:1px solid var(--border); border-radius:12px; padding:16px; }
+.b-card .icon { width:44px; height:44px; border-radius:999px; background: color-mix(in oklab, var(--primary) 10%, transparent); display:inline-flex; align-items:center; justify-content:center; margin-bottom:8px; }
+
+.badges { display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 16px; }
+.badge.pill { background:#fff; border:1px solid var(--border); color:#374151; }
+.badge.pill.active { background: var(--primary); border-color: var(--primary); color:#fff; }
+
+.info { margin-top: 16px; }
+.info h3 { margin: 0 0 10px; }
+.i-grid { display:grid; grid-template-columns: 1fr; gap:10px; }
+.i-grid .item { background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; }
+
+@media (min-width: 768px) {
+	.filters { grid-template-columns: repeat(3, 1fr); align-items:end; }
+	.tabs { grid-template-columns: repeat(4, minmax(0,1fr)); }
+	.grid { grid-template-columns: repeat(3, 1fr); }
+	.benefits { grid-template-columns: repeat(3, 1fr); }
+	.i-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1200px) {
+	.grid { grid-template-columns: repeat(4, 1fr); }
+}

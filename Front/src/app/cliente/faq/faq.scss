@@ -1,0 +1,23 @@
+/* Hero */
+.faq-hero { background: linear-gradient(135deg, color-mix(in oklab, var(--primary) 8%, transparent), color-mix(in oklab, var(--primary) 18%, transparent)); padding: 40px 0; }
+.faq-hero .subtitle { color: var(--muted-foreground); max-width: 760px; }
+.badge { display:inline-flex; align-items:center; gap:6px; background: var(--primary); color:#fff; padding:6px 10px; border-radius:999px; font-size:12px; box-shadow:0 6px 16px rgba(239,68,68,.25) }
+
+/* Lista */
+.faq-list { padding: 32px 0; }
+.category { margin-bottom: 28px; }
+.c-head { display:flex; align-items:center; gap:10px; margin-bottom: 10px; }
+.c-icon { width:44px; height:44px; border-radius:12px; background: color-mix(in oklab, var(--primary) 10%, transparent); display:inline-flex; align-items:center; justify-content:center; }
+
+.card { background:#fff; border:1px solid var(--border); border-radius:12px; padding: 8px; }
+.card details { border-radius:10px; padding: 10px 12px; }
+.card details+details { border-top: 1px solid var(--border); }
+.card summary { list-style:none; cursor:pointer; font-weight:600; color:#111827; }
+.card summary::-webkit-details-marker { display:none; }
+.card p { color: var(--muted-foreground); margin-top: 6px; }
+
+/* CTA */
+.faq-cta { padding: 32px 0; background: #fafafa; }
+.cta-card { display:flex; gap: 14px; align-items:center; justify-content: space-between; background:#fff; border:1px solid var(--border); border-radius:14px; padding: 16px; }
+.cta-icon { width:48px; height:48px; border-radius:999px; background: var(--primary); color:#fff; display:inline-flex; align-items:center; justify-content:center; }
+.btn { padding:10px 14px; border-radius:10px; background: var(--primary); color:#fff; text-decoration:none; }

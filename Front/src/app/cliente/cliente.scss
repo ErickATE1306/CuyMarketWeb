@@ -1,0 +1,111 @@
+.cliente-container {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.footer {
+	margin-top: auto;
+	background: #111827;
+	color: #fff;
+	padding: 48px 0 24px;
+}
+
+.footer .container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 16px;
+}
+
+.cols {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 24px;
+}
+
+.brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 8px;
+}
+
+.brand-icon {
+	width: 40px; height: 40px;
+	border-radius: 8px;
+	background: var(--primary, #ef4444);
+	display: inline-flex;
+	align-items: center; justify-content: center;
+}
+
+.muted { color: rgba(255,255,255,.7); font-size: 14px; }
+
+.footer h4 { margin: 0 0 10px; font-size: 16px; }
+.footer ul { margin: 0; padding: 0; list-style: none; }
+.footer li { margin: 6px 0; }
+.footer a { color: rgba(255,255,255,.8); text-decoration: none; }
+.footer a:hover { color: #fff; }
+
+.contacto li { display: flex; gap: 8px; align-items: center; }
+
+.copy { margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.2); color: rgba(255,255,255,.7); font-size: 13px; text-align: center; }
+
+@media (min-width: 768px) {
+	.cols { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* estilos comunes para páginas internas */
+.page { padding: 48px 0; }
+.page .container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+.page h2 { margin: 0 0 6px; }
+.page .muted { color: #6b7280; }
+
+/* NAVBAR (movido desde shared/navbar) */
+:host { display: block; }
+.navbar {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	background: var(--background);
+	border-bottom: 1px solid var(--border);
+	box-shadow: 0 1px 2px rgba(0,0,0,.04);
+}
+.navbar .container {
+	height: 64px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+.brand { display: flex; align-items: center; gap: 10px; color: #111827; text-decoration: none; }
+.brand-icon {
+	width: 40px; height: 40px; border-radius: 8px;
+	background: var(--primary);
+	color: #fff; display: inline-flex; align-items: center; justify-content: center;
+	box-shadow: 0 4px 10px rgba(239,68,68,.25);
+}
+.brand-text strong { display: block; font-size: 16px; line-height: 1.2; color: var(--primary); }
+.brand-text small { display: block; font-size: 11px; color: var(--muted-foreground); }
+.nav-center { display: none; gap: 6px; align-items: center; }
+.nav-center a, .dropdown-toggle { padding: 8px 10px; border-radius: 8px; color: #374151; text-decoration: none; border: 1px solid transparent; }
+.nav-center a:hover, .dropdown-toggle:hover, .active { background: color-mix(in oklab, var(--primary) 8%, transparent); color: #111827; }
+.dropdown { position: relative; }
+.dropdown .chev { margin-left: 4px; }
+.dropdown-menu {
+	position: absolute; top: 100%; left: 0; min-width: 180px; background: var(--background); border: 1px solid var(--border);
+	border-radius: 8px; margin-top: 8px; box-shadow: 0 10px 20px rgba(0,0,0,.08); padding: 6px; display: none;
+}
+.dropdown:hover .dropdown-menu { display: block; }
+.dropdown-menu a { display: block; padding: 8px 10px; border-radius: 6px; color: #374151; text-decoration: none; }
+.dropdown-menu a:hover { background: #f3f4f6; }
+.nav-right { display: none; align-items: center; gap: 8px; }
+.icon-btn { position: relative; display: inline-flex; width: 38px; height: 38px; align-items: center; justify-content: center; border-radius: 8px; color: #374151; text-decoration: none; }
+.icon-btn:hover { background: #f3f4f6; }
+.badge { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border-radius: 999px; background: var(--primary); color: #fff; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; }
+.btn { padding: 8px 12px; border-radius: 8px; background: var(--primary); color: #fff; text-decoration: none; }
+.menu-toggle { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--border); background: var(--background); color: #374151; }
+@media (min-width: 1024px) {
+	.nav-center { display: inline-flex; }
+	.nav-right { display: inline-flex; }
+	.menu-toggle { display: none; }
+}
