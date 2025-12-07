@@ -1,0 +1,222 @@
+<div class="confirmation-container">
+	<div class="container">
+		@if (order) {
+			<div class="success-section">
+				<div class="success-icon">
+					<svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+						<polyline points="22 4 12 14.01 9 11.01"/>
+					</svg>
+				</div>
+				<h1>¡Pedido Confirmado!</h1>
+				<p class="order-number">Número de pedido: <strong>{{ order.id }}</strong></p>
+				<p class="confirmation-message">
+					Hemos recibido tu pedido correctamente. Te enviaremos un correo de confirmación a 
+					<strong>{{ order.envio.email }}</strong> con todos los detalles.
+				</p>
+			</div>
+
+			<div class="content-grid">
+				<div class="main-content">
+					<div class="info-card">
+						<h2>Detalles del Pedido</h2>
+						<div class="order-items">
+							@for (item of order.items; track item.id) {
+								<div class="order-item">
+									<div class="item-info">
+										<h3>{{ item.nombre }}</h3>
+										<p>{{ item.categoria }} • {{ item.peso }}</p>
+									</div>
+									<div class="item-qty">x{{ item.cantidad }}</div>
+									<div class="item-price">S/ {{ (item.precio * item.cantidad).toFixed(2) }}</div>
+								</div>
+							}
+						</div>
+						<div class="order-summary">
+							<div class="summary-row">
+								<span>Subtotal</span>
+								<span>S/ {{ order.subtotal.toFixed(2) }}</span>
+							</div>
+							<div class="summary-row">
+								<span>Envío</span>
+								<span>S/ {{ order.costoEnvio.toFixed(2) }}</span>
+							</div>
+							<div class="summary-divider"></div>
+							<div class="summary-row total">
+								<span>Total</span>
+								<span>S/ {{ order.total.toFixed(2) }}</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="info-card">
+						<h2>Información de Envío</h2>
+						<div class="shipping-details">
+							<div class="detail-item">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+									<circle cx="12" cy="7" r="4"/>
+								</svg>
+								<div>
+									<p class="label">Destinatario</p>
+									<p class="value">{{ order.envio.nombre }} {{ order.envio.apellido }}</p>
+								</div>
+							</div>
+							<div class="detail-item">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+									<circle cx="12" cy="10" r="3"/>
+								</svg>
+								<div>
+									<p class="label">Dirección</p>
+									<p class="value">{{ order.envio.direccion }}</p>
+									<p class="value">{{ order.envio.distrito }}, {{ order.envio.ciudad }}</p>
+									@if (order.envio.referencia) {
+										<p class="ref">Ref: {{ order.envio.referencia }}</p>
+									}
+								</div>
+							</div>
+							<div class="detail-item">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+								</svg>
+								<div>
+									<p class="label">Contacto</p>
+									<p class="value">{{ order.envio.telefono }}</p>
+									<p class="value">{{ order.envio.email }}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="info-card">
+						<h2>Método de Pago</h2>
+						<div class="payment-info">
+							@if (order.metodoPago === 'tarjeta') {
+								<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<rect x="1" y="4" width="22" height="16" rx="2"/>
+									<line x1="1" y1="10" x2="23" y2="10"/>
+								</svg>
+								<div>
+									<p class="method-name">Tarjeta de Crédito/Débito</p>
+									<p class="method-status">Pago procesado exitosamente</p>
+								</div>
+							}
+							@if (order.metodoPago === 'yape') {
+								<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<rect x="5" y="2" width="14" height="20" rx="2"/>
+									<line x1="12" y1="18" x2="12" y2="18"/>
+								</svg>
+								<div>
+									<p class="method-name">Yape</p>
+									<p class="method-status">Verificaremos tu pago en las próximas 24 horas</p>
+								</div>
+							}
+							@if (order.metodoPago === 'plin') {
+								<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<rect x="5" y="2" width="14" height="20" rx="2"/>
+									<line x1="12" y1="18" x2="12" y2="18"/>
+								</svg>
+								<div>
+									<p class="method-name">Plin</p>
+									<p class="method-status">Verificaremos tu pago en las próximas 24 horas</p>
+								</div>
+							}
+							@if (order.metodoPago === 'transferencia') {
+								<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<line x1="12" y1="1" x2="12" y2="23"/>
+									<path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+								</svg>
+								<div>
+									<p class="method-name">Transferencia Bancaria</p>
+									<p class="method-status">Verificaremos tu pago en las próximas 24 horas</p>
+								</div>
+							}
+						</div>
+					</div>
+				</div>
+
+				<div class="sidebar-content">
+					<div class="next-steps">
+						<h3>Próximos Pasos</h3>
+						<div class="step-list">
+							<div class="step">
+								<div class="step-icon">1</div>
+								<div class="step-content">
+									<p class="step-title">Verificación</p>
+									<p class="step-desc">Verificamos tu pago y preparamos tu pedido</p>
+								</div>
+							</div>
+							<div class="step">
+								<div class="step-icon">2</div>
+								<div class="step-content">
+									<p class="step-title">Preparación</p>
+									<p class="step-desc">Empacamos tus productos con los mejores estándares</p>
+								</div>
+							</div>
+							<div class="step">
+								<div class="step-icon">3</div>
+								<div class="step-content">
+									<p class="step-title">Envío</p>
+									<p class="step-desc">Tu pedido está en camino</p>
+								</div>
+							</div>
+							<div class="step">
+								<div class="step-icon">4</div>
+								<div class="step-content">
+									<p class="step-title">Entrega</p>
+									<p class="step-desc">Recibes tu pedido en la dirección indicada</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="action-buttons">
+						<button class="btn-primary" (click)="trackOrder()">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+								<circle cx="12" cy="10" r="3"/>
+							</svg>
+							Seguir mi Pedido
+						</button>
+						<button class="btn-secondary" (click)="downloadInvoice()">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+								<polyline points="7 10 12 15 17 10"/>
+								<line x1="12" y1="15" x2="12" y2="3"/>
+							</svg>
+							Descargar Factura
+						</button>
+						<a routerLink="/cliente/inicio" class="btn-outline">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+								<polyline points="9 22 9 12 15 12 15 22"/>
+							</svg>
+							Volver al Inicio
+						</a>
+					</div>
+
+					<div class="support-card">
+						<h4>¿Necesitas ayuda?</h4>
+						<p>Nuestro equipo está disponible para ayudarte</p>
+						<div class="support-contacts">
+							<a href="tel:+51999888777">
+								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+								</svg>
+								+51 999 888 777
+							</a>
+							<a href="mailto:ventas@cuyeria.com">
+								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+									<polyline points="22,6 12,13 2,6"/>
+								</svg>
+								ventas@cuyeria.com
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>

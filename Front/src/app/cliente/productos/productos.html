@@ -4,110 +4,131 @@
 		<span class="badge">Catálogo</span>
 		<h1>Nuestros Productos</h1>
 		<p class="subtitle">Explora cuyes vivos de razas certificadas y carne de cuy premium lista para cocinar.</p>
-		<div class="anchors">
-			<a href="#vivos" class="pill active">Cuyes Vivos</a>
-			<a href="#carne" class="pill">Carne de Cuy</a>
-		</div>
 	</div>
 </section>
 
-<!-- Cuyes Vivos -->
-<section id="vivos" class="prd-section">
+<!-- Búsqueda y Filtros -->
+<section class="prd-section">
 	<div class="container">
-		<div class="head">
-			<h2>Cuyes Vivos - Razas Certificadas</h2>
-			<p class="muted">Crianza responsable: Perú, Andina e Inti. Reproductores, gestantes y gazapos.</p>
+		<!-- Barra de búsqueda -->
+		<div class="search-bar">
+			<input 
+				type="text" 
+				[(ngModel)]="searchTerm" 
+				(input)="aplicarFiltros()"
+				placeholder="Buscar productos por nombre, tipo o descripción..."
+				class="search-input"
+			>
+			<button class="search-btn">
+				<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+				</svg>
+			</button>
 		</div>
 
-		<!-- Filtros visuales (no funcionales) -->
+		<!-- Filtros funcionales -->
 		<div class="filters">
 			<div class="filter">
-				<label>Por Raza</label>
-				<div class="select"><span>Todas las razas</span><i>▾</i></div>
+				<label>Categoría</label>
+				<select [(ngModel)]="selectedCategoria" (change)="aplicarFiltros()" class="select">
+					@for (cat of categorias; track cat) {
+						<option [value]="cat">{{cat}}</option>
+					}
+				</select>
 			</div>
 			<div class="filter">
-				<label>Por Categoría</label>
-				<div class="select"><span>Todas las categorías</span><i>▾</i></div>
+				<label>Raza</label>
+				<select [(ngModel)]="selectedRaza" (change)="aplicarFiltros()" class="select">
+					@for (raza of razas; track raza) {
+						<option [value]="raza">{{raza}}</option>
+					}
+				</select>
 			</div>
-			<a class="btn outline">Limpiar filtros</a>
-		</div>
-
-		<!-- Tabs visuales -->
-		<div class="tabs">
-			<button class="tab active">Todas</button>
-			<button class="tab">Raza Perú</button>
-			<button class="tab">Raza Andina</button>
-			<button class="tab">Raza Inti</button>
-		</div>
-
-		<!-- Grid de productos (placeholders) -->
-		<div class="grid">
-			<div class="p-card"><div class="img"></div><div class="body"><h4>Cuy Reproductor Peruano</h4><p class="muted">Raza Perú • 900–1200g</p><div class="chips"><span class="chip">Reproductor</span><span class="chip">Certificado</span></div></div></div>
-			<div class="p-card"><div class="img"></div><div class="body"><h4>Cuy Reproductor Andino</h4><p class="muted">Raza Andina • 950–1200g</p><div class="chips"><span class="chip">Reproductor</span><span class="chip">Raza pura</span></div></div></div>
-			<div class="p-card"><div class="img"></div><div class="body"><h4>Cuy Gestante</h4><p class="muted">Raza Perú • 900–1300g</p><div class="chips"><span class="chip">Gestante</span><span class="chip">Certificado</span></div></div></div>
-			<div class="p-card"><div class="img"></div><div class="body"><h4>Gazapo Inti</h4><p class="muted">Raza Inti • 300–500g</p><div class="chips"><span class="chip">Gazapo</span><span class="chip">Raza pura</span></div></div></div>
-			<div class="p-card"><div class="img"></div><div class="body"><h4>Cuy Reproductor Inti</h4><p class="muted">Raza Inti • 950–1200g</p><div class="chips"><span class="chip">Reproductor</span><span class="chip">Certificado</span></div></div></div>
-			<div class="p-card"><div class="img"></div><div class="body"><h4>Cuy Andino</h4><p class="muted">Raza Andina • 800–1100g</p><div class="chips"><span class="chip">Reproductor</span><span class="chip">Raza pura</span></div></div></div>
-			<div class="p-card"><div class="img"></div><div class="body"><h4>Cuy Gazapo Perú</h4><p class="muted">Raza Perú • 300–500g</p><div class="chips"><span class="chip">Gazapo</span><span class="chip">Certificado</span></div></div></div>
-			<div class="p-card"><div class="img"></div><div class="body"><h4>Cuy Hembra Gestante</h4><p class="muted">Raza Andina • 1000–1300g</p><div class="chips"><span class="chip">Gestante</span><span class="chip">Raza pura</span></div></div></div>
-		</div>
-	</div>
-</section>
-
-<!-- Carne de Cuy -->
-<section id="carne" class="prd-section alt">
-	<div class="container">
-		<div class="head">
-			<h2>Carne de Cuy Premium</h2>
-			<p class="muted">Entero, porcionado o congelado. Frescura y calidad garantizada.</p>
-		</div>
-
-		<!-- Beneficios -->
-		<div class="benefits">
-			<div class="b-card">
-				<div class="icon">🥇</div>
-				<h4>Alta en Proteínas</h4>
-				<p class="muted">20.3% de proteína ideal para una dieta saludable.</p>
+			<div class="filter">
+				<label>Precio</label>
+				<select [(ngModel)]="selectedPrecio" (change)="aplicarFiltros()" class="select">
+					@for (rango of rangosPrecios; track rango.label) {
+						<option [value]="rango.label">{{rango.label}}</option>
+					}
+				</select>
 			</div>
-			<div class="b-card">
-				<div class="icon">❤️</div>
-				<h4>Baja en Grasas</h4>
-				<p class="muted">Solo 7.8% de grasa, perfecta para dietas balanceadas.</p>
+			<div class="filter">
+				<label>Ordenar por</label>
+				<select [(ngModel)]="selectedOrden" (change)="aplicarFiltros()" class="select">
+					<option value="destacado">Destacado</option>
+					<option value="precio-asc">Precio: Menor a Mayor</option>
+					<option value="precio-desc">Precio: Mayor a Menor</option>
+					<option value="nombre">Nombre A-Z</option>
+				</select>
 			</div>
-			<div class="b-card">
-				<div class="icon">✨</div>
-				<h4>Sabor Único</h4>
-				<p class="muted">Tradición gastronómica peruana con excelente textura.</p>
-			</div>
+			<button class="btn outline" (click)="limpiarFiltros()">Limpiar filtros</button>
 		</div>
 
-		<!-- Categorías visuales -->
-		<div class="badges">
-			<span class="badge pill active">Todos</span>
-			<span class="badge pill">Entero</span>
-			<span class="badge pill">Porcionado</span>
-			<span class="badge pill">Congelado</span>
+		<!-- Resultados -->
+		<div class="results-info">
+			<p>Mostrando {{productosPaginados.length}} de {{totalItems}} productos</p>
 		</div>
 
-		<!-- Grid carne -->
-		<div class="grid">
-			<div class="p-card meat"><div class="img"></div><div class="body"><h4>Carne de Cuy Entero</h4><p class="muted">Fresca • 800–1000g</p><div class="chips"><span class="chip">Empaque al vacío</span><span class="chip">Listo para cocinar</span></div></div></div>
-			<div class="p-card meat"><div class="img"></div><div class="body"><h4>Porcionado Premium</h4><p class="muted">Fresco • Cortes seleccionados</p><div class="chips"><span class="chip">Porcionado</span><span class="chip">Fresco</span></div></div></div>
-			<div class="p-card meat"><div class="img"></div><div class="body"><h4>Carne Congelada</h4><p class="muted">Ultra-congelado • -18°C</p><div class="chips"><span class="chip">Congelado</span><span class="chip">Conservación óptima</span></div></div></div>
-			<div class="p-card meat"><div class="img"></div><div class="body"><h4>Entero eViscerado</h4><p class="muted">Fresco • Limpieza garantizada</p><div class="chips"><span class="chip">Entero</span><span class="chip">Higiénico</span></div></div></div>
-			<div class="p-card meat"><div class="img"></div><div class="body"><h4>Porciones Marinadas</h4><p class="muted">Listo para hornear</p><div class="chips"><span class="chip">Marinado</span><span class="chip">Fácil</span></div></div></div>
-			<div class="p-card meat"><div class="img"></div><div class="body"><h4>Combo Familiar</h4><p class="muted">4 porciones • Oferta</p><div class="chips"><span class="chip">Ahorro</span><span class="chip">Popular</span></div></div></div>
-		</div>
-
-		<!-- Info adicional -->
-		<div class="info">
-			<h3>¿Por qué elegir nuestra carne?</h3>
-			<div class="i-grid">
-				<div class="item"><h4>🔬 Proceso Higiénico</h4><p class="muted">Faenado bajo estrictos estándares de calidad.</p></div>
-				<div class="item"><h4>❄️ Frescura Garantizada</h4><p class="muted">Cadena de frío y conservación óptima.</p></div>
-				<div class="item"><h4>📦 Empaque Seguro</h4><p class="muted">Al vacío para preservar propiedades.</p></div>
-				<div class="item"><h4>🚚 Entrega Rápida</h4><p class="muted">Despacho ágil con cobertura nacional.</p></div>
+		<!-- Grid de productos dinámico -->
+		@if (productosPaginados.length > 0) {
+			<div class="grid">
+				@for (producto of productosPaginados; track producto.id) {
+					<div class="p-card" style="cursor: pointer;">
+						<div class="img" [style.background-image]="'url(' + producto.imagenes[0] + ')'" (click)="viewProductDetail(producto.id)">
+							<button 
+								class="wishlist-btn" 
+								[class.active]="isInWishlist(producto.id)"
+								(click)="toggleWishlist(producto.id); $event.stopPropagation()"
+								[title]="isInWishlist(producto.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'"
+							>
+								@if (isInWishlist(producto.id)) {
+									<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+										<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+									</svg>
+								} @else {
+									<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+									</svg>
+								}
+							</button>
+						</div>
+						<div class="body" (click)="viewProductDetail(producto.id)">
+							<h4>{{producto.nombre}}</h4>
+							<p class="muted">{{producto.raza}} • {{producto.peso}}</p>
+							<div class="chips">
+								<span class="chip">{{producto.tipo}}</span>
+								@if (producto.certificado) {
+									<span class="chip">Certificado</span>
+								}
+							</div>
+							<div class="price">
+								<strong>S/ {{producto.precio.toFixed(2)}}</strong>
+							</div>
+						</div>
+					</div>
+				}
 			</div>
-		</div>
+		} @else {
+			<app-estado-vacio
+				icon="search"
+				title="No se encontraron productos"
+				message="Intenta ajustar los filtros o realiza una nueva búsqueda"
+				actionText="Limpiar filtros"
+				(onAction)="limpiarFiltros()"
+			/>
+		}
+
+		<!-- Paginación -->
+		@if (totalPages > 1) {
+			<div class="pagination-wrapper">
+				<app-paginacion
+					[currentPage]="currentPage"
+					[totalPages]="totalPages"
+					[totalItems]="totalItems"
+					[itemsPerPage]="itemsPerPage"
+					(pageChange)="onPageChange($event)"
+				/>
+			</div>
+		}
 	</div>
 </section>

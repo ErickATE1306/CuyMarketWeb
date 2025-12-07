@@ -1,0 +1,169 @@
+@if (producto) {
+<div class="detalle-container">
+    <div class="breadcrumb">
+        <a routerLink="/cliente/productos">Productos</a>
+        <span class="separator">›</span>
+        <span>{{producto.nombre}}</span>
+    </div>
+
+    <div class="detalle-content">
+        <div class="detalle-images">
+            <div class="main-image">
+                <img [src]="producto.imagenes[selectedImage]" [alt]="producto.nombre">
+            </div>
+            @if (producto.imagenes.length > 1) {
+            <div class="thumbnails">
+                @for (img of producto.imagenes; track $index) {
+                <div class="thumbnail" 
+                     [class.active]="selectedImage === $index"
+                     (click)="selectImage($index)">
+                    <img [src]="img" [alt]="producto.nombre">
+                </div>
+                }
+            </div>
+            }
+        </div>
+
+        <div class="detalle-info">
+            <div class="badges">
+                <span class="badge-categoria">{{producto.categoria}}</span>
+                <span class="badge-tipo">{{producto.tipo}}</span>
+                @if (producto.certificado) {
+                <span class="badge-certificado">✓ Certificado</span>
+                }
+            </div>
+
+            <h1>{{producto.nombre}}</h1>
+            
+            <div class="meta-info">
+                <div class="meta-item">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                    <span>{{producto.raza}}</span>
+                </div>
+                <div class="meta-item">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    </svg>
+                    <span>{{producto.peso}}</span>
+                </div>
+            </div>
+
+            <div class="precio-section">
+                <div class="precio">S/ {{producto.precio.toFixed(2)}}</div>
+                <p class="precio-info">Precio por unidad</p>
+            </div>
+
+            <div class="descripcion">
+                <h3>Descripción</h3>
+                <p>{{producto.descripcion}}</p>
+            </div>
+
+            <div class="caracteristicas">
+                <h3>Características</h3>
+                <ul>
+                    @for (caracteristica of producto.caracteristicas; track $index) {
+                    <li>
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        {{caracteristica}}
+                    </li>
+                    }
+                </ul>
+            </div>
+
+            <div class="cantidad-selector">
+                <label>Cantidad</label>
+                <div class="quantity-controls">
+                    <button class="qty-btn" (click)="updateQuantity(-1)">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                    <span class="qty-value">{{cantidad}}</span>
+                    <button class="qty-btn" (click)="updateQuantity(1)">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="acciones">
+                <button class="btn btn-primary" (click)="buyNow()">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    Comprar Ahora
+                </button>
+                <button class="btn btn-outline" (click)="addToCart()">
+                    Agregar al Carrito
+                </button>
+            </div>
+
+            <div class="info-adicional">
+                <div class="info-item">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="1" y="3" width="15" height="13"></rect>
+                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                        <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                        <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                    </svg>
+                    <span>Envío a domicilio disponible</span>
+                </div>
+                <div class="info-item">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                    <span>Garantía de salud</span>
+                </div>
+                <div class="info-item">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    <span>Asesoría especializada</span>
+                </div>
+            </div>
+
+            <!-- Compartir en redes sociales -->
+            <div class="share-section">
+                <h3>Compartir producto</h3>
+                <app-botones-compartir 
+                    [url]="getCurrentUrl()"
+                    [title]="producto.nombre"
+                    [description]="producto.descripcion"
+                ></app-botones-compartir>
+            </div>
+
+            <!-- Calculadora de envío -->
+            <div class="shipping-section">
+                <h3>Calcular costo de envío</h3>
+                <app-calculadora-envio
+                    (shippingCalculated)="onShippingCalculated($event)"
+                ></app-calculadora-envio>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de Reseñas -->
+    <div class="reviews-section">
+        <h2>Opiniones de clientes</h2>
+        
+        <!-- Formulario de nueva reseña -->
+        <app-formulario-resena 
+          [productId]="producto.id"
+          (reviewSubmitted)="onReviewSubmitted()"
+        ></app-formulario-resena>
+
+        <!-- Lista de reseñas -->
+        <app-lista-resenas 
+          [productId]="producto.id"
+        ></app-lista-resenas>
+    </div>
+  </div>
+}

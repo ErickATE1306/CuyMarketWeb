@@ -1,0 +1,247 @@
+{
+  "common": {
+    "welcome": "Welcome to CuyMarket",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "required": "Required",
+    "optional": "Optional",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "services": "Services",
+    "about": "About Us",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "cart": "Cart",
+    "wishlist": "Wishlist",
+    "profile": "Profile",
+    "orders": "My Orders",
+    "settings": "Settings",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "remember": "Remember me",
+      "forgot": "Forgot password?",
+      "submit": "Login",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up here"
+    },
+    "forgot": {
+      "title": "Recover Password",
+      "subtitle": "Enter your email to receive a code",
+      "email": "Email",
+      "sendCode": "Send Code",
+      "verifyCode": "Verify Code",
+      "resetPassword": "Reset Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "backToLogin": "Back to login"
+    },
+    "verify": {
+      "title": "Verify Email",
+      "subtitle": "Enter the 6-digit code",
+      "code": "Verification code",
+      "resend": "Resend code",
+      "verify": "Verify",
+      "skip": "Skip verification"
+    }
+  },
+  "products": {
+    "title": "Our Products",
+    "category": "Category",
+    "price": "Price",
+    "stock": "Stock",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock",
+    "addToCart": "Add to Cart",
+    "addToWishlist": "Add to Wishlist",
+    "compare": "Compare",
+    "details": "View Details",
+    "description": "Description",
+    "features": "Features",
+    "reviews": "Reviews",
+    "relatedProducts": "Related Products",
+    "noProducts": "No products found",
+    "filters": {
+      "all": "All",
+      "sortBy": "Sort by",
+      "priceAsc": "Price: Low to High",
+      "priceDesc": "Price: High to Low",
+      "nameAsc": "Name: A-Z",
+      "newest": "Newest"
+    }
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "continueShopping": "Continue Shopping",
+    "item": "Item",
+    "quantity": "Quantity",
+    "price": "Price",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "shipping": "Shipping",
+    "discount": "Discount",
+    "remove": "Remove",
+    "update": "Update",
+    "checkout": "Proceed to Checkout",
+    "itemsInCart": "{count} items in cart"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "shippingAddress": "Shipping Address",
+    "billingAddress": "Billing Address",
+    "paymentMethod": "Payment Method",
+    "orderSummary": "Order Summary",
+    "placeOrder": "Place Order",
+    "processing": "Processing...",
+    "coupon": {
+      "apply": "Apply Coupon",
+      "code": "Coupon code",
+      "invalid": "Invalid coupon",
+      "expired": "Coupon expired",
+      "applied": "Coupon applied"
+    }
+  },
+  "orders": {
+    "title": "My Orders",
+    "orderNumber": "Order #",
+    "date": "Date",
+    "status": "Status",
+    "total": "Total",
+    "details": "View Details",
+    "track": "Track",
+    "cancel": "Cancel Order",
+    "reorder": "Reorder",
+    "invoice": "Download Invoice",
+    "noOrders": "You have no orders yet",
+    "statuses": {
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "cancelModal": {
+      "title": "Cancel Order",
+      "confirm": "Are you sure you want to cancel this order?",
+      "reason": "Cancellation reason",
+      "confirmButton": "Yes, cancel order",
+      "keepButton": "No, keep order"
+    }
+  },
+  "reviews": {
+    "title": "Reviews",
+    "writeReview": "Write a Review",
+    "rating": "Rating",
+    "comment": "Comment",
+    "submit": "Submit Review",
+    "noReviews": "No reviews yet",
+    "verified": "Verified Purchase",
+    "helpful": "Was this helpful?",
+    "ratingDistribution": "Rating Distribution",
+    "filter": {
+      "all": "All",
+      "positive": "Positive",
+      "negative": "Negative",
+      "withPhotos": "With Photos"
+    }
+  },
+  "shipping": {
+    "calculator": "Shipping Calculator",
+    "district": "District",
+    "weight": "Weight (kg)",
+    "quantity": "Quantity",
+    "calculate": "Calculate Cost",
+    "cost": "Shipping cost",
+    "estimatedTime": "Estimated time",
+    "freeShipping": "Free shipping"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send Message",
+    "info": {
+      "phone": "Phone",
+      "email": "Email",
+      "address": "Address",
+      "hours": "Business Hours"
+    }
+  },
+  "profile": {
+    "title": "My Profile",
+    "personalInfo": "Personal Information",
+    "changePassword": "Change Password",
+    "addresses": "Addresses",
+    "paymentMethods": "Payment Methods",
+    "preferences": "Preferences",
+    "notifications": "Notifications"
+  },
+  "admin": {
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "products": "Products",
+    "orders": "Orders",
+    "finances": "Finances",
+    "reports": "Reports",
+    "settings": "Settings"
+  },
+  "messages": {
+    "success": {
+      "addedToCart": "Product added to cart",
+      "orderPlaced": "Order placed successfully",
+      "profileUpdated": "Profile updated",
+      "passwordChanged": "Password changed",
+      "reviewSubmitted": "Review submitted"
+    },
+    "error": {
+      "generic": "An error occurred",
+      "network": "Connection error",
+      "notFound": "Not found",
+      "unauthorized": "Unauthorized",
+      "validation": "Validation error"
+    }
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Invalid email",
+    "minLength": "Minimum {min} characters",
+    "maxLength": "Maximum {max} characters",
+    "min": "Minimum value: {min}",
+    "max": "Maximum value: {max}",
+    "pattern": "Invalid format",
+    "passwordMismatch": "Passwords don't match"
+  },
+  "footer": {
+    "about": "About CuyMarket",
+    "help": "Help",
+    "terms": "Terms & Conditions",
+    "privacy": "Privacy Policy",
+    "copyright": "© 2025 CuyMarket. All rights reserved."
+  }
+}

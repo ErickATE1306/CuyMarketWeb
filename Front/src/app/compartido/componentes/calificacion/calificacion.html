@@ -1,0 +1,11 @@
+<div class="calificacion" [class.no-editable]="!editable">
+  @for (estrella of [1,2,3,4,5]; track estrella) {
+    <span 
+      (click)="establecerCalificacion(estrella)" 
+      [class.activa]="estrella <= calificacion"
+      [class.clickeable]="editable"
+      class="estrella">
+      ★
+    </span>
+  }
+</div>

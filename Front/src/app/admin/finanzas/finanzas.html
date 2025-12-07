@@ -1,0 +1,176 @@
+<div class="dashboard-content">
+    <div class="page-header">
+        <h2>Finanzas</h2>
+        <button class="btn-primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+            </svg>
+            Generar Reporte
+        </button>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="1" x2="12" y2="23" />
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
+            </div>
+            <div class="stat-content">
+                <span class="stat-label">Ingresos Totales</span>
+                <span class="stat-value">S/ 145,890</span>
+                <span class="stat-change positive">+18% vs mes anterior</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                    <polyline points="17 6 23 6 23 12" />
+                </svg>
+            </div>
+            <div class="stat-content">
+                <span class="stat-label">Este Mes</span>
+                <span class="stat-value">S/ 45,890</span>
+                <span class="stat-change positive">+12%</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
+            </div>
+            <div class="stat-content">
+                <span class="stat-label">Promedio Diario</span>
+                <span class="stat-value">S/ 1,529</span>
+                <span class="stat-change">Últimos 30 días</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+            </div>
+            <div class="stat-content">
+                <span class="stat-label">Pedidos Pagados</span>
+                <span class="stat-value">234</span>
+                <span class="stat-change positive">+5 hoy</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Financial Charts -->
+    <div class="charts-row">
+        <div class="chart-card">
+            <div class="card-header">
+                <h3>Ingresos Mensuales</h3>
+                <select class="chart-select">
+                    <option>Últimos 6 meses</option>
+                    <option>Último año</option>
+                    <option>Todo el tiempo</option>
+                </select>
+            </div>
+            <div class="chart-placeholder">
+                <svg width="100%" height="250" viewBox="0 0 600 250">
+                    <polyline points="0,200 100,150 200,180 300,100 400,130 500,80 600,90" fill="none"
+                        stroke="var(--primary)" stroke-width="3" />
+                    <polyline points="0,250 0,200 100,150 200,180 300,100 400,130 500,80 600,90 600,250"
+                        fill="url(#gradient)" opacity="0.2" />
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:var(--primary);stop-opacity:0.8" />
+                            <stop offset="100%" style="stop-color:var(--primary);stop-opacity:0" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <div class="card-header">
+                <h3>Métodos de Pago</h3>
+            </div>
+            <div class="products-list">
+                <div class="product-item">
+                    <span class="product-name">Efectivo</span>
+                    <div class="product-bar">
+                        <div class="bar-fill" style="width: 65%"></div>
+                    </div>
+                    <span class="product-value">65%</span>
+                </div>
+                <div class="product-item">
+                    <span class="product-name">Tarjeta</span>
+                    <div class="product-bar">
+                        <div class="bar-fill" style="width: 25%"></div>
+                    </div>
+                    <span class="product-value">25%</span>
+                </div>
+                <div class="product-item">
+                    <span class="product-name">Transferencia</span>
+                    <div class="product-bar">
+                        <div class="bar-fill" style="width: 10%"></div>
+                    </div>
+                    <span class="product-value">10%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transactions Table -->
+    <div class="table-card">
+        <div class="card-header">
+            <h3>Transacciones Recientes</h3>
+            <button class="btn-outline">Ver todas</button>
+        </div>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th>Método</th>
+                        <th>Monto</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#TXN-1234</td>
+                        <td>05/12/2025 14:30</td>
+                        <td>María González</td>
+                        <td>Efectivo</td>
+                        <td><strong>S/ 135.00</strong></td>
+                        <td><span class="status-badge completed">Completado</span></td>
+                    </tr>
+                    <tr>
+                        <td>#TXN-1233</td>
+                        <td>05/12/2025 13:15</td>
+                        <td>Carlos Mendoza</td>
+                        <td>Tarjeta</td>
+                        <td><strong>S/ 175.00</strong></td>
+                        <td><span class="status-badge completed">Completado</span></td>
+                    </tr>
+                    <tr>
+                        <td>#TXN-1232</td>
+                        <td>05/12/2025 12:00</td>
+                        <td>Ana Torres</td>
+                        <td>Transferencia</td>
+                        <td><strong>S/ 145.00</strong></td>
+                        <td><span class="status-badge processing">Procesando</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

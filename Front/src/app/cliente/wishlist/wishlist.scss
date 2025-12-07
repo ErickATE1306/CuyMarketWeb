@@ -1,0 +1,242 @@
+.wishlist-container {
+  min-height: calc(100vh - 120px);
+  padding: 32px 0;
+  background: #fafafa;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.page-header h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  color: #111827;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.count {
+  padding: 6px 12px;
+  background: color-mix(in oklab, var(--primary) 10%, transparent);
+  color: var(--primary);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.wishlist-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.wishlist-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.card-image {
+  position: relative;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  background-color: #e5e7eb;
+  cursor: pointer;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #6b7280;
+}
+
+.remove-btn:hover {
+  background: #fee2e2;
+  color: #ef4444;
+  transform: scale(1.1);
+}
+
+.card-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-header h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  color: #111827;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.card-header h3:hover {
+  color: var(--primary);
+}
+
+.category {
+  display: inline-block;
+  padding: 4px 10px;
+  background: color-mix(in oklab, var(--primary) 10%, transparent);
+  color: var(--primary);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-details p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+
+.weight {
+  font-weight: 500;
+  color: #374151;
+}
+
+.card-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.price strong {
+  font-size: 24px;
+  color: var(--primary);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-cart,
+.btn-view {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-cart {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-cart:hover {
+  background: color-mix(in oklab, var(--primary) 90%, #000);
+}
+
+.btn-view {
+  background: #fff;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.btn-view:hover {
+  background: color-mix(in oklab, var(--primary) 5%, transparent);
+}
+
+@media (min-width: 640px) {
+  .wishlist-card {
+    grid-template-columns: 240px 1fr;
+  }
+
+  .card-image {
+    height: auto;
+  }
+
+  .page-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .actions {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 768px) {
+  .wishlist-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .page-header h1 {
+    font-size: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-footer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .actions {
+    flex-direction: row;
+  }
+}

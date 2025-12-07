@@ -1,0 +1,230 @@
+<div class="forgot-password-container">
+  <div class="forgot-password-card">
+    <!-- Header -->
+    <div class="header">
+      <button class="back-btn" routerLink="/auth/login">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="12 19 5 12 12 5"/>
+        </svg>
+      </button>
+      <div class="logo">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 8v8"/>
+          <path d="M8 12h8"/>
+        </svg>
+      </div>
+      <h1>Recuperar Contraseña</h1>
+      <p class="subtitle">
+        @if (step === 'email') {
+          Ingresa tu email para recibir un código de verificación
+        } @else if (step === 'code') {
+          Ingresa el código de 6 dígitos enviado a {{ currentEmail }}
+        } @else {
+          Crea una nueva contraseña segura
+        }
+      </p>
+    </div>
+
+    <!-- Step 1: Email -->
+    @if (step === 'email') {
+      <form [formGroup]="emailForm" (ngSubmit)="onEmailSubmit()" class="form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="tu@email.com"
+            [class.error]="emailForm.get('email')?.invalid && emailForm.get('email')?.touched"
+          >
+          @if (emailForm.get('email')?.invalid && emailForm.get('email')?.touched) {
+            <span class="error-message">
+              @if (emailForm.get('email')?.errors?.['required']) {
+                El email es requerido
+              } @else if (emailForm.get('email')?.errors?.['email']) {
+                Email inválido
+              }
+            </span>
+          }
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="emailForm.invalid || isLoading">
+          @if (isLoading) {
+            <span class="spinner"></span>
+            Enviando...
+          } @else {
+            Enviar Código
+          }
+        </button>
+      </form>
+    }
+
+    <!-- Step 2: Code Verification -->
+    @if (step === 'code') {
+      <form [formGroup]="codeForm" (ngSubmit)="onCodeSubmit()" class="form">
+        <div class="code-inputs">
+          <input
+            type="text"
+            formControlName="digit1"
+            maxlength="1"
+            pattern="\d"
+            (input)="onDigitInput($event, 'digit2')"
+            (keydown)="onDigitKeyDown($event, null)"
+            class="code-digit"
+          >
+          <input
+            type="text"
+            formControlName="digit2"
+            maxlength="1"
+            pattern="\d"
+            (input)="onDigitInput($event, 'digit3')"
+            (keydown)="onDigitKeyDown($event, 'digit1')"
+            class="code-digit"
+          >
+          <input
+            type="text"
+            formControlName="digit3"
+            maxlength="1"
+            pattern="\d"
+            (input)="onDigitInput($event, 'digit4')"
+            (keydown)="onDigitKeyDown($event, 'digit2')"
+            class="code-digit"
+          >
+          <input
+            type="text"
+            formControlName="digit4"
+            maxlength="1"
+            pattern="\d"
+            (input)="onDigitInput($event, 'digit5')"
+            (keydown)="onDigitKeyDown($event, 'digit3')"
+            class="code-digit"
+          >
+          <input
+            type="text"
+            formControlName="digit5"
+            maxlength="1"
+            pattern="\d"
+            (input)="onDigitInput($event, 'digit6')"
+            (keydown)="onDigitKeyDown($event, 'digit4')"
+            class="code-digit"
+          >
+          <input
+            type="text"
+            formControlName="digit6"
+            maxlength="1"
+            pattern="\d"
+            (input)="onDigitInput($event, null)"
+            (keydown)="onDigitKeyDown($event, 'digit5')"
+            class="code-digit"
+          >
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="codeForm.invalid">
+          Verificar Código
+        </button>
+
+        <button type="button" class="btn-text" (click)="resendCode()">
+          ¿No recibiste el código? Reenviar
+        </button>
+      </form>
+    }
+
+    <!-- Step 3: Reset Password -->
+    @if (step === 'reset') {
+      <form [formGroup]="resetForm" (ngSubmit)="onResetSubmit()" class="form">
+        <div class="form-group">
+          <label for="password">Nueva Contraseña</label>
+          <div class="password-wrapper">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              formControlName="password"
+              placeholder="Mínimo 8 caracteres"
+              [class.error]="resetForm.get('password')?.invalid && resetForm.get('password')?.touched"
+            >
+            <button type="button" class="toggle-password-btn" (click)="togglePasswordVisibility('password')">
+              @if (showPassword) {
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              } @else {
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              }
+            </button>
+          </div>
+
+          <!-- Password Strength Indicator -->
+          @if (resetForm.get('password')?.value) {
+            <div class="password-strength">
+              <div class="strength-bar">
+                <div class="strength-fill" [style.width.%]="getPasswordStrength() * 20" 
+                     [class.weak]="getPasswordStrength() <= 2"
+                     [class.medium]="getPasswordStrength() === 3"
+                     [class.strong]="getPasswordStrength() >= 4"></div>
+              </div>
+              <span class="strength-label" 
+                    [class.weak]="getPasswordStrength() <= 2"
+                    [class.medium]="getPasswordStrength() === 3"
+                    [class.strong]="getPasswordStrength() >= 4">
+                {{ getPasswordStrengthLabel() }}
+              </span>
+            </div>
+          }
+
+          @if (resetForm.get('password')?.invalid && resetForm.get('password')?.touched) {
+            <span class="error-message">
+              La contraseña debe tener mínimo 8 caracteres con mayúsculas, minúsculas, números y símbolos
+            </span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirmar Contraseña</label>
+          <div class="password-wrapper">
+            <input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              id="confirmPassword"
+              formControlName="confirmPassword"
+              placeholder="Confirma tu contraseña"
+              [class.error]="resetForm.get('confirmPassword')?.invalid && resetForm.get('confirmPassword')?.touched"
+            >
+            <button type="button" class="toggle-password-btn" (click)="togglePasswordVisibility('confirmPassword')">
+              @if (showConfirmPassword) {
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              } @else {
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              }
+            </button>
+          </div>
+
+          @if (resetForm.errors?.['passwordMismatch'] && resetForm.get('confirmPassword')?.touched) {
+            <span class="error-message">
+              Las contraseñas no coinciden
+            </span>
+          }
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="resetForm.invalid || isLoading">
+          @if (isLoading) {
+            <span class="spinner"></span>
+            Actualizando...
+          } @else {
+            Cambiar Contraseña
+          }
+        </button>
+      </form>
+    }
+  </div>
+</div>

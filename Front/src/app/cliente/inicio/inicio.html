@@ -1,23 +1,58 @@
 <section class="hero">
 	<div class="container">
-		<div class="hero-content">
-			<span class="badge">Nuevas Razas Disponibles</span>
-			<h1>Cuyes de Raza <span class="primary">Premium</span> para tu Crianza</h1>
+		<div class="hero-content animate-slide-in-left">
+			<span class="badge">
+				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+				</svg>
+				Nuevas Razas Disponibles
+			</span>
+			<h1>Cuyes de Raza <span class="gradient-text">Premium</span> para tu Crianza</h1>
 			<p class="lead">Especializados en crianza de cuyes de razas puras: Perú, Andina e Inti. Carne de la más alta calidad para el consumo familiar y comercial.</p>
 			<div class="actions">
-				<a routerLink="/cliente/productos" class="btn primary">Ver Cuyes Vivos</a>
-				<a routerLink="/cliente/productos" class="btn outline">Carne de Cuy</a>
+				<a routerLink="/cliente/productos" class="btn btn-primary">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+						<polyline points="16 17 21 12 16 7"/>
+						<line x1="21" y1="12" x2="9" y2="12"/>
+					</svg>
+					Ver Cuyes Vivos
+				</a>
+				<a routerLink="/cliente/productos" class="btn btn-outline">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<circle cx="9" cy="21" r="1"/>
+						<circle cx="20" cy="21" r="1"/>
+						<path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6"/>
+					</svg>
+					Carne de Cuy
+				</a>
+			</div>
+			<div class="hero-stats">
+				<div class="stat-item">
+					<div class="stat-value">5000+</div>
+					<div class="stat-label">Cuyes al Mes</div>
+				</div>
+				<div class="stat-item">
+					<div class="stat-value">25+</div>
+					<div class="stat-label">Años de Experiencia</div>
+				</div>
+				<div class="stat-item">
+					<div class="stat-value">98%</div>
+					<div class="stat-label">Satisfacción</div>
+				</div>
 			</div>
 		</div>
-		<div class="hero-image">
+		<div class="hero-image animate-slide-in-right">
 			<div class="image-card">
-				<img src="https://images.unsplash.com/photo-1661176071713-a799aad702cf?w=800" alt="Cuyes Premium" />
-				<div class="overlay"></div>
-				<div class="stat">
-					<div class="icon">★</div>
+				<img src="https://images.unsplash.com/photo-1661176071713-a799aad702cf?w=800&q=80" alt="Cuyes Premium" loading="lazy" />
+				<div class="image-overlay"></div>
+				<div class="floating-badge">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+						<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+					</svg>
 					<div>
-						<div class="stat-number">+25 años</div>
-						<div class="stat-label">de experiencia</div>
+						<div class="badge-title">Calidad Premium</div>
+						<div class="badge-subtitle">Certificado</div>
 					</div>
 				</div>
 			</div>
@@ -25,25 +60,41 @@
 	</div>
 </section>
 
+<!-- Features -->
 <section class="features">
 	<div class="container">
-		<div class="feature">
-			<div class="feature-icon">🛡️</div>
-			<div>
+		<div class="feature-card">
+			<div class="feature-icon">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+				</svg>
+			</div>
+			<div class="feature-content">
 				<h4>Garantía de Calidad</h4>
 				<p>Cuyes certificados y saludables</p>
 			</div>
 		</div>
-		<div class="feature">
-			<div class="feature-icon">🚚</div>
-			<div>
+		<div class="feature-card">
+			<div class="feature-icon">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<rect x="1" y="3" width="15" height="13"/>
+					<polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+					<circle cx="5.5" cy="18.5" r="2.5"/>
+					<circle cx="18.5" cy="18.5" r="2.5"/>
+				</svg>
+			</div>
+			<div class="feature-content">
 				<h4>Envío a Domicilio</h4>
 				<p>Entrega rápida y segura</p>
 			</div>
 		</div>
-		<div class="feature">
-			<div class="feature-icon">⭐</div>
-			<div>
+		<div class="feature-card">
+			<div class="feature-icon">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+				</svg>
+			</div>
+			<div class="feature-content">
 				<h4>Razas Puras</h4>
 				<p>Perú, Andina, Inti certificadas</p>
 			</div>
@@ -51,132 +102,406 @@
 	</div>
 </section>
 
-<!-- Stats -->
-<section class="stats">
-	<div class="container">
-		<div class="s-item">
-			<div class="num">5000+</div>
-			<div class="lbl">Cuyes al Mes</div>
-		</div>
-		<div class="s-item">
-			<div class="num">2500+</div>
-			<div class="lbl">Clientes Felices</div>
-		</div>
-		<div class="s-item">
-			<div class="num">98%</div>
-			<div class="lbl">Satisfacción</div>
-		</div>
-		<div class="s-item">
-			<div class="num">25+</div>
-			<div class="lbl">Años</div>
-		</div>
-	</div>
-</section>
-
 <!-- Nuestros Productos -->
-<section class="home-products">
+<section class="products-section">
 	<div class="container">
-		<div class="center">
-			<span class="badge ghost">Catálogo</span>
+		<div class="section-header">
+			<span class="section-badge">Catálogo</span>
 			<h2>Nuestros Productos</h2>
-			<p class="muted">Explora nuestra selección de cuyes vivos y carne premium</p>
+			<p class="section-description">Explora nuestra selección de cuyes vivos y carne premium</p>
 		</div>
 
-		<h3 class="sub">Cuyes Vivos</h3>
-		<div class="grid cards">
-			<div class="card"><div class="img"></div><div class="body"><h4>Raza Perú Reproductor</h4><p class="muted">Puro • 900–1200g</p></div></div>
-			<div class="card"><div class="img"></div><div class="body"><h4>Raza Andina Gestante</h4><p class="muted">Pura • 1000–1300g</p></div></div>
-			<div class="card"><div class="img"></div><div class="body"><h4>Gazapo Inti</h4><p class="muted">300–500g</p></div></div>
-			<div class="card"><div class="img"></div><div class="body"><h4>Raza Inti Reproductor</h4><p class="muted">Puro • 950–1200g</p></div></div>
-		</div>
-		<div class="center pad">
-			<a routerLink="/cliente/productos" class="btn outline">Ver Todos los Cuyes Vivos</a>
+		<div class="products-category">
+			<div class="category-header">
+				<h3>Cuyes Vivos</h3>
+				<a routerLink="/cliente/productos" class="view-all">
+					Ver todos
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<polyline points="9 18 15 12 9 6"/>
+					</svg>
+				</a>
+			</div>
+			<div class="products-grid">
+				<div class="product-card">
+					<div class="product-image" (click)="viewProductDetail('cuy-reproductor-peruano')">
+						<div class="product-badge">Nuevo</div>
+					</div>
+					<div class="product-body" (click)="viewProductDetail('cuy-reproductor-peruano')">
+						<h4>Raza Perú Reproductor</h4>
+						<p class="product-meta">Puro • 900–1200g</p>
+						<div class="product-footer">
+							<span class="product-price">S/ 45.00</span>
+							<button class="btn-icon" (click)="addToCart('Raza Perú Reproductor', 45.00, 'Cuyes Vivos', '900-1200g'); $event.stopPropagation()">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<circle cx="9" cy="21" r="1"/>
+									<circle cx="20" cy="21" r="1"/>
+									<path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6"/>
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="product-card">
+					<div class="product-image" (click)="viewProductDetail('cuy-gestante')"></div>
+					<div class="product-body" (click)="viewProductDetail('cuy-gestante')">
+						<h4>Raza Andina Gestante</h4>
+						<p class="product-meta">Pura • 1000–1300g</p>
+						<div class="product-footer">
+							<span class="product-price">S/ 55.00</span>
+							<button class="btn-icon" (click)="addToCart('Raza Andina Gestante', 55.00, 'Cuyes Vivos', '1000-1300g'); $event.stopPropagation()">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<circle cx="9" cy="21" r="1"/>
+									<circle cx="20" cy="21" r="1"/>
+									<path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6"/>
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="product-card">
+					<div class="product-image" (click)="viewProductDetail('gazapo-inti')"></div>
+					<div class="product-body" (click)="viewProductDetail('gazapo-inti')">
+						<h4>Gazapo Inti</h4>
+						<p class="product-meta">300–500g</p>
+						<div class="product-footer">
+							<span class="product-price">S/ 25.00</span>
+							<button class="btn-icon" (click)="addToCart('Gazapo Inti', 25.00, 'Cuyes Vivos', '300-500g'); $event.stopPropagation()">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<circle cx="9" cy="21" r="1"/>
+									<circle cx="20" cy="21" r="1"/>
+									<path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6"/>
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="product-card">
+					<div class="product-image" (click)="viewProductDetail('cuy-reproductor-peruano')"></div>
+					<div class="product-body" (click)="viewProductDetail('cuy-reproductor-peruano')">
+						<h4>Raza Inti Reproductor</h4>
+						<p class="product-meta">Puro • 950–1200g</p>
+						<div class="product-footer">
+							<span class="product-price">S/ 48.00</span>
+							<button class="btn-icon" (click)="addToCart('Raza Inti Reproductor', 48.00, 'Cuyes Vivos', '950-1200g'); $event.stopPropagation()">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<circle cx="9" cy="21" r="1"/>
+									<circle cx="20" cy="21" r="1"/>
+									<path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6"/>
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
-		<h3 class="sub">Carne de Cuy</h3>
-		<div class="grid cards">
-			<div class="card"><div class="img meat"></div><div class="body"><h4>Entero eViscerado</h4><p class="muted">Fresco • 800–1000g</p></div></div>
-			<div class="card"><div class="img meat"></div><div class="body"><h4>Porcionado Premium</h4><p class="muted">Cortes seleccionados</p></div></div>
-			<div class="card"><div class="img meat"></div><div class="body"><h4>Congelado</h4><p class="muted">Ultra-congelado -18°C</p></div></div>
-			<div class="card"><div class="img meat"></div><div class="body"><h4>Combo Familiar</h4><p class="muted">4 porciones • Oferta</p></div></div>
-		</div>
-		<div class="center pad">
-			<a routerLink="/cliente/productos#carne" class="btn outline">Ver Todos los Productos de Carne</a>
+		<div class="products-category">
+			<div class="category-header">
+				<h3>Carne de Cuy</h3>
+				<a routerLink="/cliente/productos#carne" class="view-all">
+					Ver todos
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<polyline points="9 18 15 12 9 6"/>
+					</svg>
+				</a>
+			</div>
+			<div class="products-grid">
+				<div class="product-card">
+					<div class="product-image meat" (click)="viewProductDetail('cuy-reproductor-peruano')">
+						<div class="product-badge special">Oferta</div>
+					</div>
+					<div class="product-body" (click)="viewProductDetail('cuy-reproductor-peruano')">
+						<h4>Entero Eviscerado</h4>
+						<p class="product-meta">Fresco • 800–1000g</p>
+						<div class="product-footer">
+							<span class="product-price">S/ 35.00</span>
+							<button class="btn-icon" (click)="addToCart('Entero Eviscerado', 35.00, 'Carne de Cuy', '800-1000g'); $event.stopPropagation()">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<circle cx="9" cy="21" r="1"/>
+									<circle cx="20" cy="21" r="1"/>
+									<path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6"/>
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="product-card">
+					<div class="product-image meat" (click)="viewProductDetail('cuy-reproductor-andino')"></div>
+					<div class="product-body" (click)="viewProductDetail('cuy-reproductor-andino')">
+						<h4>Porcionado Premium</h4>
+						<p class="product-meta">Cortes seleccionados</p>
+						<div class="product-footer">
+							<span class="product-price">S/ 42.00</span>
+							<button class="btn-icon" (click)="addToCart('Porcionado Premium', 42.00, 'Carne de Cuy', 'Cortes seleccionados'); $event.stopPropagation()">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<circle cx="9" cy="21" r="1"/>
+									<circle cx="20" cy="21" r="1"/>
+									<path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6"/>
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="product-card">
+					<div class="product-image meat" (click)="viewProductDetail('cuy-gestante')"></div>
+					<div class="product-body" (click)="viewProductDetail('cuy-gestante')">
+						<h4>Congelado</h4>
+						<p class="product-meta">Ultra-congelado -18°C</p>
+						<div class="product-footer">
+							<span class="product-price">S/ 32.00</span>
+							<button class="btn-icon" (click)="addToCart('Congelado', 32.00, 'Carne de Cuy', 'Ultra-congelado'); $event.stopPropagation()">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<circle cx="9" cy="21" r="1"/>
+									<circle cx="20" cy="21" r="1"/>
+									<path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6"/>
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="product-card">
+					<div class="product-image meat" (click)="viewProductDetail('gazapo-inti')"></div>
+					<div class="product-body" (click)="viewProductDetail('gazapo-inti')">
+						<h4>Combo Familiar</h4>
+						<p class="product-meta">4 porciones • Oferta</p>
+						<div class="product-footer">
+							<span class="product-price">S/ 85.00</span>
+							<button class="btn-icon" (click)="addToCart('Combo Familiar', 85.00, 'Carne de Cuy', '4 porciones'); $event.stopPropagation()">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<circle cx="9" cy="21" r="1"/>
+									<circle cx="20" cy="21" r="1"/>
+									<path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6"/>
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
 
-<!-- Promoción -->
-<section class="promo">
+<!-- Promoción Destacada -->
+<section class="promo-section">
 	<div class="container">
-		<div class="card">
-			<div class="p-text">
-				<span class="badge">Oferta Especial</span>
+		<div class="promo-card">
+			<div class="promo-content">
+				<span class="promo-badge">Oferta Especial</span>
 				<h2>Pack Familiar - 3 Cuyes por S/ 85</h2>
-				<p class="muted">Cuyes enteros faenados, listos para preparar tu plato favorito. ¡Oferta limitada!</p>
-				<a routerLink="/cliente/productos#carne" class="btn">Comprar Ahora</a>
+				<p>Cuyes enteros faenados, listos para preparar tu plato favorito. ¡Oferta limitada!</p>
+				<div class="promo-features">
+					<div class="promo-feature">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<polyline points="20 6 9 17 4 12"/>
+						</svg>
+						<span>Frescos del día</span>
+					</div>
+					<div class="promo-feature">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<polyline points="20 6 9 17 4 12"/>
+						</svg>
+						<span>Envío gratis</span>
+					</div>
+					<div class="promo-feature">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<polyline points="20 6 9 17 4 12"/>
+						</svg>
+						<span>Garantía de calidad</span>
+					</div>
+				</div>
+				<a routerLink="/cliente/productos#carne" class="btn btn-primary btn-lg">
+					Comprar Ahora
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<polyline points="9 18 15 12 9 6"/>
+					</svg>
+				</a>
 			</div>
-			<div class="p-media"></div>
+			<div class="promo-image">
+				<div class="promo-discount">
+					<div class="discount-value">30%</div>
+					<div class="discount-label">OFF</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
 
 <!-- Razas Destacadas -->
-<section class="breeds">
+<section class="breeds-section">
 	<div class="container">
-		<div class="center">
-			<span class="badge ghost">Nuestras Razas</span>
+		<div class="section-header">
+			<span class="section-badge">Nuestras Razas</span>
 			<h2>Razas Certificadas</h2>
-			<p class="muted">Trabajamos con las mejores razas de cuyes del Perú</p>
+			<p class="section-description">Trabajamos con las mejores razas de cuyes del Perú</p>
 		</div>
-		<div class="grid b-grid">
-			<div class="b-card">
-				<div class="img"></div>
-				<div class="body"><div class="row"><h3>Raza Perú</h3><span class="pill small">Pura</span></div><p class="muted">Excelente para reproducción, alta prolificidad y resistencia.</p><a routerLink="/cliente/productos" class="btn outline full">Ver Productos</a></div>
+		<div class="breeds-grid">
+			<div class="breed-card">
+				<div class="breed-image"></div>
+				<div class="breed-body">
+					<div class="breed-header">
+						<h3>Raza Perú</h3>
+						<span class="breed-badge">Pura</span>
+					</div>
+					<p>Excelente para reproducción, alta prolificidad y resistencia.</p>
+					<ul class="breed-features">
+						<li>
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<polyline points="20 6 9 17 4 12"/>
+							</svg>
+							Alta prolificidad
+						</li>
+						<li>
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<polyline points="20 6 9 17 4 12"/>
+							</svg>
+							Resistente
+						</li>
+					</ul>
+					<a routerLink="/cliente/productos" class="btn btn-outline btn-block">Ver Productos</a>
+				</div>
 			</div>
-			<div class="b-card">
-				<div class="img"></div>
-				<div class="body"><div class="row"><h3>Raza Andina</h3><span class="pill small">Pura</span></div><p class="muted">Rápido crecimiento y adaptación a diversos climas.</p><a routerLink="/cliente/productos" class="btn outline full">Ver Productos</a></div>
+			<div class="breed-card">
+				<div class="breed-image"></div>
+				<div class="breed-body">
+					<div class="breed-header">
+						<h3>Raza Andina</h3>
+						<span class="breed-badge">Pura</span>
+					</div>
+					<p>Rápido crecimiento y adaptación a diversos climas.</p>
+					<ul class="breed-features">
+						<li>
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<polyline points="20 6 9 17 4 12"/>
+							</svg>
+							Rápido crecimiento
+						</li>
+						<li>
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<polyline points="20 6 9 17 4 12"/>
+							</svg>
+							Adaptable
+						</li>
+					</ul>
+					<a routerLink="/cliente/productos" class="btn btn-outline btn-block">Ver Productos</a>
+				</div>
 			</div>
-			<div class="b-card">
-				<div class="img"></div>
-				<div class="body"><div class="row"><h3>Raza Inti</h3><span class="pill small">Pura</span></div><p class="muted">Carne de calidad premium, ideal para consumo.</p><a routerLink="/cliente/productos" class="btn outline full">Ver Productos</a></div>
+			<div class="breed-card">
+				<div class="breed-image"></div>
+				<div class="breed-body">
+					<div class="breed-header">
+						<h3>Raza Inti</h3>
+						<span class="breed-badge">Pura</span>
+					</div>
+					<p>Carne de calidad premium, ideal para consumo.</p>
+					<ul class="breed-features">
+						<li>
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<polyline points="20 6 9 17 4 12"/>
+							</svg>
+							Calidad premium
+						</li>
+						<li>
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<polyline points="20 6 9 17 4 12"/>
+							</svg>
+							Ideal consumo
+						</li>
+					</ul>
+					<a routerLink="/cliente/productos" class="btn btn-outline btn-block">Ver Productos</a>
+				</div>
 			</div>
 		</div>
 	</div>
 </section>
 
 <!-- Testimonios -->
-<section class="testimonials">
+<section class="testimonials-section">
 	<div class="container">
-		<div class="center">
-			<span class="badge ghost">Testimonios</span>
+		<div class="section-header">
+			<span class="section-badge">Testimonios</span>
 			<h2>Lo que Dicen Nuestros Clientes</h2>
-			<p class="muted">La satisfacción de nuestros clientes es nuestra mejor carta</p>
+			<p class="section-description">La satisfacción de nuestros clientes es nuestra mejor carta</p>
 		</div>
-		<div class="grid t-grid">
-			<div class="t-card">
-				<div class="stars">★★★★★</div>
-				<p class="quote">"Excelente calidad de cuyes. Los reproductores que compré son muy saludables."</p>
-				<div class="author">
-					<div class="name">María González</div>
-					<div class="role">Criadora</div>
+		<div class="testimonials-grid">
+			<div class="testimonial-card">
+				<div class="testimonial-rating">
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+						<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+					</svg>
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+						<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+					</svg>
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+						<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+					</svg>
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+						<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+					</svg>
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+						<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+					</svg>
+				</div>
+				<p class="testimonial-quote">"Excelente calidad de cuyes. Los reproductores que compré son muy saludables y están perfectos para mi crianza."</p>
+				<div class="testimonial-author">
+					<div class="author-avatar">MG</div>
+					<div class="author-info">
+						<div class="author-name">María González</div>
+						<div class="author-role">Criadora</div>
+					</div>
 				</div>
 			</div>
-			<div class="t-card">
-				<div class="stars">★★★★★</div>
-				<p class="quote">"La carne es de primera calidad. Perfecta para mi restaurante."</p>
-				<div class="author">
-					<div class="name">Carlos Mendoza</div>
-					<div class="role">Chef</div>
+			<div class="testimonial-card">
+				<div class="testimonial-rating">
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+						<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+					</svg>
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+						<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+					</svg>
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+						<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+					</svg>
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+						<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+					</svg>
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+						<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+					</svg>
+				</div>
+				<p class="testimonial-quote">"La carne es de primera calidad. Perfecta para mi restaurante. Mis clientes siempre quedan satisfechos."</p>
+				<div class="testimonial-author">
+					<div class="author-avatar">CM</div>
+					<div class="author-info">
+						<div class="author-name">Carlos Mendoza</div>
+						<div class="author-role">Chef</div>
+					</div>
 				</div>
 			</div>
-			<div class="t-card">
-				<div class="stars">★★★★★</div>
-				<p class="quote">"Entrega rápida y producto tal como se describe. ¡Muy recomendado!"</p>
-				<div class="author">
-					<div class="name">Ana Torres</div>
-					<div class="role">Cliente</div>
+			<div class="testimonial-card">
+				<div class="testimonial-rating">
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+						<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+					</svg>
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+						<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+					</svg>
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+						<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+					</svg>
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+						<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+					</svg>
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+						<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+					</svg>
+				</div>
+				<p class="testimonial-quote">"Entrega rápida y producto tal como se describe. ¡Muy recomendado! Volveré a comprar sin duda."</p>
+				<div class="testimonial-author">
+					<div class="author-avatar">AT</div>
+					<div class="author-info">
+						<div class="author-name">Ana Torres</div>
+						<div class="author-role">Cliente</div>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -1,0 +1,15 @@
+<div class="ventana-overlay" (click)="cerrar()">
+  <div class="ventana-contenido" (click)="$event.stopPropagation()">
+    @if (title) {
+      <div class="ventana-header">
+        <h3 class="ventana-titulo">{{title}}</h3>
+        <button class="ventana-cerrar" (click)="cerrar()">&times;</button>
+      </div>
+    } @else {
+      <button class="ventana-cerrar" (click)="cerrar()">&times;</button>
+    }
+    <div class="ventana-body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

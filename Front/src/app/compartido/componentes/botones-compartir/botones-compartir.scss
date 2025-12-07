@@ -1,0 +1,231 @@
+.share-container {
+  position: relative;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--background-alt);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: var(--background);
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+}
+
+.share-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.share-modal {
+  background: var(--background);
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  max-width: 400px;
+  width: 100%;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+
+  h3 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--foreground);
+  }
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--foreground-secondary);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--background-alt);
+    color: var(--foreground);
+  }
+}
+
+.share-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 20px;
+}
+
+.share-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 12px;
+  background: var(--background-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--foreground);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  &.whatsapp:hover {
+    background: #25d366;
+    border-color: #25d366;
+    color: white;
+
+    .option-icon {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &.facebook:hover {
+    background: #1877f2;
+    border-color: #1877f2;
+    color: white;
+
+    .option-icon {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &.twitter:hover {
+    background: #1da1f2;
+    border-color: #1da1f2;
+    color: white;
+
+    .option-icon {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &.linkedin:hover {
+    background: #0a66c2;
+    border-color: #0a66c2;
+    color: white;
+
+    .option-icon {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &.email:hover {
+    background: #ea4335;
+    border-color: #ea4335;
+    color: white;
+
+    .option-icon {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &.copy:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+
+    .option-icon {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+.option-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background);
+  border-radius: 50%;
+  transition: background 0.2s ease;
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .share-options {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .share-option {
+    padding: 12px 8px;
+    font-size: 0.75rem;
+  }
+
+  .option-icon {
+    width: 40px;
+    height: 40px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+<div class="estado-vacio">
+  <div class="icono">{{icon}}</div>
+  <h3>{{title}}</h3>
+  <p class="mensaje">{{message}}</p>
+  @if (actionLink) {
+    <a [routerLink]="actionLink" class="boton">{{actionText}}</a>
+  } @else if (actionText) {
+    <button (click)="handleAction()" class="boton">{{actionText}}</button>
+  }
+</div>

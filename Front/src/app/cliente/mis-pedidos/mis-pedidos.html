@@ -1,0 +1,204 @@
+<div class="pedidos-container">
+    <div class="pedidos-header">
+        <h1>Mis Pedidos</h1>
+        <p class="subtitle">Historial y seguimiento de tus compras</p>
+    </div>
+
+    <div class="pedidos-content">
+        @if(pedidos.length > 0) {
+            <div class="pedidos-list">
+                @for(pedido of pedidos; track pedido.id) {
+                    <div class="pedido-card">
+                        <div class="pedido-header">
+                            <div class="pedido-info">
+                                <h3>Pedido {{pedido.id}}</h3>
+                                <p class="fecha">{{pedido.fecha}}</p>
+                            </div>
+                            <div class="pedido-status">
+                                <span class="badge" [class]="getEstadoBadgeClass(pedido.estado)">
+                                    {{getEstadoText(pedido.estado)}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="pedido-body">
+                            <div class="productos-preview">
+                                @for(producto of pedido.productos; track producto.nombre) {
+                                    <div class="producto-item">
+                                        <span class="producto-nombre">{{producto.nombre}}</span>
+                                        <span class="producto-cantidad">x{{producto.cantidad}}</span>
+                                    </div>
+                                }
+                            </div>
+                            <div class="pedido-total">
+                                <span class="label">Total:</span>
+                                <span class="amount">S/ {{pedido.total.toFixed(2)}}</span>
+                            </div>
+                        </div>
+
+                        <div class="pedido-actions">
+                            <button class="btn btn-outline" (click)="viewDetails(pedido)">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                Ver Detalles
+                            </button>
+                            @if(pedido.estado === 'en-camino') {
+                                <button class="btn btn-primary" (click)="trackOrder(pedido)">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M17 17h-5v-5h5v5z"></path>
+                                        <path d="M12 12V7l3 3-3 3z"></path>
+                                        <path d="M17 7l3 3-3 3"></path>
+                                        <rect x="1" y="3" width="15" height="13"></rect>
+                                    </svg>
+                                    Rastrear
+                                </button>
+                            }
+                            @if(canCancelOrder(pedido.estado)) {
+                                <button class="btn btn-danger" (click)="openCancelModal(pedido)">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                                    </svg>
+                                    Cancelar Pedido
+                                </button>
+                            }
+                            @if(pedido.estado === 'entregado') {
+                                <button class="btn btn-primary" (click)="reorder(pedido)">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="9" cy="21" r="1"></circle>
+                                        <circle cx="20" cy="21" r="1"></circle>
+                                        <path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                    </svg>
+                                    Volver a Comprar
+                                </button>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        } @else {
+            <div class="empty-state">
+                <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                <h2>No tienes pedidos aún</h2>
+                <p>Explora nuestros productos y realiza tu primera compra</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Modal de Detalles -->
+@if(showDetailsModal && selectedPedido) {
+    <div class="modal-overlay" (click)="closeDetailsModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <h2>Detalles del Pedido {{selectedPedido.id}}</h2>
+                <button class="close-btn" (click)="closeDetailsModal()">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="detail-section">
+                    <h3>Información del Pedido</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="label">Número de Pedido:</span>
+                            <span class="value">{{selectedPedido.id}}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Fecha:</span>
+                            <span class="value">{{selectedPedido.fecha}}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Estado:</span>
+                            <span class="badge" [class]="getEstadoBadgeClass(selectedPedido.estado)">
+                                {{getEstadoText(selectedPedido.estado)}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Productos</h3>
+                    <div class="products-table">
+                        @for(producto of selectedPedido.productos; track producto.nombre) {
+                            <div class="product-row">
+                                <span class="product-name">{{producto.nombre}}</span>
+                                <span class="product-quantity">x{{producto.cantidad}}</span>
+                                <span class="product-price">S/ {{producto.precio.toFixed(2)}}</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="detail-section total-section">
+                    <div class="total-row">
+                        <span class="label">Total:</span>
+                        <span class="amount">S/ {{selectedPedido.total.toFixed(2)}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-outline" (click)="downloadInvoice(selectedPedido)">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Descargar Factura
+                </button>
+                <button class="btn btn-primary" (click)="closeDetailsModal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Modal de Cancelación -->
+@if (showCancelModal) {
+    <app-ventana title="Cancelar Pedido" (close)="closeCancelModal()">
+        <div class="cancel-modal-content">
+            <div class="warning-box">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <div>
+                    <h4>¿Estás seguro que deseas cancelar este pedido?</h4>
+                    <p>Pedido: <strong>{{selectedOrder?.id}}</strong></p>
+                    <p>Esta acción no se puede deshacer.</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="cancelReason">Motivo de cancelación *</label>
+                <select id="cancelReason" [(ngModel)]="cancelReason" class="form-control">
+                    <option value="">Selecciona un motivo</option>
+                    @for (reason of cancelReasons; track reason) {
+                        <option [value]="reason">{{reason}}</option>
+                    }
+                </select>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-outline" (click)="closeCancelModal()">
+                    No, mantener pedido
+                </button>
+                <button class="btn btn-danger" (click)="confirmCancel()" [disabled]="!cancelReason">
+                    Sí, cancelar pedido
+                </button>
+            </div>
+        </div>
+    </app-ventana>
+}

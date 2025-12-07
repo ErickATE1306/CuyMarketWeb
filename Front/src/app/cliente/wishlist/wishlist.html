@@ -1,0 +1,72 @@
+<div class="wishlist-container">
+  <div class="container">
+    <!-- Header -->
+    <div class="page-header">
+      <div>
+        <h1>Mis Favoritos</h1>
+        <p class="subtitle">Productos que has guardado para más tarde</p>
+      </div>
+      @if (wishlistItems.length > 0) {
+        <div class="stats">
+          <span class="count">{{wishlistItems.length}} producto{{wishlistItems.length !== 1 ? 's' : ''}}</span>
+        </div>
+      }
+    </div>
+
+    <!-- Contenido -->
+    @if (wishlistItems.length > 0) {
+      <div class="wishlist-grid">
+        @for (item of wishlistItems; track item.id) {
+          <div class="wishlist-card">
+            <!-- Imagen -->
+            <div class="card-image" [style.background-image]="'url(' + item.imagen + ')'" (click)="viewProduct(item.id)">
+              <button class="remove-btn" (click)="removeFromWishlist(item.id); $event.stopPropagation()" title="Eliminar de favoritos">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Contenido -->
+            <div class="card-content">
+              <div class="card-header">
+                <h3 (click)="viewProduct(item.id)">{{item.nombre}}</h3>
+                <span class="category">{{item.categoria}}</span>
+              </div>
+
+              <div class="card-details">
+                <p class="weight">Peso: {{item.peso}}</p>
+                <p class="added-date">Agregado: {{formatDate(item.agregadoEl)}}</p>
+              </div>
+
+              <div class="card-footer">
+                <div class="price">
+                  <strong>S/ {{item.precio.toFixed(2)}}</strong>
+                </div>
+                <div class="actions">
+                  <button class="btn-cart" (click)="addToCart(item)">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    Agregar al carrito
+                  </button>
+                  <button class="btn-view" (click)="viewProduct(item.id)">
+                    Ver detalles
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <app-estado-vacio
+        icon="heart"
+        title="No tienes productos favoritos"
+        message="Explora nuestro catálogo y guarda los productos que te interesen"
+        actionText="Ver productos"
+        actionLink="/cliente/productos"
+      />
+    }
+  </div>
+</div>

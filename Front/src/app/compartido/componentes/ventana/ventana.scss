@@ -1,0 +1,55 @@
+.ventana-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.ventana-contenido {
+  background: white;
+  border-radius: 8px;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
+  position: relative;
+}
+
+.ventana-header {
+  padding: 1.5rem 3rem 1rem 1.5rem;
+  border-bottom: 1px solid #e5e5e5;
+  
+  .ventana-titulo {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}
+
+.ventana-body {
+  padding: 1.5rem;
+}
+
+.ventana-cerrar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #666;
+  line-height: 1;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  
+  &:hover {
+    color: #000;
+  }
+}

@@ -1,0 +1,595 @@
+<div class="dashboard-content">
+    <div class="page-header">
+        <h2>Categorías / Productos</h2>
+        <button class="btn-primary" *ngIf="activeTab === 'productos'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Nuevo Producto
+        </button>
+        <button class="btn-primary" *ngIf="activeTab === 'categorias'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Nueva Categoría
+        </button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs-container">
+        <button class="tab-btn" [class.active]="activeTab === 'productos'" (click)="selectTab('productos')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 7h-9" />
+                <path d="M14 17H5" />
+                <circle cx="17" cy="17" r="3" />
+                <circle cx="7" cy="7" r="3" />
+            </svg>
+            Productos
+        </button>
+        <button class="tab-btn" [class.active]="activeTab === 'categorias'" (click)="selectTab('categorias')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7" />
+                <rect x="14" y="3" width="7" height="7" />
+                <rect x="14" y="14" width="7" height="7" />
+                <rect x="3" y="14" width="7" height="7" />
+            </svg>
+            Categorías
+        </button>
+    </div>
+
+    <!-- Productos Tab -->
+    <div class="tab-content" *ngIf="activeTab === 'productos'">
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 7h-9" />
+                        <path d="M14 17H5" />
+                        <circle cx="17" cy="17" r="3" />
+                        <circle cx="7" cy="7" r="3" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Total Productos</span>
+                    <span class="stat-value">156</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">En Stock</span>
+                    <span class="stat-value">142</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                        <line x1="12" y1="9" x2="12" y2="13" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Stock Bajo</span>
+                    <span class="stat-value">14</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-bar">
+            <div class="filter-group">
+                <button class="filter-btn active">Todos</button>
+                <button class="filter-btn">Cuyes Vivos</button>
+                <button class="filter-btn">Carne</button>
+                <button class="filter-btn">Combos</button>
+            </div>
+            <div class="search-box">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
+                <input type="text" placeholder="Buscar producto...">
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <!-- Products Grid -->
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/300x200" alt="Producto">
+                    <span class="stock-badge in-stock">En Stock</span>
+                </div>
+                <div class="product-info">
+                    <h3>Cuy Raza Perú</h3>
+                    <p class="product-category">Cuyes Vivos</p>
+                    <div class="product-details">
+                        <span class="product-price">S/ 45.00</span>
+                        <span class="product-stock">Stock: 45</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-edit">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                            </svg>
+                            Editar
+                        </button>
+                        <button class="btn-delete">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="3 6 5 6 21 6" />
+                                <path
+                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/300x200" alt="Producto">
+                    <span class="stock-badge in-stock">En Stock</span>
+                </div>
+                <div class="product-info">
+                    <h3>Cuy Raza Andina</h3>
+                    <p class="product-category">Cuyes Vivos</p>
+                    <div class="product-details">
+                        <span class="product-price">S/ 55.00</span>
+                        <span class="product-stock">Stock: 38</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-edit">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                            </svg>
+                            Editar
+                        </button>
+                        <button class="btn-delete">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="3 6 5 6 21 6" />
+                                <path
+                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/300x200" alt="Producto">
+                    <span class="stock-badge low-stock">Stock Bajo</span>
+                </div>
+                <div class="product-info">
+                    <h3>Carne Eviscerada</h3>
+                    <p class="product-category">Carne</p>
+                    <div class="product-details">
+                        <span class="product-price">S/ 35.00</span>
+                        <span class="product-stock">Stock: 8</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-edit">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                            </svg>
+                            Editar
+                        </button>
+                        <button class="btn-delete">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="3 6 5 6 21 6" />
+                                <path
+                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/300x200" alt="Producto">
+                    <span class="stock-badge in-stock">En Stock</span>
+                </div>
+                <div class="product-info">
+                    <h3>Combo Familiar</h3>
+                    <p class="product-category">Combos</p>
+                    <div class="product-details">
+                        <span class="product-price">S/ 85.00</span>
+                        <span class="product-stock">Stock: 25</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-edit">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                            </svg>
+                            Editar
+                        </button>
+                        <button class="btn-delete">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="3 6 5 6 21 6" />
+                                <path
+                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categorías Tab -->
+    <div class="tab-content" *ngIf="activeTab === 'categorias'">
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" />
+                        <rect x="14" y="3" width="7" height="7" />
+                        <rect x="14" y="14" width="7" height="7" />
+                        <rect x="3" y="14" width="7" height="7" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Total Categorías</span>
+                    <span class="stat-value">8</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Categorías Activas</span>
+                    <span class="stat-value">7</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 7h-9" />
+                        <path d="M14 17H5" />
+                        <circle cx="17" cy="17" r="3" />
+                        <circle cx="7" cy="7" r="3" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Productos Asignados</span>
+                    <span class="stat-value">156</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div class="filters-bar">
+            <div class="search-box">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
+                <input type="text" placeholder="Buscar categoría...">
+            </div>
+        </div>
+
+        <!-- Categories Grid -->
+        <div class="categories-grid">
+            <div class="category-card">
+                <div class="category-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
+                </div>
+                <div class="category-info">
+                    <h3>Cuyes Vivos</h3>
+                    <p class="category-desc">Cuyes de diferentes razas para reproducción o consumo</p>
+                    <div class="category-stats">
+                        <span class="stat-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M20 7h-9" />
+                                <path d="M14 17H5" />
+                                <circle cx="17" cy="17" r="3" />
+                                <circle cx="7" cy="7" r="3" />
+                            </svg>
+                            45 productos
+                        </span>
+                        <span class="status-badge active">Activa</span>
+                    </div>
+                </div>
+                <div class="category-actions">
+                    <button class="btn-icon" title="Editar">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                        </svg>
+                    </button>
+                    <button class="btn-icon" title="Eliminar">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="category-card">
+                <div class="category-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                    </svg>
+                </div>
+                <div class="category-info">
+                    <h3>Carne</h3>
+                    <p class="category-desc">Carne procesada y lista para consumo</p>
+                    <div class="category-stats">
+                        <span class="stat-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M20 7h-9" />
+                                <path d="M14 17H5" />
+                                <circle cx="17" cy="17" r="3" />
+                                <circle cx="7" cy="7" r="3" />
+                            </svg>
+                            32 productos
+                        </span>
+                        <span class="status-badge active">Activa</span>
+                    </div>
+                </div>
+                <div class="category-actions">
+                    <button class="btn-icon" title="Editar">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                        </svg>
+                    </button>
+                    <button class="btn-icon" title="Eliminar">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="category-card">
+                <div class="category-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                    </svg>
+                </div>
+                <div class="category-info">
+                    <h3>Combos</h3>
+                    <p class="category-desc">Paquetes especiales con descuentos</p>
+                    <div class="category-stats">
+                        <span class="stat-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M20 7h-9" />
+                                <path d="M14 17H5" />
+                                <circle cx="17" cy="17" r="3" />
+                                <circle cx="7" cy="7" r="3" />
+                            </svg>
+                            18 productos
+                        </span>
+                        <span class="status-badge active">Activa</span>
+                    </div>
+                </div>
+                <div class="category-actions">
+                    <button class="btn-icon" title="Editar">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                        </svg>
+                    </button>
+                    <button class="btn-icon" title="Eliminar">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="category-card">
+                <div class="category-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                    </svg>
+                </div>
+                <div class="category-info">
+                    <h3>Accesorios</h3>
+                    <p class="category-desc">Productos complementarios y accesorios</p>
+                    <div class="category-stats">
+                        <span class="stat-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M20 7h-9" />
+                                <path d="M14 17H5" />
+                                <circle cx="17" cy="17" r="3" />
+                                <circle cx="7" cy="7" r="3" />
+                            </svg>
+                            12 productos
+                        </span>
+                        <span class="status-badge active">Activa</span>
+                    </div>
+                </div>
+                <div class="category-actions">
+                    <button class="btn-icon" title="Editar">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                        </svg>
+                    </button>
+                    <button class="btn-icon" title="Eliminar">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://via.placeholder.com/300x200" alt="Producto">
+                <span class="stock-badge in-stock">En Stock</span>
+            </div>
+            <div class="product-info">
+                <h3>Cuy Raza Perú</h3>
+                <p class="product-category">Cuyes Vivos</p>
+                <div class="product-details">
+                    <span class="product-price">S/ 45.00</span>
+                    <span class="product-stock">Stock: 45</span>
+                </div>
+                <div class="product-actions">
+                    <button class="btn-edit">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                        </svg>
+                        Editar
+                    </button>
+                    <button class="btn-delete">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://via.placeholder.com/300x200" alt="Producto">
+                <span class="stock-badge in-stock">En Stock</span>
+            </div>
+            <div class="product-info">
+                <h3>Cuy Raza Andina</h3>
+                <p class="product-category">Cuyes Vivos</p>
+                <div class="product-details">
+                    <span class="product-price">S/ 55.00</span>
+                    <span class="product-stock">Stock: 38</span>
+                </div>
+                <div class="product-actions">
+                    <button class="btn-edit">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                        </svg>
+                        Editar
+                    </button>
+                    <button class="btn-delete">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://via.placeholder.com/300x200" alt="Producto">
+                <span class="stock-badge low-stock">Stock Bajo</span>
+            </div>
+            <div class="product-info">
+                <h3>Carne Eviscerada</h3>
+                <p class="product-category">Carne</p>
+                <div class="product-details">
+                    <span class="product-price">S/ 35.00</span>
+                    <span class="product-stock">Stock: 8</span>
+                </div>
+                <div class="product-actions">
+                    <button class="btn-edit">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                        </svg>
+                        Editar
+                    </button>
+                    <button class="btn-delete">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://via.placeholder.com/300x200" alt="Producto">
+                <span class="stock-badge in-stock">En Stock</span>
+            </div>
+            <div class="product-info">
+                <h3>Combo Familiar</h3>
+                <p class="product-category">Combos</p>
+                <div class="product-details">
+                    <span class="product-price">S/ 85.00</span>
+                    <span class="product-stock">Stock: 25</span>
+                </div>
+                <div class="product-actions">
+                    <button class="btn-edit">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                        </svg>
+                        Editar
+                    </button>
+                    <button class="btn-delete">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>

@@ -1,0 +1,392 @@
+<!-- Dashboard Content -->
+<div class="dashboard-content">
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+            </div>
+            <div class="stat-content">
+                <span class="stat-label">Pedidos Pendientes</span>
+                <span class="stat-value">23</span>
+                <span class="stat-change">Por procesar</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 11 12 14 22 4" />
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                </svg>
+            </div>
+            <div class="stat-content">
+                <span class="stat-label">Completados Hoy</span>
+                <span class="stat-value">15</span>
+                <span class="stat-change positive">+3 vs ayer</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="1" y="3" width="15" height="13" />
+                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                    <circle cx="5.5" cy="18.5" r="2.5" />
+                    <circle cx="18.5" cy="18.5" r="2.5" />
+                </svg>
+            </div>
+            <div class="stat-content">
+                <span class="stat-label">Entregas Programadas</span>
+                <span class="stat-value">8</span>
+                <span class="stat-change">Para hoy</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                </svg>
+            </div>
+            <div class="stat-content">
+                <span class="stat-label">Tiempo Promedio</span>
+                <span class="stat-value">2.5h</span>
+                <span class="stat-change positive">-15 min</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-bar">
+        <div class="filter-group">
+            <button class="filter-btn active">Todos (23)</button>
+            <button class="filter-btn">Pendientes (12)</button>
+            <button class="filter-btn">En Proceso (8)</button>
+            <button class="filter-btn">Listos (3)</button>
+        </div>
+        <div class="search-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input type="text" placeholder="Buscar pedido...">
+        </div>
+    </div>
+
+    <!-- Orders Table -->
+    <div class="table-card">
+        <div class="table-container">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox">
+                        </th>
+                        <th>ID Pedido</th>
+                        <th>Cliente</th>
+                        <th>Productos</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td><strong>#1234</strong></td>
+                        <td>
+                            <div class="customer-info">
+                                <div class="customer-avatar">MG</div>
+                                <div>
+                                    <div class="customer-name">María González</div>
+                                    <div class="customer-phone">+51 999 888 777</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="product-list">
+                                <span class="product-tag">Cuy Raza Perú (3)</span>
+                            </div>
+                        </td>
+                        <td>3 unidades</td>
+                        <td><strong>S/ 135.00</strong></td>
+                        <td>05/12/2025 14:30</td>
+                        <td><span class="status-badge pending">Pendiente</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action primary" title="Procesar" (click)="processOrder({id: '#1234', customerName: 'María González', phone: '+51 999 888 777', status: 'Pendiente', total: 135.00}, 'procesar')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <polyline points="9 11 12 14 22 4" />
+                                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                                    </svg>
+                                </button>
+                                <button class="btn-action" title="Ver detalles" (click)="viewOrderDetails({id: '#1234', customerName: 'María González', phone: '+51 999 888 777', status: 'Pendiente', total: 135.00})">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td><strong>#1233</strong></td>
+                        <td>
+                            <div class="customer-info">
+                                <div class="customer-avatar">CM</div>
+                                <div>
+                                    <div class="customer-name">Carlos Mendoza</div>
+                                    <div class="customer-phone">+51 988 777 666</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="product-list">
+                                <span class="product-tag">Carne Eviscerada (5)</span>
+                            </div>
+                        </td>
+                        <td>5 unidades</td>
+                        <td><strong>S/ 175.00</strong></td>
+                        <td>05/12/2025 13:15</td>
+                        <td><span class="status-badge processing">En Proceso</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action primary" title="Completar" (click)="processOrder({id: '#1233', customerName: 'Carlos Mendoza', phone: '+51 988 777 666', status: 'En Proceso', total: 175.00}, 'completar')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                </button>
+                                <button class="btn-action" title="Ver detalles" (click)="viewOrderDetails({id: '#1233', customerName: 'Carlos Mendoza', phone: '+51 988 777 666', status: 'En Proceso', total: 175.00})">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td><strong>#1232</strong></td>
+                        <td>
+                            <div class="customer-info">
+                                <div class="customer-avatar">AT</div>
+                                <div>
+                                    <div class="customer-name">Ana Torres</div>
+                                    <div class="customer-phone">+51 977 666 555</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="product-list">
+                                <span class="product-tag">Cuy Raza Andina (2)</span>
+                                <span class="product-tag">Carne (1)</span>
+                            </div>
+                        </td>
+                        <td>3 unidades</td>
+                        <td><strong>S/ 145.00</strong></td>
+                        <td>05/12/2025 12:00</td>
+                        <td><span class="status-badge ready">Listo</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action primary" title="Entregar" (click)="processOrder({id: '#1232', customerName: 'Ana Torres', phone: '+51 977 666 555', status: 'Listo', total: 145.00}, 'entregar')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <rect x="1" y="3" width="15" height="13" />
+                                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                                        <circle cx="5.5" cy="18.5" r="2.5" />
+                                        <circle cx="18.5" cy="18.5" r="2.5" />
+                                    </svg>
+                                </button>
+                                <button class="btn-action" title="Ver detalles" (click)="viewOrderDetails({id: '#1232', customerName: 'Ana Torres', phone: '+51 977 666 555', status: 'Listo', total: 145.00})">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td><strong>#1231</strong></td>
+                        <td>
+                            <div class="customer-info">
+                                <div class="customer-avatar">LP</div>
+                                <div>
+                                    <div class="customer-name">Luis Pérez</div>
+                                    <div class="customer-phone">+51 966 555 444</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="product-list">
+                                <span class="product-tag">Combo Familiar</span>
+                            </div>
+                        </td>
+                        <td>1 combo</td>
+                        <td><strong>S/ 85.00</strong></td>
+                        <td>05/12/2025 11:45</td>
+                        <td><span class="status-badge pending">Pendiente</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action primary" title="Procesar" (click)="processOrder({id: '#1231', customerName: 'Luis Pérez', phone: '+51 966 555 444', status: 'Pendiente', total: 85.00}, 'procesar')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <polyline points="9 11 12 14 22 4" />
+                                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                                    </svg>
+                                </button>
+                                <button class="btn-action" title="Ver detalles" (click)="viewOrderDetails({id: '#1231', customerName: 'Luis Pérez', phone: '+51 966 555 444', status: 'Pendiente', total: 85.00})">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Ver Detalles -->
+<div class="modal-overlay" *ngIf="showDetailsModal" (click)="closeDetailsModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3>Detalles del Pedido {{ selectedOrder.id }}</h3>
+            <button class="btn-close" (click)="closeDetailsModal()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="detail-section">
+                <h4>Información del Cliente</h4>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Nombre:</span>
+                        <span class="detail-value">{{ selectedOrder.customer.name }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Teléfono:</span>
+                        <span class="detail-value">{{ selectedOrder.customer.phone }}</span>
+                    </div>
+                    <div class="detail-item full-width">
+                        <span class="detail-label">Dirección:</span>
+                        <span class="detail-value">{{ selectedOrder.customer.address }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-section">
+                <h4>Información del Pedido</h4>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Fecha:</span>
+                        <span class="detail-value">{{ selectedOrder.date }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Estado:</span>
+                        <span class="status-badge" [ngClass]="selectedOrder.status.toLowerCase()">{{ selectedOrder.status }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Cantidad:</span>
+                        <span class="detail-value">{{ selectedOrder.quantity }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Total:</span>
+                        <span class="detail-value"><strong>S/ {{ selectedOrder.total }}</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-section">
+                <h4>Productos</h4>
+                <div class="products-list">
+                    <div class="product-item" *ngFor="let product of selectedOrder.products">
+                        <span class="product-name">{{ product.name }}</span>
+                        <span class="product-quantity">x{{ product.quantity }}</span>
+                        <span class="product-price">S/ {{ product.price }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-section" *ngIf="selectedOrder.notes">
+                <h4>Notas</h4>
+                <p class="notes-text">{{ selectedOrder.notes }}</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="closeDetailsModal()">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Procesar Pedido -->
+<div class="modal-overlay" *ngIf="showProcessModal" (click)="closeProcessModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3>{{ processAction === 'procesar' ? 'Procesar Pedido' : processAction === 'completar' ? 'Completar Pedido' : 'Entregar Pedido' }} {{ selectedOrder.id }}</h3>
+            <button class="btn-close" (click)="closeProcessModal()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="detail-section">
+                <h4>Información del Pedido</h4>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Cliente:</span>
+                        <span class="detail-value">{{ selectedOrder.customer.name }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Teléfono:</span>
+                        <span class="detail-value">{{ selectedOrder.customer.phone }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Total:</span>
+                        <span class="detail-value"><strong>S/ {{ selectedOrder.total }}</strong></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Estado Actual:</span>
+                        <span class="status-badge" [ngClass]="selectedOrder.status.toLowerCase()">{{ selectedOrder.status }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Notas (opcional)</label>
+                <textarea [(ngModel)]="processNotes" placeholder="Agregar notas sobre el procesamiento..." rows="4"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="closeProcessModal()">Cancelar</button>
+            <button class="btn-primary" (click)="confirmProcess()">
+                {{ processAction === 'procesar' ? 'Procesar' : processAction === 'completar' ? 'Completar' : 'Entregar' }}
+            </button>
+        </div>
+    </div>
+</div>

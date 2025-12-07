@@ -1,0 +1,26 @@
+.calificacion {
+  display: inline-flex;
+  gap: 0.25rem;
+  
+  .estrella {
+    font-size: 1.5rem;
+    color: #ddd;
+    transition: color 0.2s;
+    
+    &.activa {
+      color: #ffc107;
+    }
+
+    &.clickeable {
+      cursor: pointer;
+
+      &:hover {
+        color: #ffb300;
+      }
+    }
+  }
+
+  &.no-editable .estrella {
+    cursor: default;
+  }
+}

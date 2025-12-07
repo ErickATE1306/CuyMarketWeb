@@ -1,0 +1,405 @@
+/* =================================================================
+   ESTILOS DE ACCESIBILIDAD GLOBAL - CuyMarket
+   ================================================================= */
+
+/* Screen Reader Only - Oculta visualmente pero accesible */
+.sr-only,
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border-width: 0 !important;
+}
+
+/* Skip to main content link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 10px;
+  background: #000;
+  color: #fff;
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 10000;
+  border-radius: 4px;
+  font-weight: 600;
+  
+  &:focus {
+    top: 10px;
+  }
+}
+
+/* Focus Visible - Indicadores de foco mejorados */
+*:focus-visible {
+  outline: 3px solid #28a745;
+  outline-offset: 2px;
+}
+
+/* Focus para botones y enlaces */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #28a745;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.2);
+}
+
+/* Remover outline por defecto (manteniendo :focus-visible) */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .btn {
+    border: 2px solid currentColor;
+  }
+  
+  .card {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Focus trap para modales */
+.modal-active {
+  overflow: hidden;
+  
+  *:not(.modal-overlay):not(.modal-content):not(.modal-content *) {
+    pointer-events: none;
+  }
+}
+
+/* Indicador de contenido cargando */
+[aria-busy="true"] {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+/* Estados de validación accesibles */
+input[aria-invalid="true"],
+select[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  border-color: #dc3545 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23dc3545'%3E%3Cpath d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z'/%3E%3Cpath d='M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+  padding-right: calc(1.5em + 0.75rem);
+}
+
+/* Error messages */
+[role="alert"] {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+
+.error[role="alert"],
+.alert-danger[role="alert"] {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.success[role="alert"],
+.alert-success[role="alert"] {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.warning[role="alert"],
+.alert-warning[role="alert"] {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeaa7;
+}
+
+/* Live regions para actualizaciones dinámicas */
+[aria-live="polite"],
+[aria-live="assertive"] {
+  position: relative;
+}
+
+/* Tooltips accesibles */
+[role="tooltip"] {
+  position: absolute;
+  z-index: 1000;
+  padding: 0.5rem 0.75rem;
+  background: #333;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  max-width: 200px;
+}
+
+/* Mejorar target size (mínimo 44x44px para táctil) */
+button,
+a,
+input[type="checkbox"],
+input[type="radio"],
+select {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Excepción para botones pequeños con padding adecuado */
+.btn-sm,
+.btn-icon {
+  min-height: 36px;
+  min-width: 36px;
+}
+
+/* Tablas accesibles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  caption {
+    padding: 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    caption-side: top;
+  }
+  
+  th {
+    text-align: left;
+    font-weight: 600;
+    padding: 0.75rem;
+  }
+  
+  td {
+    padding: 0.75rem;
+  }
+}
+
+/* Links descriptivos */
+a:not([href]) {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+a[href^="http"]:not([href*="cuymarket.com"])::after {
+  content: " (enlace externo)";
+  font-size: 0.75em;
+  vertical-align: super;
+}
+
+/* Contraste mejorado para textos pequeños */
+.small-text,
+.text-sm {
+  color: #212529; /* Contraste más alto */
+}
+
+/* Dialogs y modales */
+[role="dialog"],
+[role="alertdialog"] {
+  position: fixed;
+  z-index: 1050;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Overlay para modales */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}
+
+/* Progress bars */
+[role="progressbar"] {
+  height: 1rem;
+  background-color: #e9ecef;
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+/* Tabs accesibles */
+[role="tablist"] {
+  display: flex;
+  border-bottom: 1px solid #dee2e6;
+}
+
+[role="tab"] {
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  border-bottom: none;
+  cursor: pointer;
+  
+  &[aria-selected="true"] {
+    color: #28a745;
+    background-color: #fff;
+    border-color: #dee2e6;
+    border-bottom-color: #fff;
+    font-weight: 600;
+  }
+  
+  &[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+[role="tabpanel"] {
+  padding: 1rem;
+  border: 1px solid #dee2e6;
+  border-top: none;
+}
+
+/* Breadcrumbs */
+[aria-label="Ruta de navegación"],
+[aria-label="breadcrumb"] {
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0.75rem 1rem;
+    margin: 0;
+    
+    li {
+      display: flex;
+      align-items: center;
+      
+      &:not(:last-child)::after {
+        content: "/";
+        padding: 0 0.5rem;
+        color: #6c757d;
+      }
+      
+      &:last-child {
+        color: #6c757d;
+      }
+    }
+  }
+}
+
+/* Pagination */
+nav[aria-label*="Paginación"] {
+  .pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    gap: 0.25rem;
+    
+    button[aria-current="page"] {
+      background: #28a745;
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+}
+
+/* Spinners y loading states */
+.spinner[role="status"],
+.loading[role="status"] {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  vertical-align: text-bottom;
+  border: 0.25em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spinner-border 0.75s linear infinite;
+}
+
+@keyframes spinner-border {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Formularios - requerido visualmente */
+label .required,
+label [aria-label="requerido"] {
+  color: #dc3545;
+  font-weight: 700;
+  margin-left: 0.25rem;
+}
+
+/* Checkboxes y radios mejorados */
+input[type="checkbox"],
+input[type="radio"] {
+  width: 0.75rem;
+  height: 0.75rem;
+  cursor: pointer;
+  
+  &:focus-visible {
+    outline: 3px solid #28a745;
+    outline-offset: 2px;
+  }
+  
+  &[aria-invalid="true"] {
+    outline: 2px solid #dc3545;
+  }
+}
+
+/* Mejora de contraste para placeholders */
+::placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+/* Print styles */
+@media print {
+  .no-print,
+  .skip-link,
+  nav,
+  .sidebar,
+  .action-buttons {
+    display: none !important;
+  }
+  
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.875em;
+  }
+  
+  a[href^="#"]::after,
+  a[href^="javascript:"]::after {
+    content: "";
+  }
+}
+
+/* Keyboard shortcuts hint */
+[data-keyboard-shortcut]::after {
+  content: attr(data-keyboard-shortcut);
+  margin-left: auto;
+  padding-left: 1rem;
+  font-size: 0.75rem;
+  color: #6c757d;
+  font-family: monospace;
+}
+
+/* Focus within (mejorar visibilidad de contenedores) */
+.form-group:focus-within {
+  background-color: rgba(40, 167, 69, 0.05);
+  border-radius: 4px;
+  padding: 0.5rem;
+  margin: -0.5rem;
+}

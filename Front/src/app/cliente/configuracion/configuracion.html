@@ -1,0 +1,200 @@
+<div class="config-container">
+    <div class="config-header">
+        <h1>Configuración</h1>
+        <p class="subtitle">Administra tus preferencias y privacidad</p>
+    </div>
+
+    <div class="config-content">
+        <!-- Notificaciones -->
+        <div class="config-card">
+            <div class="card-header">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+                <div>
+                    <h2>Notificaciones</h2>
+                    <p>Configura cómo quieres recibir actualizaciones</p>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h3>Notificaciones por Email</h3>
+                        <p>Recibe actualizaciones en tu correo electrónico</p>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" [(ngModel)]="notificaciones.email" name="email">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h3>Estado de Pedidos</h3>
+                        <p>Notificaciones sobre el estado de tus pedidos</p>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" [(ngModel)]="notificaciones.pedidos" name="pedidos">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h3>Promociones y Ofertas</h3>
+                        <p>Recibe notificaciones de promociones especiales</p>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" [(ngModel)]="notificaciones.promociones" name="promociones">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h3>Newsletter</h3>
+                        <p>Boletín semanal con noticias y consejos</p>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" [(ngModel)]="notificaciones.newsletter" name="newsletter">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="card-actions">
+                    <button class="btn btn-primary" (click)="saveNotifications()">Guardar Preferencias</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacidad -->
+        <div class="config-card">
+            <div class="card-header">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <div>
+                    <h2>Privacidad</h2>
+                    <p>Controla la visibilidad de tu información</p>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h3>Perfil Público</h3>
+                        <p>Permite que otros usuarios vean tu perfil</p>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" [(ngModel)]="privacidad.perfilPublico" name="perfilPublico">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h3>Mostrar Compras</h3>
+                        <p>Muestra tu historial de compras en tu perfil</p>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" [(ngModel)]="privacidad.mostrarCompras" name="mostrarCompras">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h3>Compartir Datos</h3>
+                        <p>Permite compartir datos para mejorar el servicio</p>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" [(ngModel)]="privacidad.compartirDatos" name="compartirDatos">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="card-actions">
+                    <button class="btn btn-primary" (click)="savePrivacy()">Guardar Configuración</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seguridad -->
+        <div class="config-card">
+            <div class="card-header">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                <div>
+                    <h2>Seguridad</h2>
+                    <p>Administra tu contraseña y seguridad</p>
+                </div>
+            </div>
+
+            <div class="card-body">
+                @if(!showPasswordSection) {
+                    <button class="btn btn-outline full-width" (click)="togglePasswordSection()">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        Cambiar Contraseña
+                    </button>
+                } @else {
+                    <div class="password-form">
+                        <div class="form-group">
+                            <label>Contraseña Actual</label>
+                            <input type="password" [(ngModel)]="passwordForm.currentPassword" name="currentPassword" class="form-input" placeholder="Ingresa tu contraseña actual">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nueva Contraseña</label>
+                            <input type="password" [(ngModel)]="passwordForm.newPassword" name="newPassword" class="form-input" placeholder="Mínimo 8 caracteres">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Confirmar Nueva Contraseña</label>
+                            <input type="password" [(ngModel)]="passwordForm.confirmPassword" name="confirmPassword" class="form-input" placeholder="Confirma tu nueva contraseña">
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="btn btn-outline" (click)="togglePasswordSection()">Cancelar</button>
+                            <button class="btn btn-primary" (click)="changePassword()">Actualizar Contraseña</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Zona de Peligro -->
+        <div class="config-card danger-zone">
+            <div class="card-header">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                <div>
+                    <h2>Zona de Peligro</h2>
+                    <p>Acciones irreversibles</p>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="danger-content">
+                    <p>Si eliminas tu cuenta, perderás todos tus datos, historial de pedidos y no podrás recuperarlos.</p>
+                    <button class="btn btn-danger" (click)="deleteAccount()">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                        Eliminar Cuenta
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

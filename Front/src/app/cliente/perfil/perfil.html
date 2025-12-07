@@ -1,0 +1,85 @@
+<div class="perfil-container">
+    <div class="perfil-header">
+        <h1>Mi Perfil</h1>
+        <p class="subtitle">Administra tu información personal</p>
+    </div>
+
+    <div class="perfil-content">
+        <div class="profile-card">
+            <div class="card-header">
+                <div class="user-avatar-large">{{userData.nombre.charAt(0).toUpperCase()}}</div>
+                <div class="user-info">
+                    <h2>{{userData.nombre}} {{userData.apellido}}</h2>
+                    <p class="email">{{userData.email}}</p>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="section-header">
+                    <h3>Información Personal</h3>
+                    @if(!isEditing) {
+                        <button class="btn-edit" (click)="toggleEdit()">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                            Editar
+                        </button>
+                    }
+                </div>
+
+                <form class="profile-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>DNI</label>
+                            <input type="text" [(ngModel)]="userData.dni" name="dni" [disabled]="!isEditing" class="form-input" maxlength="8">
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="tel" [(ngModel)]="userData.telefono" name="telefono" [disabled]="!isEditing" class="form-input">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" [(ngModel)]="userData.nombre" name="nombre" [disabled]="!isEditing" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Apellido</label>
+                            <input type="text" [(ngModel)]="userData.apellido" name="apellido" [disabled]="!isEditing" class="form-input">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Correo Electrónico</label>
+                        <input type="email" [(ngModel)]="userData.email" name="email" [disabled]="!isEditing" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Dirección</label>
+                        <input type="text" [(ngModel)]="userData.direccion" name="direccion" [disabled]="!isEditing" class="form-input" placeholder="Calle, número, referencia">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Ciudad</label>
+                            <input type="text" [(ngModel)]="userData.ciudad" name="ciudad" [disabled]="!isEditing" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Distrito</label>
+                            <input type="text" [(ngModel)]="userData.distrito" name="distrito" [disabled]="!isEditing" class="form-input">
+                        </div>
+                    </div>
+
+                    @if(isEditing) {
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline" (click)="cancelEdit()">Cancelar</button>
+                            <button type="button" class="btn btn-primary" (click)="saveProfile()">Guardar Cambios</button>
+                        </div>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

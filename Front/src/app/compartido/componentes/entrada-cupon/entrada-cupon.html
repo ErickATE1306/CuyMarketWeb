@@ -1,0 +1,74 @@
+<div class="coupon-container">
+  @if (!appliedCoupon) {
+    <div class="coupon-input-section">
+      <label for="couponCode" class="coupon-label">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+          <line x1="7" y1="7" x2="7.01" y2="7"/>
+        </svg>
+        ¿Tienes un cupón de descuento?
+      </label>
+      
+      <div class="coupon-input-wrapper">
+        <input
+          type="text"
+          id="couponCode"
+          [(ngModel)]="couponCode"
+          placeholder="Ingresa tu código"
+          class="coupon-input"
+          [class.error]="errorMessage"
+          (keyup.enter)="applyCoupon()"
+          [disabled]="isLoading"
+        >
+        <button
+          type="button"
+          class="apply-btn"
+          (click)="applyCoupon()"
+          [disabled]="!couponCode.trim() || isLoading"
+        >
+          @if (isLoading) {
+            <span class="spinner"></span>
+          } @else {
+            Aplicar
+          }
+        </button>
+      </div>
+
+      @if (errorMessage) {
+        <div class="error-message">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          {{ errorMessage }}
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="coupon-applied">
+      <div class="applied-header">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        <div class="applied-info">
+          <span class="applied-title">Cupón aplicado</span>
+          <span class="applied-code">{{ appliedCoupon.code }}</span>
+        </div>
+        <button
+          type="button"
+          class="remove-btn"
+          (click)="removeCoupon()"
+          title="Quitar cupón"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <p class="applied-description">{{ appliedCoupon.description }}</p>
+    </div>
+  }
+</div>

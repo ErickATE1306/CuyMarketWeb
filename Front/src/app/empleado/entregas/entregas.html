@@ -1,0 +1,303 @@
+<div class="dashboard-content">
+    <div class="page-header">
+        <h2>Entregas Programadas</h2>
+        <button class="btn-primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Nueva Entrega
+        </button>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="1" y="3" width="15" height="13" />
+                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                    <circle cx="5.5" cy="18.5" r="2.5" />
+                    <circle cx="18.5" cy="18.5" r="2.5" />
+                </svg>
+            </div>
+            <div class="stat-content">
+                <span class="stat-label">Entregas Hoy</span>
+                <span class="stat-value">8</span>
+                <span class="stat-change">Programadas</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12" />
+                </svg>
+            </div>
+            <div class="stat-content">
+                <span class="stat-label">Completadas</span>
+                <span class="stat-value">5</span>
+                <span class="stat-change positive">De 8</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                </svg>
+            </div>
+            <div class="stat-content">
+                <span class="stat-label">Pendientes</span>
+                <span class="stat-value">3</span>
+                <span class="stat-change">Por entregar</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                </svg>
+            </div>
+            <div class="stat-content">
+                <span class="stat-label">Zonas Activas</span>
+                <span class="stat-value">4</span>
+                <span class="stat-change">Distritos</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delivery Timeline -->
+    <div class="page-section">
+        <h3>Cronograma de Entregas - Hoy</h3>
+        <div class="delivery-timeline">
+            <div class="timeline-item completed">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <strong>09:00 - 10:00</strong>
+                        <span class="status-badge completed">Entregado</span>
+                    </div>
+                    <div class="timeline-details">
+                        <p><strong>Pedido #1234</strong> - María González</p>
+                        <p class="timeline-address">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg>
+                            Av. Principal 123, Miraflores
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item completed">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <strong>10:30 - 11:30</strong>
+                        <span class="status-badge completed">Entregado</span>
+                    </div>
+                    <div class="timeline-details">
+                        <p><strong>Pedido #1235</strong> - Carlos Mendoza</p>
+                        <p class="timeline-address">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg>
+                            Jr. Los Olivos 456, San Isidro
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item active">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <strong>12:00 - 13:00</strong>
+                        <span class="status-badge processing">En Ruta</span>
+                    </div>
+                    <div class="timeline-details">
+                        <p><strong>Pedido #1236</strong> - Ana Torres</p>
+                        <p class="timeline-address">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg>
+                            Calle Las Flores 789, Surco
+                        </p>
+                        <div class="timeline-actions">
+                            <button class="btn-action primary">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>
+                                Marcar Entregado
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item pending">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <strong>14:00 - 15:00</strong>
+                        <span class="status-badge pending">Pendiente</span>
+                    </div>
+                    <div class="timeline-details">
+                        <p><strong>Pedido #1237</strong> - Luis Pérez</p>
+                        <p class="timeline-address">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg>
+                            Av. Benavides 321, Surco
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item pending">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                    <div class="timeline-header">
+                        <strong>15:30 - 16:30</strong>
+                        <span class="status-badge pending">Pendiente</span>
+                    </div>
+                    <div class="timeline-details">
+                        <p><strong>Pedido #1238</strong> - Rosa Martínez</p>
+                        <p class="timeline-address">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg>
+                            Calle Los Pinos 654, La Molina
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .page-section {
+        margin: 2rem 0;
+
+        h3 {
+            margin: 0 0 1.5rem;
+            font-size: 1.25rem;
+            color: var(--foreground);
+        }
+    }
+
+    .delivery-timeline {
+        position: relative;
+        padding-left: 2rem;
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-bottom: 2rem;
+
+        .timeline-marker {
+            position: absolute;
+            left: -1.5rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background: var(--muted);
+            border: 2px solid var(--border);
+            z-index: 1;
+        }
+
+        &.completed .timeline-marker {
+            background: #22c55e;
+            border-color: #22c55e;
+        }
+
+        &.active .timeline-marker {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.2);
+        }
+
+        &.pending .timeline-marker {
+            background: white;
+            border-color: var(--border);
+        }
+    }
+
+    .timeline-content {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 1rem;
+        transition: all var(--transition-base);
+
+        &:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+    }
+
+    .timeline-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+
+        strong {
+            color: var(--foreground);
+            font-size: 0.875rem;
+        }
+    }
+
+    .timeline-details {
+        p {
+            margin: 0.5rem 0;
+            font-size: 0.875rem;
+            color: var(--foreground-secondary);
+        }
+
+        .timeline-address {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--muted-foreground);
+            font-size: 0.8125rem;
+
+            svg {
+                flex-shrink: 0;
+            }
+        }
+    }
+
+    .timeline-actions {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-light);
+    }
+</style>

@@ -1,0 +1,247 @@
+{
+  "common": {
+    "welcome": "Bienvenido a CuyMarket",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "save": "Guardar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "close": "Cerrar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "submit": "Enviar",
+    "required": "Requerido",
+    "optional": "Opcional",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "nav": {
+    "home": "Inicio",
+    "products": "Productos",
+    "services": "Servicios",
+    "about": "Nosotros",
+    "contact": "Contacto",
+    "faq": "Preguntas Frecuentes",
+    "cart": "Carrito",
+    "wishlist": "Lista de Deseos",
+    "profile": "Perfil",
+    "orders": "Mis Pedidos",
+    "settings": "Configuración",
+    "logout": "Cerrar Sesión",
+    "login": "Iniciar Sesión",
+    "register": "Registrarse"
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar Sesión",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "remember": "Recordarme",
+      "forgot": "¿Olvidaste tu contraseña?",
+      "submit": "Iniciar Sesión",
+      "noAccount": "¿No tienes cuenta?",
+      "signUp": "Regístrate aquí"
+    },
+    "forgot": {
+      "title": "Recuperar Contraseña",
+      "subtitle": "Ingresa tu correo para recibir un código",
+      "email": "Correo electrónico",
+      "sendCode": "Enviar Código",
+      "verifyCode": "Verificar Código",
+      "resetPassword": "Restablecer Contraseña",
+      "newPassword": "Nueva Contraseña",
+      "confirmPassword": "Confirmar Contraseña",
+      "backToLogin": "Volver al inicio de sesión"
+    },
+    "verify": {
+      "title": "Verificar Email",
+      "subtitle": "Ingresa el código de 6 dígitos",
+      "code": "Código de verificación",
+      "resend": "Reenviar código",
+      "verify": "Verificar",
+      "skip": "Omitir verificación"
+    }
+  },
+  "products": {
+    "title": "Nuestros Productos",
+    "category": "Categoría",
+    "price": "Precio",
+    "stock": "Stock",
+    "inStock": "Disponible",
+    "outOfStock": "Agotado",
+    "addToCart": "Añadir al Carrito",
+    "addToWishlist": "Añadir a Favoritos",
+    "compare": "Comparar",
+    "details": "Ver Detalles",
+    "description": "Descripción",
+    "features": "Características",
+    "reviews": "Reseñas",
+    "relatedProducts": "Productos Relacionados",
+    "noProducts": "No se encontraron productos",
+    "filters": {
+      "all": "Todos",
+      "sortBy": "Ordenar por",
+      "priceAsc": "Precio: Menor a Mayor",
+      "priceDesc": "Precio: Mayor a Menor",
+      "nameAsc": "Nombre: A-Z",
+      "newest": "Más Recientes"
+    }
+  },
+  "cart": {
+    "title": "Carrito de Compras",
+    "empty": "Tu carrito está vacío",
+    "continueShopping": "Continuar Comprando",
+    "item": "Artículo",
+    "quantity": "Cantidad",
+    "price": "Precio",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "shipping": "Envío",
+    "discount": "Descuento",
+    "remove": "Eliminar",
+    "update": "Actualizar",
+    "checkout": "Proceder al Pago",
+    "itemsInCart": "{count} artículos en el carrito"
+  },
+  "checkout": {
+    "title": "Finalizar Compra",
+    "shippingAddress": "Dirección de Envío",
+    "billingAddress": "Dirección de Facturación",
+    "paymentMethod": "Método de Pago",
+    "orderSummary": "Resumen del Pedido",
+    "placeOrder": "Realizar Pedido",
+    "processing": "Procesando...",
+    "coupon": {
+      "apply": "Aplicar Cupón",
+      "code": "Código de cupón",
+      "invalid": "Cupón inválido",
+      "expired": "Cupón expirado",
+      "applied": "Cupón aplicado"
+    }
+  },
+  "orders": {
+    "title": "Mis Pedidos",
+    "orderNumber": "Pedido #",
+    "date": "Fecha",
+    "status": "Estado",
+    "total": "Total",
+    "details": "Ver Detalles",
+    "track": "Rastrear",
+    "cancel": "Cancelar Pedido",
+    "reorder": "Volver a Pedir",
+    "invoice": "Descargar Factura",
+    "noOrders": "No tienes pedidos aún",
+    "statuses": {
+      "processing": "Procesando",
+      "shipped": "En Camino",
+      "delivered": "Entregado",
+      "cancelled": "Cancelado"
+    },
+    "cancelModal": {
+      "title": "Cancelar Pedido",
+      "confirm": "¿Estás seguro de cancelar este pedido?",
+      "reason": "Motivo de cancelación",
+      "confirmButton": "Sí, cancelar pedido",
+      "keepButton": "No, mantener pedido"
+    }
+  },
+  "reviews": {
+    "title": "Reseñas",
+    "writeReview": "Escribir Reseña",
+    "rating": "Calificación",
+    "comment": "Comentario",
+    "submit": "Enviar Reseña",
+    "noReviews": "Sin reseñas aún",
+    "verified": "Compra verificada",
+    "helpful": "¿Te fue útil?",
+    "ratingDistribution": "Distribución de Calificaciones",
+    "filter": {
+      "all": "Todas",
+      "positive": "Positivas",
+      "negative": "Negativas",
+      "withPhotos": "Con Fotos"
+    }
+  },
+  "shipping": {
+    "calculator": "Calculadora de Envío",
+    "district": "Distrito",
+    "weight": "Peso (kg)",
+    "quantity": "Cantidad",
+    "calculate": "Calcular Costo",
+    "cost": "Costo de envío",
+    "estimatedTime": "Tiempo estimado",
+    "freeShipping": "Envío gratis"
+  },
+  "contact": {
+    "title": "Contáctanos",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "subject": "Asunto",
+    "message": "Mensaje",
+    "send": "Enviar Mensaje",
+    "info": {
+      "phone": "Teléfono",
+      "email": "Email",
+      "address": "Dirección",
+      "hours": "Horario de Atención"
+    }
+  },
+  "profile": {
+    "title": "Mi Perfil",
+    "personalInfo": "Información Personal",
+    "changePassword": "Cambiar Contraseña",
+    "addresses": "Direcciones",
+    "paymentMethods": "Métodos de Pago",
+    "preferences": "Preferencias",
+    "notifications": "Notificaciones"
+  },
+  "admin": {
+    "dashboard": "Panel de Control",
+    "users": "Usuarios",
+    "products": "Productos",
+    "orders": "Pedidos",
+    "finances": "Finanzas",
+    "reports": "Reportes",
+    "settings": "Configuración"
+  },
+  "messages": {
+    "success": {
+      "addedToCart": "Producto añadido al carrito",
+      "orderPlaced": "Pedido realizado con éxito",
+      "profileUpdated": "Perfil actualizado",
+      "passwordChanged": "Contraseña cambiada",
+      "reviewSubmitted": "Reseña enviada"
+    },
+    "error": {
+      "generic": "Ocurrió un error",
+      "network": "Error de conexión",
+      "notFound": "No encontrado",
+      "unauthorized": "No autorizado",
+      "validation": "Error de validación"
+    }
+  },
+  "validation": {
+    "required": "Este campo es requerido",
+    "email": "Email inválido",
+    "minLength": "Mínimo {min} caracteres",
+    "maxLength": "Máximo {max} caracteres",
+    "min": "Valor mínimo: {min}",
+    "max": "Valor máximo: {max}",
+    "pattern": "Formato inválido",
+    "passwordMismatch": "Las contraseñas no coinciden"
+  },
+  "footer": {
+    "about": "Sobre CuyMarket",
+    "help": "Ayuda",
+    "terms": "Términos y Condiciones",
+    "privacy": "Política de Privacidad",
+    "copyright": "© 2025 CuyMarket. Todos los derechos reservados."
+  }
+}
