@@ -23,18 +23,6 @@ public class Factura {
     @Column(unique = true, nullable = false, length = 50)
     private String numeroFactura;
     
-    @NotBlank
-    @Column(nullable = false, length = 11)
-    private String rucEmpresa;
-    
-    @NotBlank
-    @Column(nullable = false, length = 255)
-    private String razonSocialEmpresa;
-    
-    @NotBlank
-    @Column(nullable = false, length = 255)
-    private String direccionEmpresa;
-    
     @Column(length = 11)
     private String rucCliente;
     

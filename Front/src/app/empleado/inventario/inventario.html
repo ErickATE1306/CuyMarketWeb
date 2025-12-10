@@ -1,98 +1,123 @@
 <div class="dashboard-content">
     <div class="page-header">
         <h2>Inventario</h2>
-        <button class="btn-primary">
+        <button class="btn-primary" (click)="cargarInventario()">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
             </svg>
             Actualizar Stock
         </button>
     </div>
 
-    <!-- Stats Grid -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20 7h-9" />
-                    <path d="M14 17H5" />
-                    <circle cx="17" cy="17" r="3" />
-                    <circle cx="7" cy="7" r="3" />
-                </svg>
-            </div>
-            <div class="stat-content">
-                <span class="stat-label">Total Productos</span>
-                <span class="stat-value">156</span>
-                <span class="stat-change">En sistema</span>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-                </svg>
-            </div>
-            <div class="stat-content">
-                <span class="stat-label">En Stock</span>
-                <span class="stat-value">142</span>
-                <span class="stat-change positive">Disponibles</span>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path
-                        d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-                    <line x1="12" y1="9" x2="12" y2="13" />
-                    <line x1="12" y1="17" x2="12.01" y2="17" />
-                </svg>
-            </div>
-            <div class="stat-content">
-                <span class="stat-label">Stock Bajo</span>
-                <span class="stat-value">14</span>
-                <span class="stat-change">Requieren atención</span>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="12" />
-                    <line x1="12" y1="16" x2="12.01" y2="16" />
-                </svg>
-            </div>
-            <div class="stat-content">
-                <span class="stat-label">Agotados</span>
-                <span class="stat-value">0</span>
-                <span class="stat-change positive">Sin problemas</span>
-            </div>
-        </div>
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-container">
+        <p>Cargando inventario...</p>
     </div>
 
-    <!-- Filters -->
-    <div class="filters-bar">
-        <div class="filter-group">
-            <button class="filter-btn active">Todos</button>
-            <button class="filter-btn">En Stock</button>
-            <button class="filter-btn">Stock Bajo</button>
-            <button class="filter-btn">Agotados</button>
+    <!-- Error -->
+    <div *ngIf="error" class="error-message">
+        <p>{{ error }}</p>
+        <button (click)="cargarInventario()">Reintentar</button>
+    </div>
+
+    <!-- Content -->
+    <div *ngIf="!loading && !error">
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 7h-9" />
+                        <path d="M14 17H5" />
+                        <circle cx="17" cy="17" r="3" />
+                        <circle cx="7" cy="7" r="3" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Total Productos</span>
+                    <span class="stat-value">{{ estadisticas.totalProductos }}</span>
+                    <span class="stat-change">En sistema</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">En Stock</span>
+                    <span class="stat-value">{{ estadisticas.enStock }}</span>
+                    <span class="stat-change positive">Disponibles</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                        <line x1="12" y1="9" x2="12" y2="13" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Stock Bajo</span>
+                    <span class="stat-value">{{ estadisticas.stockBajo }}</span>
+                    <span class="stat-change">Requieren atención</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Agotados</span>
+                    <span class="stat-value">{{ estadisticas.agotados }}</span>
+                    <span class="stat-change" [class.positive]="estadisticas.agotados === 0">
+                        {{ estadisticas.agotados === 0 ? 'Sin problemas' : 'Requieren reposición' }}
+                    </span>
+                </div>
+            </div>
         </div>
-        <div class="search-box">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8" />
-                <path d="m21 21-4.35-4.35" />
+
+        <!-- Filters -->
+        <div class="filters-bar">
+            <div class="filter-group">
+                <button class="filter-btn" [class.active]="filtroActivo === 'TODOS'" (click)="cambiarFiltro('TODOS')">Todos</button>
+                <button class="filter-btn" [class.active]="filtroActivo === 'EN_STOCK'" (click)="cambiarFiltro('EN_STOCK')">En Stock</button>
+                <button class="filter-btn" [class.active]="filtroActivo === 'STOCK_BAJO'" (click)="cambiarFiltro('STOCK_BAJO')">Stock Bajo</button>
+                <button class="filter-btn" [class.active]="filtroActivo === 'AGOTADOS'" (click)="cambiarFiltro('AGOTADOS')">Agotados</button>
+            </div>
+            <div class="search-box">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
+                <input type="text" placeholder="Buscar producto..." [(ngModel)]="busqueda" (input)="buscarProducto()">
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="productosFiltrados.length === 0" class="empty-state">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M20 7h-9" />
+                <path d="M14 17H5" />
+                <circle cx="17" cy="17" r="3" />
+                <circle cx="7" cy="7" r="3" />
             </svg>
-            <input type="text" placeholder="Buscar producto...">
+            <p>No se encontraron productos</p>
         </div>
-    </div>
 
-    <!-- Inventory Table -->
-    <div class="inventory-table">
-        <table>
+        <!-- Inventory Table -->
+        <div *ngIf="productosFiltrados.length > 0" class="inventory-table">
+            <table>
                 <thead>
                     <tr>
                         <th>Producto</th>
@@ -105,123 +130,32 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr *ngFor="let producto of productosFiltrados" [class.warning-row]="obtenerEstadoStock(producto) === 'low-stock'">
                         <td>
                             <div class="product-info-simple">
-                                <strong>Cuy Raza Perú</strong>
-                                <span class="product-sku">SKU: CRP-001</span>
+                                <strong>{{ producto.nombre }}</strong>
+                                <span class="product-sku">{{ producto.raza || 'SKU: ' + producto.id }}</span>
                             </div>
                         </td>
-                        <td>Cuyes Vivos</td>
-                        <td><strong>45</strong> unidades</td>
-                        <td>10 unidades</td>
-                        <td>S/ 45.00</td>
-                        <td><span class="stock-badge in-stock">En Stock</span></td>
+                        <td>{{ producto.categoriaNombre || 'Sin categoría' }}</td>
+                        <td><strong>{{ producto.stockDisponible || 0 }}</strong> {{ obtenerUnidad(producto) }}</td>
+                        <td>{{ producto.stockMinimo || 0 }} {{ obtenerUnidad(producto) }}</td>
+                        <td>S/ {{ producto.precio.toFixed(2) }}</td>
+                        <td>
+                            <span class="stock-badge" [ngClass]="obtenerEstadoStock(producto)">
+                                {{ obtenerTextoEstado(producto) }}
+                            </span>
+                        </td>
                         <td>
                             <div class="action-buttons">
-                                <button class="btn-action primary" title="Ajustar Stock">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
+                                <button class="btn-action primary" title="Ajustar Stock" (click)="abrirModalStock(producto)">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                     </svg>
                                 </button>
-                                <button class="btn-action" title="Ver historial">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <circle cx="12" cy="12" r="10" />
-                                        <polyline points="12 6 12 12 16 14" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="product-info-simple">
-                                <strong>Cuy Raza Andina</strong>
-                                <span class="product-sku">SKU: CRA-002</span>
-                            </div>
-                        </td>
-                        <td>Cuyes Vivos</td>
-                        <td><strong>38</strong> unidades</td>
-                        <td>10 unidades</td>
-                        <td>S/ 55.00</td>
-                        <td><span class="stock-badge in-stock">En Stock</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn-action primary" title="Ajustar Stock">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                                    </svg>
-                                </button>
-                                <button class="btn-action" title="Ver historial">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <circle cx="12" cy="12" r="10" />
-                                        <polyline points="12 6 12 12 16 14" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="warning-row">
-                        <td>
-                            <div class="product-info-simple">
-                                <strong>Carne Eviscerada</strong>
-                                <span class="product-sku">SKU: CE-003</span>
-                            </div>
-                        </td>
-                        <td>Carne</td>
-                        <td><strong>8</strong> unidades</td>
-                        <td>15 unidades</td>
-                        <td>S/ 35.00</td>
-                        <td><span class="stock-badge low-stock">Stock Bajo</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn-action primary" title="Ajustar Stock">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                                    </svg>
-                                </button>
-                                <button class="btn-action" title="Ver historial">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <circle cx="12" cy="12" r="10" />
-                                        <polyline points="12 6 12 12 16 14" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="product-info-simple">
-                                <strong>Combo Familiar</strong>
-                                <span class="product-sku">SKU: CF-004</span>
-                            </div>
-                        </td>
-                        <td>Combos</td>
-                        <td><strong>25</strong> combos</td>
-                        <td>5 combos</td>
-                        <td>S/ 85.00</td>
-                        <td><span class="stock-badge in-stock">En Stock</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn-action primary" title="Ajustar Stock">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                                    </svg>
-                                </button>
-                                <button class="btn-action" title="Ver historial">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
+                                <button class="btn-action" title="Ver historial" (click)="verHistorial(producto)">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <circle cx="12" cy="12" r="10" />
                                         <polyline points="12 6 12 12 16 14" />
                                     </svg>
@@ -232,49 +166,64 @@
                 </tbody>
             </table>
         </div>
+    </div>
 </div>
 
-<style>
-    .product-info-simple {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
+<!-- Modal Ajustar Stock -->
+<div class="modal-overlay" *ngIf="showStockModal" (click)="cerrarModalStock()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3>Ajustar Stock</h3>
+            <button class="btn-close" (click)="cerrarModalStock()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body" *ngIf="productoSeleccionado">
+            <div class="product-header">
+                <h4>{{ productoSeleccionado.nombre }}</h4>
+                <p class="product-subtitle">{{ productoSeleccionado.raza }}</p>
+            </div>
 
-        strong {
-            color: var(--foreground);
-            font-size: 0.875rem;
-        }
+            <div class="stock-info">
+                <div class="info-item">
+                    <span class="info-label">Stock Actual:</span>
+                    <span class="info-value">{{ productoSeleccionado.stockDisponible || 0 }} {{ obtenerUnidad(productoSeleccionado) }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Stock Mínimo:</span>
+                    <span class="info-value">{{ productoSeleccionado.stockMinimo || 0 }} {{ obtenerUnidad(productoSeleccionado) }}</span>
+                </div>
+            </div>
 
-        .product-sku {
-            font-size: 0.75rem;
-            color: var(--muted-foreground);
-        }
-    }
-
-    .stock-badge {
-        display: inline-block;
-        padding: 0.25rem 0.75rem;
-        border-radius: 999px;
-        font-size: 0.75rem;
-        font-weight: 600;
-
-        &.in-stock {
-            background: rgba(34, 197, 94, 0.1);
-            color: #22c55e;
-        }
-
-        &.low-stock {
-            background: rgba(234, 179, 8, 0.1);
-            color: #eab308;
-        }
-
-        &.out-stock {
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-        }
-    }
-
-    .warning-row {
-        background: rgba(234, 179, 8, 0.05);
-    }
-</style>
+            <div class="form-group">
+                <label for="nuevoStock">Nuevo Stock</label>
+                <input 
+                    type="number" 
+                    id="nuevoStock" 
+                    [(ngModel)]="nuevoStock" 
+                    min="0" 
+                    class="form-control"
+                    placeholder="Ingrese el nuevo stock">
+                <p class="help-text">
+                    Cambio: 
+                    <strong [class.positive]="nuevoStock > (productoSeleccionado.stockDisponible || 0)" 
+                            [class.negative]="nuevoStock < (productoSeleccionado.stockDisponible || 0)">
+                        {{ nuevoStock - (productoSeleccionado.stockDisponible || 0) > 0 ? '+' : '' }}{{ nuevoStock - (productoSeleccionado.stockDisponible || 0) }}
+                    </strong> {{ obtenerUnidad(productoSeleccionado) }}
+                </p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="cerrarModalStock()">Cancelar</button>
+            <button class="btn-primary" (click)="actualizarStock()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;">
+                    <polyline points="20 6 9 17 4 12" />
+                </svg>
+                Actualizar Stock
+            </button>
+        </div>
+    </div>
+</div>

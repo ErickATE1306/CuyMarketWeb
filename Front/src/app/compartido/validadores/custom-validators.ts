@@ -51,7 +51,7 @@ export class CustomValidators {
       }
 
       const cardNumber = control.value.replace(/\s/g, '');
-      
+
       // Debe tener entre 13 y 19 dígitos
       if (!/^\d{13,19}$/.test(cardNumber)) {
         return { creditCard: { value: control.value } };
@@ -111,9 +111,9 @@ export class CustomValidators {
       }
 
       // Al menos un carácter especial
-      if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-        errors.special = true;
-      }
+      // if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      //   errors.special = true;
+      // }
 
       return Object.keys(errors).length > 0 ? { passwordStrength: errors } : null;
     };

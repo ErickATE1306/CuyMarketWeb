@@ -128,25 +128,87 @@
   color: color-mix(in oklab, var(--primary) 80%, #000);
 }
 .p-card .body { padding: 16px; }
-.p-card h4 { margin: 0 0 6px; font-size: 16px; }
-.p-card .muted { color: var(--muted-foreground); font-size: 13px; margin: 0 0 8px; }
-.chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0; }
+.p-card h4 { margin: 0 0 8px; font-size: 16px; font-weight: 600; }
+
+.product-meta { 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+  margin-bottom: 10px; 
+  font-size: 13px;
+}
+.product-meta .raza { 
+  color: var(--foreground); 
+  font-weight: 500;
+}
+.product-meta .peso { 
+  color: var(--muted-foreground); 
+  padding-left: 8px;
+  border-left: 2px solid var(--border);
+}
+
+.chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0 12px; }
 .chip { 
   padding: 4px 10px; 
   border-radius: 999px; 
   background: color-mix(in oklab, var(--primary) 10%, transparent); 
   color: var(--primary); 
-  font-size: 12px; 
-  font-weight: 500;
+  font-size: 11px; 
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
-.price { 
-  margin-top: 10px; 
-  padding-top: 10px; 
+.chip.success { 
+  background: color-mix(in oklab, #10b981 10%, transparent); 
+  color: #10b981; 
+}
+
+.price-cart { 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px; 
+  padding-top: 12px; 
   border-top: 1px solid var(--border); 
+  gap: 12px;
 }
-.price strong { 
-  font-size: 18px; 
+
+.price-info { display: flex; flex-direction: column; }
+.price { 
+  font-size: 20px; 
   color: var(--primary); 
+  font-weight: 700;
+}
+
+.btn-add-cart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+}
+.btn-add-cart:hover {
+  background: color-mix(in oklab, var(--primary) 90%, #000);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+.btn-add-cart:active {
+  transform: translateY(0);
+}
+.btn-add-cart svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.5;
 }
 
 /* Paginación */

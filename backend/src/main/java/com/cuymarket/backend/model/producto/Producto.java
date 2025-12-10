@@ -2,7 +2,6 @@ package com.cuymarket.backend.model.producto;
 
 import com.cuymarket.backend.model.carrito.ItemCarrito;
 import com.cuymarket.backend.model.pedido.ItemPedido;
-import com.cuymarket.backend.model.inventario.Inventario;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -56,27 +55,15 @@ public class Producto {
     
     @Lob
     @Column(columnDefinition = "LONGBLOB")
-    private byte[] imagen1;
+    private byte[] imagen;
     
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] imagen2;
-    
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] imagen3;
-    
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] imagen4;
-    
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] imagen5;
-    
-    @Min(value = 0, message = "El stock no puede ser negativo")
+    @Min(0)
     @Column(nullable = false)
-    private Integer stock = 0;
+    private Integer stockDisponible = 0;
+    
+    @Min(0)
+    @Column(nullable = false)
+    private Integer stockMinimo = 5;
     
     @Column(nullable = false)
     private Boolean activo = true;
@@ -98,12 +85,6 @@ public class Producto {
     
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
     private List<ItemPedido> itemsPedido = new ArrayList<>();
-    
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
-    private List<ListaDeseos> listaDeseos = new ArrayList<>();
-    
-    @OneToOne(mappedBy = "producto", cascade = CascadeType.ALL)
-    private Inventario inventario;
     
     @PrePersist
     protected void onCreate() {

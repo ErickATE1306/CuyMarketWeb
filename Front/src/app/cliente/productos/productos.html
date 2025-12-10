@@ -69,16 +69,28 @@
 			<p>Mostrando {{productosPaginados.length}} de {{totalItems}} productos</p>
 		</div>
 
+		<!-- Loading -->
+		@if (loading) {
+			<div class="loading-container">
+				<p>Cargando productos...</p>
+			</div>
+		}
+
 		<!-- Grid de productos dinámico -->
-		@if (productosPaginados.length > 0) {
+		@if (!loading && productosPaginados.length > 0) {
 			<div class="grid">
 				@for (producto of productosPaginados; track producto.id) {
 					<div class="p-card" style="cursor: pointer;">
-						<div class="img" [style.background-image]="'url(' + producto.imagenes[0] + ')'" (click)="viewProductDetail(producto.id)">
+						<div class="img" (click)="viewProductDetail(producto.id)">
+							@if (producto.imagen) {
+								<img [src]="producto.imagen" [alt]="producto.nombre" style="width: 100%; height: 100%; object-fit: cover;">
+							} @else {
+								<div class="placeholder-img"></div>
+							}
 							<button 
 								class="wishlist-btn" 
 								[class.active]="isInWishlist(producto.id)"
-								(click)="toggleWishlist(producto.id); $event.stopPropagation()"
+								(click)="toggleWishlist(producto.id, $event)"
 								[title]="isInWishlist(producto.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'"
 							>
 								@if (isInWishlist(producto.id)) {
@@ -92,23 +104,39 @@
 								}
 							</button>
 						</div>
-						<div class="body" (click)="viewProductDetail(producto.id)">
-							<h4>{{producto.nombre}}</h4>
-							<p class="muted">{{producto.raza}} • {{producto.peso}}</p>
-							<div class="chips">
-								<span class="chip">{{producto.tipo}}</span>
-								@if (producto.certificado) {
-									<span class="chip">Certificado</span>
-								}
-							</div>
-							<div class="price">
-								<strong>S/ {{producto.precio.toFixed(2)}}</strong>
-							</div>
+					<div class="body" (click)="viewProductDetail(producto.id)">
+						<h4>{{producto.nombre}}</h4>
+						<div class="product-meta">
+							<span class="raza">{{producto.raza || 'Raza pura'}}</span>
+							<span class="peso">{{producto.peso || 'Estándar'}}</span>
 						</div>
+						<div class="chips">
+							<span class="chip">{{producto.tipo || 'Producto'}}</span>
+							@if (producto.certificado === 'Sí') {
+								<span class="chip success">Certificado</span>
+							}
+						</div>
+						<div class="price-cart">
+							<div class="price-info">
+								<strong class="price">S/ {{producto.precio.toFixed(2)}}</strong>
+							</div>
+							<button class="btn-add-cart" (click)="addToCart(producto, $event)" title="Agregar al carrito">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M9 2a1 1 0 0 0 0 2h2a1 1 0 1 0 0-2H9Z"/>
+									<path d="M4 4a2 2 0 0 1 2-2h2"/>
+									<path d="M15 15H9"/>
+									<path d="M12 12v6"/>
+									<path d="M16 2a2 2 0 0 1 2 2v2"/>
+									<path d="M4 6v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6"/>
+								</svg>
+								<span>Agregar</span>
+							</button>
+						</div>
+					</div>
 					</div>
 				}
 			</div>
-		} @else {
+		} @else if (!loading && productosPaginados.length === 0) {
 			<app-estado-vacio
 				icon="search"
 				title="No se encontraron productos"

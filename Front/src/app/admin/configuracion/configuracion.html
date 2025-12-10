@@ -1,12 +1,14 @@
 <div class="dashboard-content">
     <div class="page-header">
         <h2>Configuración del Sistema</h2>
-        <button class="btn-primary">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="20 6 9 17 4 12" />
+        <div class="info-badge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
             </svg>
-            Guardar Cambios
-        </button>
+            Para modificar, edita application.properties
+        </div>
     </div>
 
     <!-- Stats Grid -->
@@ -23,7 +25,7 @@
             </div>
             <div class="stat-content">
                 <span class="stat-label">Módulos Activos</span>
-                <span class="stat-value">8</span>
+                <span class="stat-value">{{ modulosActivos }}</span>
                 <span class="stat-change">De 10 disponibles</span>
             </div>
         </div>
@@ -39,7 +41,7 @@
             </div>
             <div class="stat-content">
                 <span class="stat-label">Usuarios Registrados</span>
-                <span class="stat-value">1,234</span>
+                <span class="stat-value">{{ totalUsuarios }}</span>
                 <span class="stat-change positive">+45 este mes</span>
             </div>
         </div>
@@ -53,7 +55,7 @@
             </div>
             <div class="stat-content">
                 <span class="stat-label">Nivel de Seguridad</span>
-                <span class="stat-value">Alto</span>
+                <span class="stat-value">{{ nivelSeguridad }}</span>
                 <span class="stat-change positive">SSL Activo</span>
             </div>
         </div>
@@ -69,19 +71,19 @@
             <div class="config-form">
                 <div class="form-group">
                     <label>Nombre del Negocio</label>
-                    <input type="text" value="CuyMarket" class="form-input">
+                    <input type="text" [value]="nombreNegocio" class="form-input" readonly>
                 </div>
                 <div class="form-group">
                     <label>Email de Contacto</label>
-                    <input type="email" value="contacto@cuymarket.com" class="form-input">
+                    <input type="email" [value]="emailContacto" class="form-input" readonly>
                 </div>
                 <div class="form-group">
                     <label>Teléfono</label>
-                    <input type="tel" value="+51 999 888 777" class="form-input">
+                    <input type="tel" [value]="telefono" class="form-input" readonly>
                 </div>
                 <div class="form-group">
                     <label>Dirección</label>
-                    <textarea class="form-input" rows="2">Av. Principal 123, Lima, Perú</textarea>
+                    <textarea [value]="direccion" class="form-input" rows="2" readonly></textarea>
                 </div>
             </div>
         </div>
@@ -95,22 +97,24 @@
                 <div class="form-group">
                     <label>Lunes a Viernes</label>
                     <div class="time-range">
-                        <input type="time" value="09:00" class="form-input">
+                        <input type="time" [value]="lunesViernesInicio" class="form-input" readonly>
                         <span>-</span>
-                        <input type="time" value="18:00" class="form-input">
+                        <input type="time" [value]="lunesViernesFin" class="form-input" readonly>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Sábados</label>
                     <div class="time-range">
-                        <input type="time" value="09:00" class="form-input">
+                        <input type="time" [value]="sabadoInicio" class="form-input" readonly>
                         <span>-</span>
-                        <input type="time" value="14:00" class="form-input">
+                        <input type="time" [value]="sabadoFin" class="form-input" readonly>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" checked> Abierto los domingos
+                <div class="form-group switch-group">
+                    <label>Abierto los domingos</label>
+                    <label class="switch">
+                        <input type="checkbox" [checked]="abiertoDomingos" disabled>
+                        <span class="slider"></span>
                     </label>
                 </div>
             </div>
@@ -122,24 +126,32 @@
                 <h3>Métodos de Pago</h3>
             </div>
             <div class="config-form">
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" checked> Efectivo
+                <div class="form-group switch-group">
+                    <label>Efectivo</label>
+                    <label class="switch">
+                        <input type="checkbox" [checked]="efectivo" disabled>
+                        <span class="slider"></span>
                     </label>
                 </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" checked> Tarjeta de Crédito/Débito
+                <div class="form-group switch-group">
+                    <label>Tarjeta de Crédito/Débito</label>
+                    <label class="switch">
+                        <input type="checkbox" [checked]="tarjeta" disabled>
+                        <span class="slider"></span>
                     </label>
                 </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" checked> Transferencia Bancaria
+                <div class="form-group switch-group">
+                    <label>Transferencia Bancaria</label>
+                    <label class="switch">
+                        <input type="checkbox" [checked]="transferencia" disabled>
+                        <span class="slider"></span>
                     </label>
                 </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox"> Yape/Plin
+                <div class="form-group switch-group">
+                    <label>Yape/Plin</label>
+                    <label class="switch">
+                        <input type="checkbox" [checked]="yapePlin" disabled>
+                        <span class="slider"></span>
                     </label>
                 </div>
             </div>
@@ -151,19 +163,25 @@
                 <h3>Notificaciones</h3>
             </div>
             <div class="config-form">
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" checked> Email para nuevos pedidos
+                <div class="form-group switch-group">
+                    <label>Email para nuevos pedidos</label>
+                    <label class="switch">
+                        <input type="checkbox" [checked]="emailPedidos" disabled>
+                        <span class="slider"></span>
                     </label>
                 </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" checked> SMS para confirmaciones
+                <div class="form-group switch-group">
+                    <label>SMS para confirmaciones</label>
+                    <label class="switch">
+                        <input type="checkbox" [checked]="smsConfirmaciones" disabled>
+                        <span class="slider"></span>
                     </label>
                 </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox"> Notificaciones push
+                <div class="form-group switch-group">
+                    <label>Notificaciones push</label>
+                    <label class="switch">
+                        <input type="checkbox" [checked]="notifPush" disabled>
+                        <span class="slider"></span>
                     </label>
                 </div>
             </div>

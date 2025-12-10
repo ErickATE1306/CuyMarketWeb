@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { CarritoService } from '../compartido/servicios/carrito.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cliente',
@@ -9,19 +11,32 @@ import { CommonModule } from '@angular/common';
   templateUrl: './cliente.html',
   styleUrl: './cliente.scss',
 })
-export class Cliente {
+export class Cliente implements OnInit, OnDestroy {
   isLoggedIn = false;
   userName = 'Usuario';
   cartCount = 0;
+  private carritoSubscription?: Subscription;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private carritoService: CarritoService
+  ) {
     this.checkLoginStatus();
-    this.updateCartCount();
-    
-    // Escuchar cambios en el carrito
-    window.addEventListener('cart-updated', () => {
-      this.updateCartCount();
+  }
+
+  ngOnInit() {
+    // Suscribirse a los cambios del carrito
+    this.carritoSubscription = this.carritoService.carrito$.subscribe(carrito => {
+      if (carrito && carrito.items) {
+        this.cartCount = carrito.items.reduce((sum, item) => sum + item.cantidad, 0);
+      } else {
+        this.cartCount = 0;
+      }
     });
+  }
+
+  ngOnDestroy() {
+    this.carritoSubscription?.unsubscribe();
   }
 
   checkLoginStatus() {
@@ -32,16 +47,6 @@ export class Cliente {
       this.isLoggedIn = true;
       const userData = JSON.parse(user);
       this.userName = userData.nombre || 'Usuario';
-    }
-  }
-
-  updateCartCount() {
-    const cart = localStorage.getItem('cart');
-    if (cart) {
-      const cartItems = JSON.parse(cart);
-      this.cartCount = cartItems.reduce((sum: number, item: any) => sum + item.cantidad, 0);
-    } else {
-      this.cartCount = 0;
     }
   }
 

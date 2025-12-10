@@ -33,6 +33,7 @@ import { Reportes as EmpleadoReportes } from './empleado/reportes/reportes';
 import { Login } from './auth/login';
 import { RecuperarContrasenaComponent } from './auth/recuperar-contrasena/recuperar-contrasena';
 import { VerificarEmailComponent } from './auth/verificar-email/verificar-email';
+import { RoleSelectionComponent } from './auth/role-selection/role-selection';
 import { FacturaComponent } from './cliente/factura/factura';
 import { NoEncontradoComponent } from './compartido/componentes/no-encontrado/no-encontrado';
 
@@ -41,8 +42,9 @@ export const routes: Routes = [
 	{ path: 'auth/login', component: Login },
 	{ path: 'auth/forgot-password', component: RecuperarContrasenaComponent },
 	{ path: 'auth/verify-email', component: VerificarEmailComponent, canActivate: [authGuard] },
+	{ path: 'auth/select-role', component: RoleSelectionComponent },
 	{
-			path: 'cliente',
+		path: 'cliente',
 		component: Cliente,
 		children: [
 			{ path: 'inicio', component: Inicio },

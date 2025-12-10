@@ -1,0 +1,102 @@
+.role-selection-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f3f4f6;
+    padding: 1rem;
+}
+
+.selection-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    width: 100%;
+    max-width: 600px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+
+    .logo {
+        height: 60px;
+        margin-bottom: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 0.5rem;
+    }
+
+    p {
+        color: #6b7280;
+    }
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    @media (min-width: 640px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.option-card {
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+
+    &:hover {
+        border-color: #4f46e5;
+        background-color: #f5f3ff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.1);
+    }
+
+    h3 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #1f2937;
+        margin: 1rem 0 0.5rem;
+    }
+
+    p {
+        color: #6b7280;
+        font-size: 0.875rem;
+    }
+}
+
+.icon-wrapper {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+
+    svg {
+        width: 32px;
+        height: 32px;
+    }
+
+    &.management {
+        background-color: #e0e7ff; // Indigo 100
+        color: #4f46e5; // Indigo 600
+    }
+
+    &.store {
+        background-color: #d1fae5; // Emerald 100
+        color: #059669; // Emerald 600
+    }
+}

@@ -1,49 +1,93 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
+import { CommonModule } from '@angular/common'; // Importar CommonModule para *ngIf y *ngFor en templates viejos o @for en nuevos
+import { ProductoService, Producto } from '../../compartido/servicios/producto.service';
+import { CarritoService } from '../../compartido/servicios/carrito.service';
+import { ToastService } from '../../compartido/servicios/toast.service';
+import { AuthService } from '../../compartido/servicios/auth.service';
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, CommonModule],
   templateUrl: './inicio.html',
   styleUrl: './inicio.scss',
 })
-export class Inicio {
-  constructor(private router: Router) {}
+export class Inicio implements OnInit {
+  productosVivos: Producto[] = [];
+  carneCuy: Producto[] = [];
+  loading: boolean = true;
 
-  viewProductDetail(productId: string) {
+  constructor(
+    private router: Router,
+    private productoService: ProductoService,
+    private carritoService: CarritoService,
+    private toastService: ToastService,
+    private authService: AuthService
+  ) { }
+
+  ngOnInit() {
+    this.cargarProductos();
+  }
+
+  cargarProductos() {
+    this.loading = true;
+    this.productoService.listar().subscribe({
+      next: (response) => {
+        const todos = response;
+        // Filtrar por categoría si el backend devuelve categoría o basándose en nombre/tipo
+        // Nota: Ajustar condición según los datos reales del backend
+        this.productosVivos = todos.filter(p =>
+          (p.categoriaNombre && p.categoriaNombre.toLowerCase().includes('vivo')) ||
+          (p.nombre.toLowerCase().includes('reproductor') || p.nombre.toLowerCase().includes('gazapo') || p.nombre.toLowerCase().includes('gestante'))
+        ).slice(0, 4);
+
+        this.carneCuy = todos.filter(p =>
+          (p.categoriaNombre && p.categoriaNombre.toLowerCase().includes('carne')) ||
+          (p.nombre.toLowerCase().includes('carne') || p.nombre.toLowerCase().includes('eviscerado') || p.nombre.toLowerCase().includes('congelado') || p.nombre.toLowerCase().includes('combo') || p.nombre.toLowerCase().includes('porcionado'))
+        ).slice(0, 4);
+
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error cargando productos inicio', err);
+        this.loading = false;
+      }
+    });
+  }
+
+  viewProductDetail(productId: string | number) {
     this.router.navigate(['/cliente/productos', productId]);
   }
 
-  addToCart(nombre: string, precio: number, categoria: string, peso?: string) {
-    const cart = localStorage.getItem('cart');
-    let cartItems = cart ? JSON.parse(cart) : [];
-    
-    // Generar ID único basado en nombre
-    const id = nombre.toLowerCase().replace(/\s+/g, '-');
-    
-    // Buscar si el producto ya existe en el carrito
-    const existingItem = cartItems.find((item: any) => item.id === id);
-    
-    if (existingItem) {
-      existingItem.cantidad += 1;
-    } else {
-      cartItems.push({
-        id,
-        nombre,
-        precio,
-        cantidad: 1,
-        categoria,
-        peso
-      });
+  addToCart(producto: Producto, event?: Event) {
+    if (event) {
+      event.stopPropagation();
     }
-    
-    localStorage.setItem('cart', JSON.stringify(cartItems));
-    
-    // Mostrar notificación
-    alert(`${nombre} agregado al carrito`);
-    
-    // Disparar evento para actualizar el contador del carrito
-    window.dispatchEvent(new Event('cart-updated'));
+
+    // Verificar autenticación
+    if (!this.authService.isAuthenticated()) {
+      this.toastService.warning('Debes iniciar sesión para agregar productos al carrito');
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
+    this.carritoService.agregarProducto(producto.id, 1).subscribe({
+      next: () => {
+        this.toastService.success(`${producto.nombre} agregado al carrito`);
+        // NO navegar, solo mostrar el mensaje de éxito
+      },
+      error: (err) => {
+        console.error('Error al agregar al carrito', err);
+        if (err.status === 401) {
+          this.toastService.error('Debes iniciar sesión');
+          this.router.navigate(['/auth/login']);
+        } else if (err.status === 404) {
+          this.toastService.error('Producto no encontrado');
+        } else {
+          this.toastService.error('Error al agregar producto. Por favor, intenta de nuevo.');
+        }
+      }
+    });
   }
 }

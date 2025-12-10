@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Producto } from './producto/producto';
 import { Categoria } from './categoria/categoria';
+import { CategoriaService, Categoria as CategoriaModel } from '../../compartido/servicios/categoria.service';
+import { ProductoService, Producto as ProductoModel } from '../../compartido/servicios/producto.service';
 
 @Component({
   selector: 'app-cat-prod',
@@ -10,25 +12,76 @@ import { Categoria } from './categoria/categoria';
   templateUrl: './cat-prod.html',
   styleUrl: './cat-prod.scss',
 })
-export class CatProd {
+export class CatProd implements OnInit {
   activeTab: 'productos' | 'categorias' = 'categorias';
   showModalCategoria = false;
   showModalProducto = false;
 
+  // Data
+  categorias: CategoriaModel[] = [];
+  productos: ProductoModel[] = [];
+
+  // Stats
+  totalCategorias = 0;
+  categoriasActivas = 0;
+  totalProductos = 0;
+
   newCategoria = {
     nombre: '',
     descripcion: '',
-    icono: 'default'
+    activa: true
   };
 
   newProducto = {
     nombre: '',
-    descripcion: '',
+    raza: '',
+    peso: 0,
     precio: 0,
-    stock: 0,
-    categoria: '',
-    imagen: ''
+    tipo: '',
+    certificado: 'No',
+    descripcion: '',
+    caracteristicas: '',
+    imagen: '',
+    categoriaId: 0,
+    activo: true,
+    stockDisponible: 0,
+    stockMinimo: 5
   };
+
+  constructor(
+    private categoriaService: CategoriaService,
+    private productoService: ProductoService
+  ) { }
+
+  ngOnInit() {
+    this.loadCategorias();
+    this.loadProductos();
+  }
+
+  loadCategorias() {
+    this.categoriaService.listar().subscribe({
+      next: (data) => {
+        this.categorias = data;
+        this.calculateCategoriaStats();
+      },
+      error: (err) => console.error('Error al cargar categorías', err)
+    });
+  }
+
+  loadProductos() {
+    this.productoService.listar().subscribe({
+      next: (data) => {
+        this.productos = data;
+        this.totalProductos = data.length;
+      },
+      error: (err) => console.error('Error al cargar productos', err)
+    });
+  }
+
+  calculateCategoriaStats() {
+    this.totalCategorias = this.categorias.length;
+    this.categoriasActivas = this.categorias.filter(c => c.activa).length;
+  }
 
   selectTab(tab: 'productos' | 'categorias') {
     this.activeTab = tab;
@@ -39,7 +92,7 @@ export class CatProd {
     this.newCategoria = {
       nombre: '',
       descripcion: '',
-      icono: 'default'
+      activa: true
     };
   }
 
@@ -48,20 +101,35 @@ export class CatProd {
   }
 
   saveCategoria() {
-    console.log('Guardando categoría:', this.newCategoria);
-    // TODO: Conectar con el backend
-    this.closeModalCategoria();
+    this.categoriaService.crear(this.newCategoria).subscribe({
+      next: (createdCategoria) => {
+        console.log('Categoría creada', createdCategoria);
+        this.loadCategorias();
+        this.closeModalCategoria();
+      },
+      error: (err) => {
+        console.error('Error al crear categoría', err);
+        alert('Error al crear categoría: ' + (err.error?.message || 'Verifique los datos'));
+      }
+    });
   }
 
   openModalProducto() {
     this.showModalProducto = true;
     this.newProducto = {
       nombre: '',
-      descripcion: '',
+      raza: '',
+      peso: 0,
       precio: 0,
-      stock: 0,
-      categoria: '',
-      imagen: ''
+      tipo: '',
+      certificado: 'No',
+      descripcion: '',
+      caracteristicas: '',
+      imagen: '',
+      categoriaId: 0,
+      activo: true,
+      stockDisponible: 0,
+      stockMinimo: 5
     };
   }
 
@@ -70,8 +138,32 @@ export class CatProd {
   }
 
   saveProducto() {
-    console.log('Guardando producto:', this.newProducto);
-    // TODO: Conectar con el backend
-    this.closeModalProducto();
+    if (!this.newProducto.categoriaId || this.newProducto.categoriaId === 0) {
+      alert('Debe seleccionar una categoría');
+      return;
+    }
+
+    this.productoService.crear(this.newProducto).subscribe({
+      next: (createdProducto) => {
+        console.log('Producto creado', createdProducto);
+        this.loadProductos();
+        this.closeModalProducto();
+      },
+      error: (err) => {
+        console.error('Error al crear producto', err);
+        alert('Error al crear producto: ' + (err.error?.message || 'Verifique los datos'));
+      }
+    });
+  }
+
+  onImagenSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.newProducto.imagen = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 }

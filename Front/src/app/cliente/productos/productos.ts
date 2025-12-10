@@ -6,27 +6,16 @@ import { PaginacionComponent } from '../../compartido/componentes/paginacion/pag
 import { EstadoVacioComponent } from '../../compartido/componentes/estado-vacio/estado-vacio';
 import { StorageService } from '../../compartido/servicios/storage.service';
 import { ToastService } from '../../compartido/servicios/toast.service';
-
-interface Producto {
-  id: string;
-  nombre: string;
-  raza: string;
-  peso: string;
-  precio: number;
-  categoria: string;
-  tipo: string;
-  certificado: boolean;
-  descripcion: string;
-  caracteristicas: string[];
-  imagenes: string[];
-}
+import { ProductoService, Producto } from '../../compartido/servicios/producto.service';
+import { CarritoService } from '../../compartido/servicios/carrito.service';
+import { AuthService } from '../../compartido/servicios/auth.service';
 
 @Component({
   selector: 'app-productos',
   standalone: true,
   imports: [CommonModule, FormsModule, PaginacionComponent, EstadoVacioComponent],
   templateUrl: './productos.html',
-  styleUrl: './productos.scss',
+  styleUrl: './productos.scss'
 })
 export class Productos implements OnInit {
   // Búsqueda y filtros
@@ -47,9 +36,12 @@ export class Productos implements OnInit {
   productosFiltrados: Producto[] = [];
   productosPaginados: Producto[] = [];
 
-  // Opciones de filtros
-  categorias = ['Todas', 'Cuyes Vivos', 'Carne de Cuy', 'Servicios'];
-  razas = ['Todas', 'Raza Perú', 'Raza Andina', 'Raza Inti', 'N/A'];
+  // Estado de carga
+  loading: boolean = false;
+
+  // Opciones de filtros dinámicas
+  categorias: string[] = ['Todas'];
+  razas: string[] = ['Todas'];
   rangosPrecios = [
     { label: 'Todos', min: 0, max: Infinity },
     { label: 'Menos de S/30', min: 0, max: 30 },
@@ -61,174 +53,49 @@ export class Productos implements OnInit {
   constructor(
     private router: Router,
     private storageService: StorageService,
-    private toastService: ToastService
-  ) {}
+    private toastService: ToastService,
+    private productoService: ProductoService,
+    private carritoService: CarritoService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
     this.cargarProductos();
-    this.aplicarFiltros();
   }
 
   cargarProductos() {
-    // Datos de productos - mismo que producto-detalle.ts
-    this.todosLosProductos = [
-      {
-        id: 'cuy-reproductor-peruano',
-        nombre: 'Cuy Reproductor Peruano',
-        raza: 'Raza Perú',
-        peso: '900-1200g',
-        precio: 45.00,
-        categoria: 'Cuyes Vivos',
-        tipo: 'Reproductor',
-        certificado: true,
-        descripcion: 'Cuy reproductor de raza Perú certificada, ideal para iniciar o mejorar tu crianza.',
-        caracteristicas: ['Raza pura certificada', 'Edad: 3-4 meses', 'Vacunado y desparasitado', 'Garantía de salud', 'Asesoría de crianza incluida'],
-        imagenes: ['https://images.unsplash.com/photo-1589952283406-b53a7d1347e8?w=800', 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=800']
+    this.loading = true;
+    this.productoService.listar().subscribe({
+      next: (productos) => {
+        this.todosLosProductos = productos.filter(p => p.activo);
+        
+        // Extraer categorías únicas
+        const categoriasSet = new Set<string>();
+        productos.forEach(p => {
+          if (p.categoriaNombre) {
+            categoriasSet.add(p.categoriaNombre);
+          }
+        });
+        this.categorias = ['Todas', ...Array.from(categoriasSet).sort()];
+
+        // Extraer razas únicas
+        const razasSet = new Set<string>();
+        productos.forEach(p => {
+          if (p.raza && p.raza.trim() !== '') {
+            razasSet.add(p.raza);
+          }
+        });
+        this.razas = ['Todas', ...Array.from(razasSet).sort()];
+
+        this.loading = false;
+        this.aplicarFiltros();
       },
-      {
-        id: 'cuy-reproductor-andino',
-        nombre: 'Cuy Reproductor Andino',
-        raza: 'Raza Andina',
-        peso: '950-1200g',
-        precio: 48.00,
-        categoria: 'Cuyes Vivos',
-        tipo: 'Reproductor',
-        certificado: false,
-        descripcion: 'Cuy reproductor de raza Andina con excelentes características para reproducción.',
-        caracteristicas: ['Raza pura seleccionada', 'Edad: 3-4 meses', 'Alta prolificidad', 'Adaptable a diferentes climas'],
-        imagenes: ['https://images.unsplash.com/photo-1589952283406-b53a7d1347e8?w=800']
-      },
-      {
-        id: 'cuy-gestante',
-        nombre: 'Cuy Gestante',
-        raza: 'Raza Perú',
-        peso: '900-1300g',
-        precio: 55.00,
-        categoria: 'Cuyes Vivos',
-        tipo: 'Gestante',
-        certificado: true,
-        descripcion: 'Hembra gestante de raza Perú con 20-25 días de preñez.',
-        caracteristicas: ['Preñez confirmada', 'Control veterinario', 'Primera cría garantizada', 'Excelente línea genética'],
-        imagenes: ['https://images.unsplash.com/photo-1589952283406-b53a7d1347e8?w=800']
-      },
-      {
-        id: 'gazapo-inti',
-        nombre: 'Gazapo Inti',
-        raza: 'Raza Inti',
-        peso: '300-500g',
-        precio: 25.00,
-        categoria: 'Cuyes Vivos',
-        tipo: 'Gazapo',
-        certificado: false,
-        descripcion: 'Gazapo de raza Inti, ideal para iniciar tu crianza con inversión moderada.',
-        caracteristicas: ['Edad: 1-2 meses', 'Destetado correctamente', 'Buena genética', 'Rápido crecimiento'],
-        imagenes: ['https://images.unsplash.com/photo-1589952283406-b53a7d1347e8?w=800']
-      },
-      {
-        id: 'raza-inti-reproductor',
-        nombre: 'Cuy Reproductor Inti',
-        raza: 'Raza Inti',
-        peso: '1000-1300g',
-        precio: 52.00,
-        categoria: 'Cuyes Vivos',
-        tipo: 'Reproductor',
-        certificado: true,
-        descripcion: 'Cuy reproductor de raza Inti certificada, reconocido por su rápido crecimiento.',
-        caracteristicas: ['Raza Inti certificada', 'Edad: 4-5 meses', 'Crecimiento acelerado', 'Alta conversión alimenticia'],
-        imagenes: ['https://images.unsplash.com/photo-1589952283406-b53a7d1347e8?w=800']
-      },
-      {
-        id: 'cuy-entero-eviscerado',
-        nombre: 'Cuy Entero Eviscerado',
-        raza: 'Raza Perú',
-        peso: '700-900g',
-        precio: 38.00,
-        categoria: 'Carne de Cuy',
-        tipo: 'Entero',
-        certificado: true,
-        descripcion: 'Cuy entero eviscerado listo para preparar. Producto fresco de alta calidad.',
-        caracteristicas: ['Producto fresco del día', 'Eviscerado y limpio', 'Certificado SENASA', 'Empacado al vacío'],
-        imagenes: ['https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800']
-      },
-      {
-        id: 'cuy-porcionado-premium',
-        nombre: 'Cuy Porcionado Premium',
-        raza: 'Raza Perú',
-        peso: '600-800g',
-        precio: 42.00,
-        categoria: 'Carne de Cuy',
-        tipo: 'Porcionado',
-        certificado: true,
-        descripcion: 'Cuy porcionado en piezas ideales para diferentes preparaciones.',
-        caracteristicas: ['Corte profesional en 4 piezas', 'Producto fresco', 'Empaque individual', 'Certificación sanitaria'],
-        imagenes: ['https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800']
-      },
-      {
-        id: 'cuy-congelado',
-        nombre: 'Cuy Congelado',
-        raza: 'Raza Perú',
-        peso: '700-900g',
-        precio: 35.00,
-        categoria: 'Carne de Cuy',
-        tipo: 'Congelado',
-        certificado: true,
-        descripcion: 'Cuy entero eviscerado congelado mediante técnica IQF.',
-        caracteristicas: ['Congelado IQF', 'Duración: hasta 6 meses', 'Conserva propiedades nutricionales', 'Empaque hermético'],
-        imagenes: ['https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800']
-      },
-      {
-        id: 'combo-familiar-4-cuyes',
-        nombre: 'Combo Familiar 4 Cuyes',
-        raza: 'Raza Perú',
-        peso: '2.8-3.6kg total',
-        precio: 145.00,
-        categoria: 'Carne de Cuy',
-        tipo: 'Combo',
-        certificado: true,
-        descripcion: 'Combo familiar con 4 cuyes enteros eviscerados. Precio especial para eventos.',
-        caracteristicas: ['4 cuyes enteros eviscerados', 'Peso promedio: 700-900g c/u', 'Producto fresco', 'Ahorro del 15%'],
-        imagenes: ['https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800']
-      },
-      {
-        id: 'cuy-marinado-especias',
-        nombre: 'Cuy Marinado con Especias',
-        raza: 'Raza Perú',
-        peso: '700-900g',
-        precio: 44.00,
-        categoria: 'Carne de Cuy',
-        tipo: 'Marinado',
-        certificado: true,
-        descripcion: 'Cuy entero pre-marinado con especias andinas. Listo para hornear o freír.',
-        caracteristicas: ['Marinado 24 horas', 'Especias naturales andinas', 'Listo para cocinar', 'Sabor tradicional'],
-        imagenes: ['https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800']
-      },
-      {
-        id: 'servicio-beneficio-domicilio',
-        nombre: 'Servicio de Beneficio a Domicilio',
-        raza: 'N/A',
-        peso: 'N/A',
-        precio: 15.00,
-        categoria: 'Servicios',
-        tipo: 'Servicio',
-        certificado: true,
-        descripcion: 'Servicio profesional de beneficio de cuyes a domicilio.',
-        caracteristicas: ['Personal certificado SENASA', 'Herramientas profesionales', 'Proceso higiénico garantizado', 'A domicilio en Lima'],
-        imagenes: ['https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800']
-      },
-      {
-        id: 'asesoria-crianza-basica',
-        nombre: 'Asesoría de Crianza Básica',
-        raza: 'N/A',
-        peso: 'N/A',
-        precio: 80.00,
-        categoria: 'Servicios',
-        tipo: 'Asesoría',
-        certificado: false,
-        descripcion: 'Asesoría completa para iniciar tu crianza de cuyes.',
-        caracteristicas: ['Visita a instalaciones', 'Evaluación de infraestructura', 'Plan de crianza personalizado', 'Seguimiento 1 mes'],
-        imagenes: ['https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800']
+      error: (err) => {
+        console.error('Error cargando productos', err);
+        this.toastService.error('Error al cargar el catálogo de productos');
+        this.loading = false;
       }
-    ];
+    });
   }
 
   aplicarFiltros() {
@@ -237,19 +104,20 @@ export class Productos implements OnInit {
     // Filtro de búsqueda
     if (this.searchTerm.trim()) {
       const termLower = this.searchTerm.toLowerCase().trim();
-      resultados = resultados.filter(p => 
+      resultados = resultados.filter(p =>
         p.nombre.toLowerCase().includes(termLower) ||
-        p.descripcion.toLowerCase().includes(termLower) ||
-        p.tipo.toLowerCase().includes(termLower)
+        (p.descripcion && p.descripcion.toLowerCase().includes(termLower)) ||
+        (p.tipo && p.tipo.toLowerCase().includes(termLower)) ||
+        (p.raza && p.raza.toLowerCase().includes(termLower))
       );
-      
+
       // Guardar en historial de búsqueda
       this.storageService.addToSearchHistory(this.searchTerm.trim());
     }
 
     // Filtro de categoría
     if (this.selectedCategoria !== 'Todas') {
-      resultados = resultados.filter(p => p.categoria === this.selectedCategoria);
+      resultados = resultados.filter(p => p.categoriaNombre === this.selectedCategoria);
     }
 
     // Filtro de raza
@@ -261,7 +129,10 @@ export class Productos implements OnInit {
     if (this.selectedPrecio !== 'Todos') {
       const rango = this.rangosPrecios.find(r => r.label === this.selectedPrecio);
       if (rango) {
-        resultados = resultados.filter(p => p.precio >= rango.min && p.precio < rango.max);
+        resultados = resultados.filter(p => {
+          const precio = Number(p.precio);
+          return precio >= rango.min && precio < rango.max;
+        });
       }
     }
 
@@ -272,7 +143,7 @@ export class Productos implements OnInit {
     this.productosFiltrados = resultados;
     this.totalItems = resultados.length;
     this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
-    
+
     // Resetear a página 1 al filtrar
     this.currentPage = 1;
     this.actualizarPaginacion();
@@ -281,14 +152,14 @@ export class Productos implements OnInit {
   ordenarProductos(productos: Producto[]): Producto[] {
     switch (this.selectedOrden) {
       case 'precio-asc':
-        return productos.sort((a, b) => a.precio - b.precio);
+        return productos.sort((a, b) => Number(a.precio) - Number(b.precio));
       case 'precio-desc':
-        return productos.sort((a, b) => b.precio - a.precio);
+        return productos.sort((a, b) => Number(b.precio) - Number(a.precio));
       case 'nombre':
         return productos.sort((a, b) => a.nombre.localeCompare(b.nombre));
       case 'destacado':
       default:
-        return productos; // Sin ordenar (orden original)
+        return productos;
     }
   }
 
@@ -301,7 +172,6 @@ export class Productos implements OnInit {
   onPageChange(page: number) {
     this.currentPage = page;
     this.actualizarPaginacion();
-    // Scroll al inicio de la sección de productos
     window.scrollTo({ top: 300, behavior: 'smooth' });
   }
 
@@ -314,21 +184,52 @@ export class Productos implements OnInit {
     this.aplicarFiltros();
   }
 
-  viewProductDetail(productId: string) {
+  viewProductDetail(productId: number) {
     this.router.navigate(['/cliente/productos', productId]);
   }
 
-  isInWishlist(productId: string): boolean {
-    return this.storageService.isInWishlist(productId);
+  isInWishlist(productId: number): boolean {
+    return this.storageService.isInWishlist(productId.toString());
   }
 
-  toggleWishlist(productId: string) {
+  toggleWishlist(productId: number, event: Event) {
+    event.stopPropagation();
+    const idStr = productId.toString();
     if (this.isInWishlist(productId)) {
-      this.storageService.removeFromWishlist(productId);
+      this.storageService.removeFromWishlist(idStr);
       this.toastService.info('Producto eliminado de favoritos');
     } else {
-      this.storageService.addToWishlist(productId);
+      this.storageService.addToWishlist(idStr);
       this.toastService.success('Producto agregado a favoritos');
     }
+  }
+
+  addToCart(producto: Producto, event: Event) {
+    event.stopPropagation();
+
+    // Verificar autenticación
+    if (!this.authService.isAuthenticated()) {
+      this.toastService.warning('Debes iniciar sesión para agregar productos al carrito');
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
+    this.carritoService.agregarProducto(producto.id, 1).subscribe({
+      next: () => {
+        this.toastService.success(`${producto.nombre} agregado al carrito`);
+        // NO navegar, solo mostrar el mensaje de éxito
+      },
+      error: (err) => {
+        console.error('Error al agregar al carrito', err);
+        if (err.status === 401) {
+          this.toastService.error('Debes iniciar sesión');
+          this.router.navigate(['/auth/login']);
+        } else if (err.status === 404) {
+          this.toastService.error('Producto no encontrado');
+        } else {
+          this.toastService.error('Error al agregar producto. Por favor, intenta de nuevo.');
+        }
+      }
+    });
   }
 }

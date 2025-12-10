@@ -1,7 +1,7 @@
 <div class="dashboard-content">
     <div class="page-header">
         <h2>Entregas Programadas</h2>
-        <button class="btn-primary">
+        <button class="btn-primary" (click)="nuevaEntrega()">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="12" y1="5" x2="12" y2="19" />
                 <line x1="5" y1="12" x2="19" y2="12" />
@@ -10,180 +10,133 @@
         </button>
     </div>
 
-    <!-- Stats Grid -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-container">
+        <p>Cargando entregas programadas...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-message">
+        <p>{{ error }}</p>
+        <button (click)="cargarEntregas()">Reintentar</button>
+    </div>
+
+    <!-- Content -->
+    <div *ngIf="!loading && !error">
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="1" y="3" width="15" height="13" />
+                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                        <circle cx="5.5" cy="18.5" r="2.5" />
+                        <circle cx="18.5" cy="18.5" r="2.5" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Entregas Hoy</span>
+                    <span class="stat-value">{{ estadisticas.entregasHoy }}</span>
+                    <span class="stat-change">Programadas</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Completadas</span>
+                    <span class="stat-value">{{ estadisticas.completadas }}</span>
+                    <span class="stat-change positive">De {{ estadisticas.entregasHoy }}</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Pendientes</span>
+                    <span class="stat-value">{{ estadisticas.pendientes }}</span>
+                    <span class="stat-change">Por entregar</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Zonas Activas</span>
+                    <span class="stat-value">{{ estadisticas.zonasActivas }}</span>
+                    <span class="stat-change">Distritos</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delivery Timeline -->
+        <div class="page-section">
+            <h3>Cronograma de Entregas - Hoy</h3>
+            
+            <div *ngIf="entregas.length === 0" class="empty-state">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <rect x="1" y="3" width="15" height="13" />
                     <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
                     <circle cx="5.5" cy="18.5" r="2.5" />
                     <circle cx="18.5" cy="18.5" r="2.5" />
                 </svg>
-            </div>
-            <div class="stat-content">
-                <span class="stat-label">Entregas Hoy</span>
-                <span class="stat-value">8</span>
-                <span class="stat-change">Programadas</span>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="20 6 9 17 4 12" />
-                </svg>
-            </div>
-            <div class="stat-content">
-                <span class="stat-label">Completadas</span>
-                <span class="stat-value">5</span>
-                <span class="stat-change positive">De 8</span>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10" />
-                    <polyline points="12 6 12 12 16 14" />
-                </svg>
-            </div>
-            <div class="stat-content">
-                <span class="stat-label">Pendientes</span>
-                <span class="stat-value">3</span>
-                <span class="stat-change">Por entregar</span>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                </svg>
-            </div>
-            <div class="stat-content">
-                <span class="stat-label">Zonas Activas</span>
-                <span class="stat-value">4</span>
-                <span class="stat-change">Distritos</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delivery Timeline -->
-    <div class="page-section">
-        <h3>Cronograma de Entregas - Hoy</h3>
-        <div class="delivery-timeline">
-            <div class="timeline-item completed">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="timeline-header">
-                        <strong>09:00 - 10:00</strong>
-                        <span class="status-badge completed">Entregado</span>
-                    </div>
-                    <div class="timeline-details">
-                        <p><strong>Pedido #1234</strong> - María González</p>
-                        <p class="timeline-address">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                                <circle cx="12" cy="10" r="3" />
-                            </svg>
-                            Av. Principal 123, Miraflores
-                        </p>
-                    </div>
-                </div>
+                <p>No hay entregas programadas para hoy</p>
             </div>
 
-            <div class="timeline-item completed">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="timeline-header">
-                        <strong>10:30 - 11:30</strong>
-                        <span class="status-badge completed">Entregado</span>
-                    </div>
-                    <div class="timeline-details">
-                        <p><strong>Pedido #1235</strong> - Carlos Mendoza</p>
-                        <p class="timeline-address">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                                <circle cx="12" cy="10" r="3" />
-                            </svg>
-                            Jr. Los Olivos 456, San Isidro
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item active">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="timeline-header">
-                        <strong>12:00 - 13:00</strong>
-                        <span class="status-badge processing">En Ruta</span>
-                    </div>
-                    <div class="timeline-details">
-                        <p><strong>Pedido #1236</strong> - Ana Torres</p>
-                        <p class="timeline-address">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                                <circle cx="12" cy="10" r="3" />
-                            </svg>
-                            Calle Las Flores 789, Surco
-                        </p>
-                        <div class="timeline-actions">
-                            <button class="btn-action primary">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg>
-                                Marcar Entregado
-                            </button>
+            <div *ngIf="entregas.length > 0" class="delivery-timeline">
+                <div class="timeline-item" *ngFor="let entrega of entregas" [ngClass]="obtenerClaseTimeline(entrega)">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <strong>{{ entrega.horaInicio }} - {{ entrega.horaFin }}</strong>
+                            <span class="status-badge" [ngClass]="obtenerClaseEstado(entrega)">
+                                {{ obtenerEstadoEntrega(entrega) }}
+                            </span>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item pending">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="timeline-header">
-                        <strong>14:00 - 15:00</strong>
-                        <span class="status-badge pending">Pendiente</span>
-                    </div>
-                    <div class="timeline-details">
-                        <p><strong>Pedido #1237</strong> - Luis Pérez</p>
-                        <p class="timeline-address">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                                <circle cx="12" cy="10" r="3" />
-                            </svg>
-                            Av. Benavides 321, Surco
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item pending">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="timeline-header">
-                        <strong>15:30 - 16:30</strong>
-                        <span class="status-badge pending">Pendiente</span>
-                    </div>
-                    <div class="timeline-details">
-                        <p><strong>Pedido #1238</strong> - Rosa Martínez</p>
-                        <p class="timeline-address">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                                <circle cx="12" cy="10" r="3" />
-                            </svg>
-                            Calle Los Pinos 654, La Molina
-                        </p>
+                        <div class="timeline-details">
+                            <p><strong>{{ entrega.numeroPedido }}</strong> - {{ entrega.usuarioNombre || 'Cliente' }}</p>
+                            <p class="timeline-address">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                    <circle cx="12" cy="10" r="3" />
+                                </svg>
+                                {{ entrega.direccionEnvio || 'Dirección no especificada' }}
+                            </p>
+                            <p class="timeline-total">
+                                <strong>Total: S/ {{ entrega.total.toFixed(2) }}</strong>
+                            </p>
+                            <div class="timeline-actions" *ngIf="entrega.estado !== 'ENTREGADO'">
+                                <button class="btn-action" *ngIf="entrega.estado === 'EN_PROCESO'" (click)="marcarEnRuta(entrega)">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="1" y="3" width="15" height="13" />
+                                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                                        <circle cx="5.5" cy="18.5" r="2.5" />
+                                        <circle cx="18.5" cy="18.5" r="2.5" />
+                                    </svg>
+                                    Iniciar Entrega
+                                </button>
+                                <button class="btn-action primary" *ngIf="entrega.estado === 'EN_CAMINO'" (click)="marcarEntregado(entrega)">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                    Marcar Entregado
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -192,6 +145,43 @@
 </div>
 
 <style>
+    .loading-container {
+        text-align: center;
+        padding: 3rem;
+        color: #666;
+    }
+
+    .error-message {
+        background: #fee;
+        border: 1px solid #fcc;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1rem 0;
+        color: #c33;
+        text-align: center;
+    }
+
+    .error-message button {
+        margin-top: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: #c33;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: #666;
+    }
+
+    .empty-state svg {
+        margin-bottom: 1rem;
+        color: #ccc;
+    }
+
     .page-section {
         margin: 2rem 0;
 
@@ -293,11 +283,53 @@
                 flex-shrink: 0;
             }
         }
+
+        .timeline-total {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border-light);
+        }
     }
 
     .timeline-actions {
         margin-top: 1rem;
         padding-top: 1rem;
         border-top: 1px solid var(--border-light);
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .btn-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--border);
+        background: white;
+        border-radius: var(--radius);
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all var(--transition-base);
+
+        &:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        &.primary {
+            background: #22c55e;
+            border-color: #22c55e;
+            color: white;
+
+            &:hover {
+                background: #16a34a;
+                border-color: #16a34a;
+            }
+        }
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
     }
 </style>

@@ -11,7 +11,7 @@
         </div>
         <div class="stat-content">
             <span class="stat-label">Total Categorías</span>
-            <span class="stat-value">8</span>
+            <span class="stat-value">{{ totalCategorias }}</span>
         </div>
     </div>
     <div class="stat-card">
@@ -22,7 +22,7 @@
         </div>
         <div class="stat-content">
             <span class="stat-label">Categorías Activas</span>
-            <span class="stat-value">7</span>
+            <span class="stat-value">{{ categoriasActivas }}</span>
         </div>
     </div>
     <div class="stat-card">
@@ -36,7 +36,7 @@
         </div>
         <div class="stat-content">
             <span class="stat-label">Productos Asignados</span>
-            <span class="stat-value">156</span>
+            <span class="stat-value">{{ productosAsignados }}</span>
         </div>
     </div>
 </div>
@@ -48,13 +48,13 @@
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.35-4.35" />
         </svg>
-        <input type="text" placeholder="Buscar categoría...">
+        <input type="text" placeholder="Buscar categoría..." [(ngModel)]="searchTerm">
     </div>
 </div>
 
 <!-- Categories Grid -->
 <div class="categories-grid">
-    <div class="category-card">
+    <div class="category-card" *ngFor="let categoria of filteredCategorias">
         <div class="category-icon">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10" />
@@ -62,8 +62,8 @@
             </svg>
         </div>
         <div class="category-info">
-            <h3>Cuyes Vivos</h3>
-            <p class="category-desc">Cuyes de diferentes razas para reproducción o consumo</p>
+            <h3>{{ categoria.nombre }}</h3>
+            <p class="category-desc">{{ categoria.descripcion || 'Sin descripción' }}</p>
             <div class="category-stats">
                 <span class="stat-item">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -73,20 +73,22 @@
                         <circle cx="17" cy="17" r="3" />
                         <circle cx="7" cy="7" r="3" />
                     </svg>
-                    45 productos
+                    {{ categoria.totalProductos || 0 }} productos
                 </span>
-                <span class="status-badge active">Activa</span>
+                <span class="status-badge" [class.active]="categoria.activa" [class.inactive]="!categoria.activa">
+                    {{ categoria.activa ? 'Activa' : 'Inactiva' }}
+                </span>
             </div>
         </div>
         <div class="category-actions">
-            <button class="btn-icon" title="Editar" (click)="openEditModal({})">
+            <button class="btn-icon" title="Editar" (click)="openEditModal(categoria)">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2">
                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                 </svg>
             </button>
-            <button class="btn-icon" title="Eliminar">
+            <button class="btn-icon" title="Eliminar" (click)="deleteCategoria(categoria.id)">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2">
                     <polyline points="3 6 5 6 21 6" />
@@ -95,132 +97,18 @@
             </button>
         </div>
     </div>
+</div>
 
-    <div class="category-card">
-        <div class="category-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-            </svg>
-        </div>
-        <div class="category-info">
-            <h3>Carne</h3>
-            <p class="category-desc">Carne procesada y lista para consumo</p>
-            <div class="category-stats">
-                <span class="stat-item">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <path d="M20 7h-9" />
-                        <path d="M14 17H5" />
-                        <circle cx="17" cy="17" r="3" />
-                        <circle cx="7" cy="7" r="3" />
-                    </svg>
-                    32 productos
-                </span>
-                <span class="status-badge active">Activa</span>
-            </div>
-        </div>
-        <div class="category-actions">
-            <button class="btn-icon" title="Editar" (click)="openEditModal({})">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                </svg>
-            </button>
-            <button class="btn-icon" title="Eliminar">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2">
-                    <polyline points="3 6 5 6 21 6" />
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                </svg>
-            </button>
-        </div>
-    </div>
-
-    <div class="category-card">
-        <div class="category-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-            </svg>
-        </div>
-        <div class="category-info">
-            <h3>Combos</h3>
-            <p class="category-desc">Paquetes especiales con descuentos</p>
-            <div class="category-stats">
-                <span class="stat-item">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <path d="M20 7h-9" />
-                        <path d="M14 17H5" />
-                        <circle cx="17" cy="17" r="3" />
-                        <circle cx="7" cy="7" r="3" />
-                    </svg>
-                    18 productos
-                </span>
-                <span class="status-badge active">Activa</span>
-            </div>
-        </div>
-        <div class="category-actions">
-            <button class="btn-icon" title="Editar" (click)="openEditModal({})">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                </svg>
-            </button>
-            <button class="btn-icon" title="Eliminar">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2">
-                    <polyline points="3 6 5 6 21 6" />
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                </svg>
-            </button>
-        </div>
-    </div>
-
-    <div class="category-card">
-        <div class="category-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="9" cy="21" r="1" />
-                <circle cx="20" cy="21" r="1" />
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-            </svg>
-        </div>
-        <div class="category-info">
-            <h3>Accesorios</h3>
-            <p class="category-desc">Productos complementarios y accesorios</p>
-            <div class="category-stats">
-                <span class="stat-item">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <path d="M20 7h-9" />
-                        <path d="M14 17H5" />
-                        <circle cx="17" cy="17" r="3" />
-                        <circle cx="7" cy="7" r="3" />
-                    </svg>
-                    12 productos
-                </span>
-                <span class="status-badge active">Activa</span>
-            </div>
-        </div>
-        <div class="category-actions">
-            <button class="btn-icon" title="Editar" (click)="openEditModal({})">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                </svg>
-            </button>
-            <button class="btn-icon" title="Eliminar">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2">
-                    <polyline points="3 6 5 6 21 6" />
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                </svg>
-            </button>
-        </div>
-    </div>
+<!-- Empty State -->
+<div class="empty-state" *ngIf="filteredCategorias.length === 0">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7" />
+        <rect x="14" y="3" width="7" height="7" />
+        <rect x="14" y="14" width="7" height="7" />
+        <rect x="3" y="14" width="7" height="7" />
+    </svg>
+    <h3>No hay categorías</h3>
+    <p>Comienza creando tu primera categoría</p>
 </div>
 
 <!-- Modal Editar Categoría -->
@@ -246,17 +134,18 @@
                 <div class="form-group">
                     <label>Descripción</label>
                     <textarea [(ngModel)]="editCategoria.descripcion" name="descripcion" required class="form-input"
-                        rows="3" placeholder="Describe brevemente esta categoría..."></textarea>
+                        rows="2" placeholder="Describe brevemente esta categoría..."></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label>Ícono</label>
-                    <select [(ngModel)]="editCategoria.icono" name="icono" class="form-input">
-                        <option value="default">Predeterminado</option>
-                        <option value="circle">Círculo</option>
-                        <option value="square">Cuadrado</option>
-                        <option value="star">Estrella</option>
-                    </select>
+                    <label>Estado de la Categoría</label>
+                    <div class="toggle-switch-container">
+                        <label class="toggle-switch">
+                            <input type="checkbox" [(ngModel)]="editCategoria.activa" name="activa">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="toggle-label">{{ editCategoria.activa ? 'Activa' : 'Inactiva' }}</span>
+                    </div>
                 </div>
 
                 <div class="modal-footer">

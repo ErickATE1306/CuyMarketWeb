@@ -3,11 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { BrindisComponent } from './compartido/componentes/brindis/brindis';
 import { BotonWhatsappComponent } from './compartido/componentes/boton-whatsapp/boton-whatsapp';
 import { WidgetChatComponent } from './compartido/componentes/widget-chat/widget-chat';
+import { AlertaComponent } from './compartido/componentes/alerta/alerta.component';
 import { SessionService } from './compartido/servicios/session.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, BrindisComponent, BotonWhatsappComponent, WidgetChatComponent],
+  imports: [RouterOutlet, BrindisComponent, BotonWhatsappComponent, WidgetChatComponent, AlertaComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

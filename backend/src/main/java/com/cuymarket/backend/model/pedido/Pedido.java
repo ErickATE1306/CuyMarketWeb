@@ -5,6 +5,7 @@ import com.cuymarket.backend.model.enums.MetodoPago;
 import com.cuymarket.backend.model.enums.EstadoPago;
 import com.cuymarket.backend.model.usuario.Usuario;
 import com.cuymarket.backend.model.usuario.DireccionEnvio;
+import com.cuymarket.backend.model.promocion.Cupon;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
@@ -65,8 +66,9 @@ public class Pedido {
     @Column(nullable = false, length = 20)
     private EstadoPago estadoPago = EstadoPago.PENDIENTE;
     
-    @Column(length = 50)
-    private String codigoCupon;
+    @ManyToOne
+    @JoinColumn(name = "cupon_id")
+    private Cupon cupon;
     
     @Column(columnDefinition = "TEXT")
     private String notas;

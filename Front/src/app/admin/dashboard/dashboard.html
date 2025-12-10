@@ -1,205 +1,168 @@
 <!-- Dashboard Content -->
 <div class="dashboard-content">
-    <!-- Stats Grid -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                </svg>
-            </div>
-            <div class="stat-content">
-                <span class="stat-label">Total Usuarios</span>
-                <span class="stat-value">1,234</span>
-                <span class="stat-change positive">+12% este mes</span>
-            </div>
-        </div>
 
-        <div class="stat-card">
-            <div class="stat-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="9" cy="21" r="1" />
-                    <circle cx="20" cy="21" r="1" />
-                    <path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6" />
-                </svg>
-            </div>
-            <div class="stat-content">
-                <span class="stat-label">Pedidos Activos</span>
-                <span class="stat-value">89</span>
-                <span class="stat-change positive">+5 hoy</span>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="12" y1="1" x2="12" y2="23" />
-                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                </svg>
-            </div>
-            <div class="stat-content">
-                <span class="stat-label">Ingresos del Mes</span>
-                <span class="stat-value">S/ 45,890</span>
-                <span class="stat-change positive">+18% vs mes anterior</span>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20 7h-9" />
-                    <path d="M14 17H5" />
-                    <circle cx="17" cy="17" r="3" />
-                    <circle cx="7" cy="7" r="3" />
-                </svg>
-            </div>
-            <div class="stat-content">
-                <span class="stat-label">Productos</span>
-                <span class="stat-value">156</span>
-                <span class="stat-change">En stock</span>
-            </div>
-        </div>
+    <!-- Loading State -->
+    <div class="loading-state" *ngIf="loading">
+        <p>Cargando datos del dashboard...</p>
     </div>
 
-    <!-- Charts Row -->
-    <div class="charts-row">
-        <div class="chart-card">
-            <div class="card-header">
-                <h3>Ventas Mensuales</h3>
-                <select class="chart-select">
-                    <option>Últimos 6 meses</option>
-                    <option>Último año</option>
-                </select>
+    <div *ngIf="!loading && metrics">
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Total Usuarios</span>
+                    <span class="stat-value">{{ metrics.totalUsuarios }}</span>
+                    <span class="stat-change positive">{{ metrics.cambioUsuarios }}</span>
+                </div>
             </div>
-            <div class="chart-placeholder">
-                <svg width="100%" height="250" viewBox="0 0 600 250">
-                    <polyline points="0,200 100,150 200,180 300,100 400,130 500,80 600,90" fill="none"
-                        stroke="var(--primary)" stroke-width="3" />
-                    <polyline points="0,250 0,200 100,150 200,180 300,100 400,130 500,80 600,90 600,250"
-                        fill="url(#gradient)" opacity="0.2" />
-                    <defs>
-                        <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:var(--primary);stop-opacity:0.8" />
-                            <stop offset="100%" style="stop-color:var(--primary);stop-opacity:0" />
-                        </linearGradient>
-                    </defs>
-                </svg>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                        <path d="M1 1h4l2.68 12.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Pedidos Activos</span>
+                    <span class="stat-value">{{ metrics.pedidosActivos }}</span>
+                    <span class="stat-change positive">+0 hoy</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23" />
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Ingresos del Mes</span>
+                    <span class="stat-value">S/ {{ metrics.ingresosMes | number:'1.2-2' }}</span>
+                    <span class="stat-change positive">{{ metrics.cambioIngresos }}</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 7h-9" />
+                        <path d="M14 17H5" />
+                        <circle cx="17" cy="17" r="3" />
+                        <circle cx="7" cy="7" r="3" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Productos</span>
+                    <span class="stat-value">{{ metrics.productosStock }}</span>
+                    <span class="stat-change">En stock</span>
+                </div>
             </div>
         </div>
 
-        <div class="chart-card">
-            <div class="card-header">
-                <h3>Productos Más Vendidos</h3>
-            </div>
-            <div class="products-list">
-                <div class="product-item">
-                    <span class="product-name">Cuy Raza Perú</span>
-                    <div class="product-bar">
-                        <div class="bar-fill" style="width: 85%"></div>
-                    </div>
-                    <span class="product-value">234</span>
+        <!-- Charts Row -->
+        <div class="charts-row">
+            <div class="chart-card">
+                <div class="card-header">
+                    <h3>Ventas Mensuales</h3>
+                    <select class="chart-select">
+                        <option>Últimos 6 meses</option>
+                    </select>
                 </div>
-                <div class="product-item">
-                    <span class="product-name">Cuy Raza Andina</span>
-                    <div class="product-bar">
-                        <div class="bar-fill" style="width: 72%"></div>
-                    </div>
-                    <span class="product-value">198</span>
-                </div>
-                <div class="product-item">
-                    <span class="product-name">Carne Eviscerada</span>
-                    <div class="product-bar">
-                        <div class="bar-fill" style="width: 65%"></div>
-                    </div>
-                    <span class="product-value">178</span>
-                </div>
-                <div class="product-item">
-                    <span class="product-name">Cuy Raza Inti</span>
-                    <div class="product-bar">
-                        <div class="bar-fill" style="width: 58%"></div>
-                    </div>
-                    <span class="product-value">159</span>
+                <div class="chart-placeholder">
+                    <!-- Static Chart placeholder for now -->
+                    <svg width="100%" height="250" viewBox="0 0 600 250">
+                        <polyline points="0,200 100,150 200,180 300,100 400,130 500,80 600,90" fill="none"
+                            stroke="var(--primary)" stroke-width="3" />
+                        <polyline points="0,250 0,200 100,150 200,180 300,100 400,130 500,80 600,90 600,250"
+                            fill="url(#gradient)" opacity="0.2" />
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:var(--primary);stop-opacity:0.8" />
+                                <stop offset="100%" style="stop-color:var(--primary);stop-opacity:0" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Recent Orders -->
-    <div class="table-card">
-        <div class="card-header">
-            <h3>Pedidos Recientes</h3>
-            <button class="btn-outline">Ver todos</button>
+            <div class="chart-card">
+                <div class="card-header">
+                    <h3>Productos Más Vendidos</h3>
+                </div>
+                <div class="products-list">
+                    <div class="product-item" *ngFor="let prod of metrics.productosTop">
+                        <span class="product-name">{{ prod.nombre }}</span>
+                        <div class="product-bar">
+                            <div class="bar-fill" [style.width]="getBarWidth(prod.cantidadVendida)"></div>
+                        </div>
+                        <span class="product-value">{{ prod.cantidadVendida }}</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Cliente</th>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Total</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>#1234</td>
-                        <td>María González</td>
-                        <td>Cuy Raza Perú</td>
-                        <td>3</td>
-                        <td>S/ 135.00</td>
-                        <td><span class="status-badge pending">Pendiente</span></td>
-                        <td>
-                            <button class="btn-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                    <circle cx="12" cy="12" r="3" />
-                                </svg>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#1233</td>
-                        <td>Carlos Mendoza</td>
-                        <td>Carne Eviscerada</td>
-                        <td>5</td>
-                        <td>S/ 175.00</td>
-                        <td><span class="status-badge processing">En proceso</span></td>
-                        <td>
-                            <button class="btn-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                    <circle cx="12" cy="12" r="3" />
-                                </svg>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#1232</td>
-                        <td>Ana Torres</td>
-                        <td>Cuy Raza Andina</td>
-                        <td>2</td>
-                        <td>S/ 110.00</td>
-                        <td><span class="status-badge completed">Completado</span></td>
-                        <td>
-                            <button class="btn-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                    <circle cx="12" cy="12" r="3" />
-                                </svg>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+
+        <!-- Recent Orders -->
+        <div class="table-card">
+            <div class="card-header">
+                <h3>Pedidos Recientes</h3>
+                <button class="btn-outline" routerLink="/admin/pedidos">Ver todos</button>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Producto Principal</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let pedido of metrics.pedidosRecientes">
+                            <td>#{{ pedido.id }}</td>
+                            <td>{{ pedido.clienteNombre }}</td>
+                            <td>{{ pedido.productoPrincipal }}</td>
+                            <td>{{ pedido.cantidadItems }}</td>
+                            <td>S/ {{ pedido.total | number:'1.2-2' }}</td>
+                            <td>
+                                <span class="status-badge" [ngClass]="{
+                                    'pending': pedido.estado === 'PENDIENTE',
+                                    'processing': pedido.estado === 'EN_PROCESO',
+                                    'completed': pedido.estado === 'COMPLETADO',
+                                    'cancelled': pedido.estado === 'CANCELADO'
+                                }">{{ pedido.estado }}</span>
+                            </td>
+                            <td>
+                                <button class="btn-icon" [routerLink]="['/admin/pedidos', pedido.id]">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr *ngIf="metrics.pedidosRecientes.length === 0">
+                            <td colspan="7" class="text-center">No hay pedidos recientes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

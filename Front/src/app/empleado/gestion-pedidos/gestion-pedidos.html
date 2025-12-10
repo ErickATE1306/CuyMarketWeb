@@ -12,7 +12,7 @@
             </div>
             <div class="stat-content">
                 <span class="stat-label">Pedidos Pendientes</span>
-                <span class="stat-value">23</span>
+                <span class="stat-value">{{ totalPendientes }}</span>
                 <span class="stat-change">Por procesar</span>
             </div>
         </div>
@@ -26,7 +26,7 @@
             </div>
             <div class="stat-content">
                 <span class="stat-label">Completados Hoy</span>
-                <span class="stat-value">15</span>
+                <span class="stat-value">{{ completadosHoy }}</span>
                 <span class="stat-change positive">+3 vs ayer</span>
             </div>
         </div>
@@ -42,7 +42,7 @@
             </div>
             <div class="stat-content">
                 <span class="stat-label">Entregas Programadas</span>
-                <span class="stat-value">8</span>
+                <span class="stat-value">{{ entregasProgramadas }}</span>
                 <span class="stat-change">Para hoy</span>
             </div>
         </div>
@@ -56,7 +56,7 @@
             </div>
             <div class="stat-content">
                 <span class="stat-label">Tiempo Promedio</span>
-                <span class="stat-value">2.5h</span>
+                <span class="stat-value">{{ tiempoPromedio }}</span>
                 <span class="stat-change positive">-15 min</span>
             </div>
         </div>
@@ -65,17 +65,25 @@
     <!-- Filters -->
     <div class="filters-bar">
         <div class="filter-group">
-            <button class="filter-btn active">Todos (23)</button>
-            <button class="filter-btn">Pendientes (12)</button>
-            <button class="filter-btn">En Proceso (8)</button>
-            <button class="filter-btn">Listos (3)</button>
+            <button class="filter-btn" [class.active]="filtroActual === 'TODOS'" (click)="cambiarFiltro('TODOS')">
+                Todos ({{ pedidos.length }})
+            </button>
+            <button class="filter-btn" [class.active]="filtroActual === 'PENDIENTES'" (click)="cambiarFiltro('PENDIENTES')">
+                Pendientes ({{ totalPendientes }})
+            </button>
+            <button class="filter-btn" [class.active]="filtroActual === 'EN_PROCESO'" (click)="cambiarFiltro('EN_PROCESO')">
+                En Proceso ({{ totalEnProceso }})
+            </button>
+            <button class="filter-btn" [class.active]="filtroActual === 'LISTOS'" (click)="cambiarFiltro('LISTOS')">
+                Listos ({{ totalListos }})
+            </button>
         </div>
         <div class="search-box">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="11" cy="11" r="8" />
                 <path d="m21 21-4.35-4.35" />
             </svg>
-            <input type="text" placeholder="Buscar pedido...">
+            <input type="text" placeholder="Buscar pedido..." [(ngModel)]="busqueda" (input)="buscarPedido()">
         </div>
     </div>
 
@@ -99,76 +107,59 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr *ngFor="let pedido of pedidosFiltrados">
                         <td><input type="checkbox"></td>
-                        <td><strong>#1234</strong></td>
+                        <td><strong>{{ pedido.numeroPedido }}</strong></td>
                         <td>
                             <div class="customer-info">
-                                <div class="customer-avatar">MG</div>
+                                <div class="customer-avatar">{{ obtenerIniciales(pedido.usuarioNombre) }}</div>
                                 <div>
-                                    <div class="customer-name">María González</div>
-                                    <div class="customer-phone">+51 999 888 777</div>
+                                    <div class="customer-name">{{ pedido.usuarioNombre }}</div>
+                                    <div class="customer-phone">{{ pedido.usuarioEmail || 'No disponible' }}</div>
                                 </div>
                             </div>
                         </td>
                         <td>
                             <div class="product-list">
-                                <span class="product-tag">Cuy Raza Perú (3)</span>
+                                <span class="product-tag" *ngFor="let item of pedido.items">
+                                    {{ item.productoNombre }} ({{ item.cantidad }})
+                                </span>
                             </div>
                         </td>
-                        <td>3 unidades</td>
-                        <td><strong>S/ 135.00</strong></td>
-                        <td>05/12/2025 14:30</td>
-                        <td><span class="status-badge pending">Pendiente</span></td>
+                        <td>{{ calcularTotalUnidades(pedido.items) }} unidades</td>
                         <td>
-                            <div class="action-buttons">
-                                <button class="btn-action primary" title="Procesar" (click)="processOrder({id: '#1234', customerName: 'María González', phone: '+51 999 888 777', status: 'Pendiente', total: 135.00}, 'procesar')">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <polyline points="9 11 12 14 22 4" />
-                                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-                                    </svg>
-                                </button>
-                                <button class="btn-action" title="Ver detalles" (click)="viewOrderDetails({id: '#1234', customerName: 'María González', phone: '+51 999 888 777', status: 'Pendiente', total: 135.00})">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                        <circle cx="12" cy="12" r="3" />
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <strong>S/ {{ pedido.total.toFixed(2) }}</strong>
+                                <button *ngIf="pedido.tieneComprobante" 
+                                        class="btn-comprobante" 
+                                        (click)="verComprobante(pedido)"
+                                        title="Ver comprobante de pago">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                                        <polyline points="21 15 16 10 5 21"/>
                                     </svg>
                                 </button>
                             </div>
                         </td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td><strong>#1233</strong></td>
+                        <td>{{ formatearFecha(pedido.fechaPedido) }}</td>
                         <td>
-                            <div class="customer-info">
-                                <div class="customer-avatar">CM</div>
-                                <div>
-                                    <div class="customer-name">Carlos Mendoza</div>
-                                    <div class="customer-phone">+51 988 777 666</div>
-                                </div>
-                            </div>
+                            <span [class]="'status-badge ' + obtenerClaseEstado(pedido.estado)">
+                                {{ traducirEstado(pedido.estado) }}
+                            </span>
                         </td>
-                        <td>
-                            <div class="product-list">
-                                <span class="product-tag">Carne Eviscerada (5)</span>
-                            </div>
-                        </td>
-                        <td>5 unidades</td>
-                        <td><strong>S/ 175.00</strong></td>
-                        <td>05/12/2025 13:15</td>
-                        <td><span class="status-badge processing">En Proceso</span></td>
                         <td>
                             <div class="action-buttons">
-                                <button class="btn-action primary" title="Completar" (click)="processOrder({id: '#1233', customerName: 'Carlos Mendoza', phone: '+51 988 777 666', status: 'En Proceso', total: 175.00}, 'completar')">
+                                <button class="btn-action primary" 
+                                        [title]="obtenerTextoAccion(pedido.estado)" 
+                                        (click)="processOrder(pedido, obtenerAccion(pedido.estado))"
+                                        *ngIf="pedido.estado !== 'ENTREGADO' && pedido.estado !== 'CANCELADO'">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2">
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </button>
-                                <button class="btn-action" title="Ver detalles" (click)="viewOrderDetails({id: '#1233', customerName: 'Carlos Mendoza', phone: '+51 988 777 666', status: 'En Proceso', total: 175.00})">
+                                <button class="btn-action" title="Ver detalles" (click)="viewOrderDetails(pedido)">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2">
                                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
@@ -178,87 +169,9 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td><strong>#1232</strong></td>
-                        <td>
-                            <div class="customer-info">
-                                <div class="customer-avatar">AT</div>
-                                <div>
-                                    <div class="customer-name">Ana Torres</div>
-                                    <div class="customer-phone">+51 977 666 555</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="product-list">
-                                <span class="product-tag">Cuy Raza Andina (2)</span>
-                                <span class="product-tag">Carne (1)</span>
-                            </div>
-                        </td>
-                        <td>3 unidades</td>
-                        <td><strong>S/ 145.00</strong></td>
-                        <td>05/12/2025 12:00</td>
-                        <td><span class="status-badge ready">Listo</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn-action primary" title="Entregar" (click)="processOrder({id: '#1232', customerName: 'Ana Torres', phone: '+51 977 666 555', status: 'Listo', total: 145.00}, 'entregar')">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <rect x="1" y="3" width="15" height="13" />
-                                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-                                        <circle cx="5.5" cy="18.5" r="2.5" />
-                                        <circle cx="18.5" cy="18.5" r="2.5" />
-                                    </svg>
-                                </button>
-                                <button class="btn-action" title="Ver detalles" (click)="viewOrderDetails({id: '#1232', customerName: 'Ana Torres', phone: '+51 977 666 555', status: 'Listo', total: 145.00})">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                        <circle cx="12" cy="12" r="3" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td><strong>#1231</strong></td>
-                        <td>
-                            <div class="customer-info">
-                                <div class="customer-avatar">LP</div>
-                                <div>
-                                    <div class="customer-name">Luis Pérez</div>
-                                    <div class="customer-phone">+51 966 555 444</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="product-list">
-                                <span class="product-tag">Combo Familiar</span>
-                            </div>
-                        </td>
-                        <td>1 combo</td>
-                        <td><strong>S/ 85.00</strong></td>
-                        <td>05/12/2025 11:45</td>
-                        <td><span class="status-badge pending">Pendiente</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn-action primary" title="Procesar" (click)="processOrder({id: '#1231', customerName: 'Luis Pérez', phone: '+51 966 555 444', status: 'Pendiente', total: 85.00}, 'procesar')">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <polyline points="9 11 12 14 22 4" />
-                                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-                                    </svg>
-                                </button>
-                                <button class="btn-action" title="Ver detalles" (click)="viewOrderDetails({id: '#1231', customerName: 'Luis Pérez', phone: '+51 966 555 444', status: 'Pendiente', total: 85.00})">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                        <circle cx="12" cy="12" r="3" />
-                                    </svg>
-                                </button>
-                            </div>
+                    <tr *ngIf="pedidosFiltrados.length === 0">
+                        <td colspan="9" style="text-align: center; padding: 2rem; color: #6b7280;">
+                            No hay pedidos para mostrar
                         </td>
                     </tr>
                 </tbody>
@@ -372,7 +285,7 @@
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Estado Actual:</span>
-                        <span class="status-badge" [ngClass]="selectedOrder.status.toLowerCase()">{{ selectedOrder.status }}</span>
+                        <span class="status-badge" [ngClass]="selectedOrder.status ? selectedOrder.status.toLowerCase() : ''">{{ selectedOrder.status }}</span>
                     </div>
                 </div>
             </div>
@@ -386,6 +299,59 @@
             <button class="btn-secondary" (click)="closeProcessModal()">Cancelar</button>
             <button class="btn-primary" (click)="confirmProcess()">
                 {{ processAction === 'procesar' ? 'Procesar' : processAction === 'completar' ? 'Completar' : 'Entregar' }}
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para ver comprobante de pago -->
+<div class="modal-overlay" *ngIf="showComprobanteModal" (click)="cerrarComprobanteModal()">
+    <div class="modal-content comprobante-modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3>Comprobante de Pago</h3>
+            <button class="btn-close" (click)="cerrarComprobanteModal()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="comprobante-info" *ngIf="pedidoSeleccionadoComprobante">
+                <div class="info-row">
+                    <span class="label">Pedido:</span>
+                    <strong>{{ pedidoSeleccionadoComprobante.numeroPedido }}</strong>
+                </div>
+                <div class="info-row">
+                    <span class="label">Monto:</span>
+                    <strong>S/ {{ pedidoSeleccionadoComprobante.total.toFixed(2) }}</strong>
+                </div>
+                <div class="info-row">
+                    <span class="label">Método:</span>
+                    <strong>{{ traducirMetodoPago(pedidoSeleccionadoComprobante.metodoPago || '') }}</strong>
+                </div>
+                <div class="info-row">
+                    <span class="label">Estado de Pago:</span>
+                    <span [class]="'status-badge ' + obtenerClaseEstadoPago(pedidoSeleccionadoComprobante.estadoPago || '')">
+                        {{ traducirEstadoPago(pedidoSeleccionadoComprobante.estadoPago || '') }}
+                    </span>
+                </div>
+            </div>
+            <div class="comprobante-container">
+                <img [src]="comprobanteUrl" alt="Comprobante de pago" class="comprobante-img">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="cerrarComprobanteModal()">Cerrar</button>
+            <button class="btn-danger" 
+                    *ngIf="pedidoSeleccionadoComprobante?.estadoPago === 'PENDIENTE'"
+                    (click)="cambiarEstadoPago('RECHAZADO')">
+                Rechazar Pago
+            </button>
+            <button class="btn-primary" 
+                    *ngIf="pedidoSeleccionadoComprobante?.estadoPago === 'PENDIENTE'"
+                    (click)="cambiarEstadoPago('PAGADO')">
+                Aprobar Pago
             </button>
         </div>
     </div>

@@ -27,15 +27,8 @@ public class Categoria {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
     
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] icono;
-    
     @Column(nullable = false)
     private Boolean activa = true;
-    
-    @Column(nullable = false)
-    private Integer orden = 0;
     
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
     private List<Producto> productos = new ArrayList<>();

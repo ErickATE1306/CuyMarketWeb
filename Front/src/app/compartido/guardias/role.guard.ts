@@ -1,24 +1,23 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router, ActivatedRouteSnapshot } from '@angular/router';
-import { StorageService } from '../servicios/storage.service';
+import { AuthService } from '../servicios/auth.service';
 
 export const roleGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state) => {
-  const storageService = inject(StorageService);
+  const authService = inject(AuthService);
   const router = inject(Router);
-  
-  const user = storageService.getUser();
-  
-  if (!user) {
+
+  if (!authService.isAuthenticated()) {
     router.navigate(['/auth/login']);
     return false;
   }
-  
+
   const expectedRole = route.data['role'];
-  
-  if (user.role === expectedRole) {
+
+  // Usar el método hasRole del servicio que maneja la lógica de validación
+  if (authService.hasRole(expectedRole)) {
     return true;
   }
-  
-  router.navigate(['/']);
+
+  router.navigate(['/']); // O a una página de acceso denegado
   return false;
 };

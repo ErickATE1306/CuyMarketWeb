@@ -1,0 +1,43 @@
+<div class="role-selection-container">
+    <div class="selection-card">
+        <div class="header">
+            <img src="/assets/images/logo.png" alt="CuyMarket Logo" class="logo"
+                onerror="this.onerror=null; this.src='/assets/images/placeholder.png'">
+            <h2>Bienvenido</h2>
+            <p>Selecciona cómo deseas ingresar</p>
+        </div>
+
+        <div class="options-grid">
+            @if (allowManagement) {
+            <div class="option-card" (click)="navigateToManagement()">
+                <div class="icon-wrapper management">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                </div>
+                <h3>Panel de Gestión</h3>
+                <p>Administración y ventas</p>
+            </div>
+            }
+
+            @if (allowStore) {
+            <div class="option-card" (click)="navigateToStore()">
+                <div class="icon-wrapper store">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                </div>
+                <h3>Tienda Virtual</h3>
+                <p>Comprar como cliente</p>
+            </div>
+            }
+        </div>
+    </div>
+</div>

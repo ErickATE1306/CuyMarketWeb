@@ -1,223 +1,239 @@
 <div class="dashboard-content">
     <div class="page-header">
         <h2>Pedidos Completados</h2>
-        <button class="btn-primary">Exportar Lista</button>
+        <button class="btn-primary" (click)="exportarLista()">Exportar Lista</button>
     </div>
 
-    <!-- Stats Grid -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="20 6 9 17 4 12" />
-                </svg>
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-container">
+        <p>Cargando pedidos completados...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-message">
+        <p>{{ error }}</p>
+        <button (click)="cargarPedidosCompletados()">Reintentar</button>
+    </div>
+
+    <!-- Content -->
+    <div *ngIf="!loading && !error">
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Total Completados</span>
+                    <span class="stat-value">{{ estadisticas.totalCompletados }}</span>
+                    <span class="stat-change">Este mes</span>
+                </div>
             </div>
-            <div class="stat-content">
-                <span class="stat-label">Total Completados</span>
-                <span class="stat-value">145</span>
-                <span class="stat-change">Este mes</span>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Completados Hoy</span>
+                    <span class="stat-value">{{ estadisticas.completadosHoy }}</span>
+                    <span class="stat-change" [class.positive]="estadisticas.cambioVsAyer > 0" [class.negative]="estadisticas.cambioVsAyer < 0">
+                        {{ estadisticas.cambioVsAyer > 0 ? '+' : '' }}{{ estadisticas.cambioVsAyer }} vs ayer
+                    </span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23" />
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Ingresos Generados</span>
+                    <span class="stat-value">S/ {{ estadisticas.ingresosGenerados.toFixed(2) }}</span>
+                    <span class="stat-change positive">Hoy</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">Tasa de Éxito</span>
+                    <span class="stat-value">{{ estadisticas.tasaExito }}%</span>
+                    <span class="stat-change positive">Excelente</span>
+                </div>
             </div>
         </div>
 
-        <div class="stat-card">
-            <div class="stat-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <!-- Filters -->
+        <div class="filters-bar">
+            <div class="filter-group">
+                <button class="filter-btn" [class.active]="filtroActivo === 'HOY'" (click)="cambiarFiltro('HOY')">Hoy</button>
+                <button class="filter-btn" [class.active]="filtroActivo === 'SEMANA'" (click)="cambiarFiltro('SEMANA')">Esta Semana</button>
+                <button class="filter-btn" [class.active]="filtroActivo === 'MES'" (click)="cambiarFiltro('MES')">Este Mes</button>
+                <button class="filter-btn" [class.active]="filtroActivo === 'TODO'" (click)="cambiarFiltro('TODO')">Todo</button>
+            </div>
+            <div class="search-box">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
+                <input type="text" placeholder="Buscar pedido completado..." [(ngModel)]="busqueda" (input)="buscarPedido()">
+            </div>
+        </div>
+
+        <!-- Completed Orders Table -->
+        <div class="table-card">
+            <div *ngIf="pedidosFiltrados.length === 0" class="empty-state">
+                <p>No hay pedidos completados para mostrar</p>
+            </div>
+            
+            <div *ngIf="pedidosFiltrados.length > 0" class="table-container">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>ID Pedido</th>
+                            <th>Cliente</th>
+                            <th>Productos</th>
+                            <th>Total</th>
+                            <th>Fecha Completado</th>
+                            <th>Tiempo Total</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let pedido of pedidosFiltrados">
+                            <td><strong>{{ pedido.numeroPedido }}</strong></td>
+                            <td>
+                                <div class="customer-info">
+                                    <div class="customer-avatar">{{ obtenerIniciales(pedido.usuarioNombre || '') }}</div>
+                                    <div>
+                                        <div class="customer-name">{{ pedido.usuarioNombre || 'Cliente' }}</div>
+                                        <div class="customer-phone">{{ pedido.usuarioEmail || 'Sin email' }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="product-list">
+                                    <span class="product-tag" *ngFor="let item of pedido.items.slice(0, 2)">
+                                        {{ item.productoNombre }} ({{ item.cantidad }})
+                                    </span>
+                                    <span class="product-tag" *ngIf="pedido.items.length > 2">+{{ pedido.items.length - 2 }}</span>
+                                </div>
+                            </td>
+                            <td><strong>S/ {{ pedido.total.toFixed(2) }}</strong></td>
+                            <td>{{ formatearFecha(pedido.fechaPedido) }}</td>
+                            <td>
+                                <span class="time-badge" [ngClass]="obtenerClaseTiempo(calcularTiempoTotal(pedido.fechaPedido))">
+                                    {{ calcularTiempoTotal(pedido.fechaPedido) }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-action" title="Ver detalles" (click)="viewOrderDetails(pedido)">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                            <circle cx="12" cy="12" r="3" />
+                                        </svg>
+                                    </button>
+                                    <button class="btn-action" title="Imprimir" (click)="printReceipt(pedido)">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="6 9 6 2 18 2 18 9" />
+                                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                                            <rect x="6" y="14" width="12" height="8" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Exportar -->
+<div class="modal-overlay" *ngIf="showExportModal" (click)="closeExportModal()">
+    <div class="modal-content modal-export" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3>Exportar Lista de Pedidos Completados</h3>
+            <button class="btn-close" (click)="closeExportModal()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p class="export-description">
+                Seleccione el formato de exportación para generar el reporte de pedidos completados.
+                El reporte incluirá los pedidos según el filtro actualmente seleccionado: <strong>{{ filtroActivo === 'HOY' ? 'Hoy' : filtroActivo === 'SEMANA' ? 'Esta Semana' : filtroActivo === 'MES' ? 'Este Mes' : 'Todos' }}</strong>
+            </p>
+            
+            <div class="export-info">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="10" />
-                    <polyline points="12 6 12 12 16 14" />
+                    <line x1="12" y1="16" x2="12" y2="12" />
+                    <line x1="12" y1="8" x2="12.01" y2="8" />
                 </svg>
+                <span>Total de pedidos a exportar: <strong>{{ pedidosFiltrados.length }}</strong></span>
             </div>
-            <div class="stat-content">
-                <span class="stat-label">Completados Hoy</span>
-                <span class="stat-value">15</span>
-                <span class="stat-change positive">+3 vs ayer</span>
+
+            <div class="format-options">
+                <label class="format-option" [class.selected]="formatoExportacion === 'PDF'">
+                    <input type="radio" name="formato" value="PDF" [(ngModel)]="formatoExportacion">
+                    <div class="format-card">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="16" y1="13" x2="8" y2="13" />
+                            <line x1="16" y1="17" x2="8" y2="17" />
+                            <polyline points="10 9 9 9 8 9" />
+                        </svg>
+                        <h4>PDF</h4>
+                        <p>Documento portátil</p>
+                    </div>
+                </label>
+
+                <label class="format-option" [class.selected]="formatoExportacion === 'EXCEL'">
+                    <input type="radio" name="formato" value="EXCEL" [(ngModel)]="formatoExportacion">
+                    <div class="format-card">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <rect x="8" y="12" width="8" height="2" />
+                            <rect x="8" y="16" width="8" height="2" />
+                        </svg>
+                        <h4>Excel</h4>
+                        <p>Hoja de cálculo</p>
+                    </div>
+                </label>
             </div>
         </div>
-
-        <div class="stat-card">
-            <div class="stat-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="12" y1="1" x2="12" y2="23" />
-                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="closeExportModal()" [disabled]="exportando">Cancelar</button>
+            <button class="btn-primary" (click)="confirmarExportacion()" [disabled]="exportando">
+                <svg *ngIf="!exportando" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
                 </svg>
-            </div>
-            <div class="stat-content">
-                <span class="stat-label">Ingresos Generados</span>
-                <span class="stat-value">S/ 12,450</span>
-                <span class="stat-change positive">Hoy</span>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                    <polyline points="22 4 12 14.01 9 11.01" />
-                </svg>
-            </div>
-            <div class="stat-content">
-                <span class="stat-label">Tasa de Éxito</span>
-                <span class="stat-value">98%</span>
-                <span class="stat-change positive">Excelente</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Filters -->
-    <div class="filters-bar">
-        <div class="filter-group">
-            <button class="filter-btn active">Hoy</button>
-            <button class="filter-btn">Esta Semana</button>
-            <button class="filter-btn">Este Mes</button>
-            <button class="filter-btn">Todo</button>
-        </div>
-        <div class="search-box">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8" />
-                <path d="m21 21-4.35-4.35" />
-            </svg>
-            <input type="text" placeholder="Buscar pedido completado...">
-        </div>
-    </div>
-
-    <!-- Completed Orders Table -->
-    <div class="table-card">
-        <div class="table-container">
-            <table class="orders-table">
-                <thead>
-                    <tr>
-                        <th>ID Pedido</th>
-                        <th>Cliente</th>
-                        <th>Productos</th>
-                        <th>Total</th>
-                        <th>Fecha Completado</th>
-                        <th>Tiempo Total</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>#1232</strong></td>
-                        <td>
-                            <div class="customer-info">
-                                <div class="customer-avatar">AT</div>
-                                <div>
-                                    <div class="customer-name">Ana Torres</div>
-                                    <div class="customer-phone">+51 977 666 555</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="product-list">
-                                <span class="product-tag">Cuy Raza Andina (2)</span>
-                                <span class="product-tag">Carne (1)</span>
-                            </div>
-                        </td>
-                        <td><strong>S/ 145.00</strong></td>
-                        <td>05/12/2025 15:30</td>
-                        <td><span class="time-badge fast">2.5h</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn-action" title="Ver detalles" (click)="viewOrderDetails({id: '#1232', customerName: 'Ana Torres', phone: '+51 977 666 555', total: 145.00, completedDate: '05/12/2025 15:30', totalTime: '2.5h'})">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                        <circle cx="12" cy="12" r="3" />
-                                    </svg>
-                                </button>
-                                <button class="btn-action" title="Imprimir" (click)="printReceipt({id: '#1232'})">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <polyline points="6 9 6 2 18 2 18 9" />
-                                        <path
-                                            d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-                                        <rect x="6" y="14" width="12" height="8" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>#1231</strong></td>
-                        <td>
-                            <div class="customer-info">
-                                <div class="customer-avatar">LP</div>
-                                <div>
-                                    <div class="customer-name">Luis Pérez</div>
-                                    <div class="customer-phone">+51 966 555 444</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="product-list">
-                                <span class="product-tag">Combo Familiar</span>
-                            </div>
-                        </td>
-                        <td><strong>S/ 85.00</strong></td>
-                        <td>05/12/2025 14:45</td>
-                        <td><span class="time-badge normal">3.2h</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn-action" title="Ver detalles" (click)="viewOrderDetails({id: '#1231', customerName: 'Luis Pérez', phone: '+51 966 555 444', total: 85.00, completedDate: '05/12/2025 14:45', totalTime: '3.2h'})">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                        <circle cx="12" cy="12" r="3" />
-                                    </svg>
-                                </button>
-                                <button class="btn-action" title="Imprimir" (click)="printReceipt({id: '#1231'})">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <polyline points="6 9 6 2 18 2 18 9" />
-                                        <path
-                                            d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-                                        <rect x="6" y="14" width="12" height="8" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>#1230</strong></td>
-                        <td>
-                            <div class="customer-info">
-                                <div class="customer-avatar">MR</div>
-                                <div>
-                                    <div class="customer-name">María Rodríguez</div>
-                                    <div class="customer-phone">+51 955 444 333</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="product-list">
-                                <span class="product-tag">Cuy Raza Perú (4)</span>
-                            </div>
-                        </td>
-                        <td><strong>S/ 180.00</strong></td>
-                        <td>05/12/2025 13:20</td>
-                        <td><span class="time-badge fast">2.0h</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn-action" title="Ver detalles" (click)="viewOrderDetails({id: '#1230', customerName: 'María Rodríguez', phone: '+51 955 444 333', total: 180.00, completedDate: '05/12/2025 13:20', totalTime: '2.0h'})">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                        <circle cx="12" cy="12" r="3" />
-                                    </svg>
-                                </button>
-                                <button class="btn-action" title="Imprimir" (click)="printReceipt({id: '#1230'})">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <polyline points="6 9 6 2 18 2 18 9" />
-                                        <path
-                                            d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-                                        <rect x="6" y="14" width="12" height="8" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                <span *ngIf="!exportando">Exportar Reporte</span>
+                <span *ngIf="exportando">Generando...</span>
+            </button>
         </div>
     </div>
 </div>
@@ -226,7 +242,7 @@
 <div class="modal-overlay" *ngIf="showDetailsModal" (click)="closeDetailsModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
         <div class="modal-header">
-            <h3>Detalles del Pedido {{ selectedOrder.id }}</h3>
+            <h3>Detalles del Pedido {{ selectedOrder?.id }}</h3>
             <button class="btn-close" (click)="closeDetailsModal()">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="18" y1="6" x2="6" y2="18" />
@@ -234,7 +250,7 @@
                 </svg>
             </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" *ngIf="selectedOrder">
             <div class="detail-section">
                 <h4>Información del Cliente</h4>
                 <div class="detail-grid">
@@ -243,7 +259,7 @@
                         <span class="detail-value">{{ selectedOrder.customer.name }}</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">Teléfono:</span>
+                        <span class="detail-label">Teléfono/Email:</span>
                         <span class="detail-value">{{ selectedOrder.customer.phone }}</span>
                     </div>
                     <div class="detail-item full-width">
@@ -269,8 +285,12 @@
                         <span class="detail-value"><strong>{{ selectedOrder.totalTime }}</strong></span>
                     </div>
                     <div class="detail-item">
+                        <span class="detail-label">Método de Pago:</span>
+                        <span class="detail-value">{{ selectedOrder.metodoPago }}</span>
+                    </div>
+                    <div class="detail-item">
                         <span class="detail-label">Total:</span>
-                        <span class="detail-value"><strong>S/ {{ selectedOrder.total }}</strong></span>
+                        <span class="detail-value"><strong>S/ {{ selectedOrder.total.toFixed(2) }}</strong></span>
                     </div>
                 </div>
             </div>
@@ -281,7 +301,7 @@
                     <div class="product-item" *ngFor="let product of selectedOrder.products">
                         <span class="product-name">{{ product.name }}</span>
                         <span class="product-quantity">x{{ product.quantity }}</span>
-                        <span class="product-price">S/ {{ product.price }}</span>
+                        <span class="product-price">S/ {{ product.price.toFixed(2) }}</span>
                     </div>
                 </div>
             </div>
@@ -306,6 +326,38 @@
 </div>
 
 <style>
+    .loading-container {
+        text-align: center;
+        padding: 3rem;
+        color: #666;
+    }
+
+    .error-message {
+        background: #fee;
+        border: 1px solid #fcc;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1rem 0;
+        color: #c33;
+        text-align: center;
+    }
+
+    .error-message button {
+        margin-top: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: #c33;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: #666;
+    }
+
     .time-badge {
         display: inline-block;
         padding: 0.25rem 0.75rem;
@@ -327,5 +379,85 @@
             background: rgba(234, 179, 8, 0.1);
             color: #eab308;
         }
+    }
+
+    .stat-change.negative {
+        color: #ef4444;
+    }
+
+    .modal-export {
+        max-width: 600px;
+    }
+
+    .export-description {
+        margin-bottom: 1.5rem;
+        color: #666;
+        line-height: 1.6;
+    }
+
+    .export-info {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem;
+        background: #f0f9ff;
+        border: 1px solid #bae6fd;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        color: #0369a1;
+    }
+
+    .export-info svg {
+        flex-shrink: 0;
+    }
+
+    .format-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .format-option {
+        cursor: pointer;
+    }
+
+    .format-option input[type="radio"] {
+        display: none;
+    }
+
+    .format-card {
+        padding: 1.5rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .format-card:hover {
+        border-color: #d97706;
+        background: #fffbeb;
+    }
+
+    .format-option.selected .format-card {
+        border-color: #d97706;
+        background: #fffbeb;
+    }
+
+    .format-card svg {
+        color: #d97706;
+        margin-bottom: 0.5rem;
+    }
+
+    .format-card h4 {
+        margin: 0.5rem 0 0.25rem;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .format-card p {
+        margin: 0;
+        font-size: 0.875rem;
+        color: #666;
     }
 </style>
