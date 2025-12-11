@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { CustomValidators } from '../compartido/validadores/custom-validators';
 import { AuthService, AuthResponse, RoleSelectionResponse } from '../compartido/servicios/auth.service';
 import { AlertaService } from '../compartido/servicios/alerta.service';
@@ -10,7 +10,7 @@ import { UsuarioService } from '../compartido/servicios/usuario.service';
 @Component({
     selector: 'app-login',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [CommonModule, ReactiveFormsModule, RouterLink],
     templateUrl: './login.html',
     styleUrl: './login.scss',
 })

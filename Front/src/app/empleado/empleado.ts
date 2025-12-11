@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../compartido/servicios/auth.service';
 
 @Component({
   selector: 'app-empleado',
@@ -9,6 +10,10 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './empleado.scss',
 })
 export class Empleado {
+  private authService = inject(AuthService);
 
+  logout() {
+    this.authService.logout();
+  }
 }
 

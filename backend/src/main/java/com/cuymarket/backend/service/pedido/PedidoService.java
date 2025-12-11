@@ -221,7 +221,7 @@ public class PedidoService {
     // Consultas
     @Transactional(readOnly = true)
     public Pedido obtenerPorId(Long id) {
-        return pedidoRepository.findById(id)
+        return pedidoRepository.findByIdCompleto(id)
                 .orElseThrow(() -> new RuntimeException("Pedido no encontrado con ID: " + id));
     }
 

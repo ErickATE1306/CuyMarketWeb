@@ -41,11 +41,14 @@ export const routes: Routes = [
 	{ path: '', redirectTo: 'cliente/inicio', pathMatch: 'full' },
 	{ path: 'auth/login', component: Login },
 	{ path: 'auth/forgot-password', component: RecuperarContrasenaComponent },
+	{ path: 'auth/recuperar-contrasena', component: RecuperarContrasenaComponent },
 	{ path: 'auth/verify-email', component: VerificarEmailComponent, canActivate: [authGuard] },
 	{ path: 'auth/select-role', component: RoleSelectionComponent },
 	{
 		path: 'cliente',
 		component: Cliente,
+		canActivate: [roleGuard],
+		data: { role: 'cliente' },
 		children: [
 			{ path: 'inicio', component: Inicio },
 			{ path: 'productos', component: ClienteProductos },

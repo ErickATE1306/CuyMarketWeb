@@ -76,10 +76,18 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     List<Pedido> findByEstadoWithDetails(@Param("estado") EstadoPedido estado);
 
     // Con relaciones
-    @Query("SELECT DISTINCT p FROM Pedido p LEFT JOIN FETCH p.items WHERE p.id = :id")
+    @Query("SELECT DISTINCT p FROM Pedido p " +
+           "LEFT JOIN FETCH p.items i " +
+           "LEFT JOIN FETCH i.producto " +
+           "WHERE p.id = :id")
     Optional<Pedido> findByIdWithItems(@Param("id") Long id);
 
-    @Query("SELECT DISTINCT p FROM Pedido p LEFT JOIN FETCH p.items LEFT JOIN FETCH p.direccionEnvio WHERE p.id = :id")
+    @Query("SELECT DISTINCT p FROM Pedido p " +
+           "LEFT JOIN FETCH p.items i " +
+           "LEFT JOIN FETCH i.producto " +
+           "LEFT JOIN FETCH p.usuario " +
+           "LEFT JOIN FETCH p.direccionEnvio " +
+           "WHERE p.id = :id")
     Optional<Pedido> findByIdCompleto(@Param("id") Long id);
 
     @Query("SELECT p FROM Pedido p WHERE p.estado IN ('PENDIENTE', 'EN_PROCESO') ORDER BY p.fechaPedido ASC")

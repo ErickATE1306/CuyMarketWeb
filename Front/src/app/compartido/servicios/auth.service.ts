@@ -20,6 +20,7 @@ export interface User {
     email: string;
     nombre?: string;
     roles: string[];
+    activeRole?: string;
 }
 
 export interface RoleSelectionResponse {
@@ -104,7 +105,8 @@ export class AuthService {
                 id: response.id,
                 email: response.email,
                 nombre: response.nombre,
-                roles: roles
+                roles: roles,
+                activeRole: response.rolActivo
             };
 
             localStorage.setItem('user', JSON.stringify(user));
@@ -134,5 +136,20 @@ export class AuthService {
         // Convertir todo a mayúsculas para comparar
         const roleUpper = role.toUpperCase();
         return user.roles.some(r => r.toUpperCase() === roleUpper || r.toUpperCase() === `ROLE_${roleUpper}`);
+    }
+
+    hasActiveRole(role: string): boolean {
+        const user = this.currentUserValue;
+        if (!user || !user.activeRole) return false;
+
+        // Verificar que el rol activo coincida exactamente
+        const roleUpper = role.toUpperCase();
+        const activeRoleUpper = user.activeRole.toUpperCase();
+        return activeRoleUpper === roleUpper || activeRoleUpper === `ROLE_${roleUpper}`;
+    }
+
+    getActiveRole(): string | null {
+        const user = this.currentUserValue;
+        return user?.activeRole || null;
     }
 }

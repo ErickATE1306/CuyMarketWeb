@@ -24,6 +24,7 @@ export interface Pedido {
     numeroPedido: string;
     fechaPedido: string;
     estado: string;
+    estadoPago: string;
     subtotal: number;
     descuento: number;
     costoEnvio: number;
@@ -34,6 +35,8 @@ export interface Pedido {
     items: ItemPedido[];
     usuarioNombre?: string;
     usuarioEmail?: string;
+    informacionPagoId?: number;
+    tieneComprobante?: boolean;
 }
 
 export interface EstadisticasPedidos {
@@ -62,6 +65,10 @@ export class PedidoService {
 
     obtenerPorId(id: number): Observable<Pedido> {
         return this.http.get<Pedido>(`${this.apiUrl}/${id}`);
+    }
+
+    cancelarPedido(id: number): Observable<Pedido> {
+        return this.http.put<Pedido>(`${this.apiUrl}/${id}/cancelar`, null);
     }
 
     // Métodos para admin

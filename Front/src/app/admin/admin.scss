@@ -111,6 +111,21 @@
 	.sidebar-footer {
 		padding: 1rem 0;
 		border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+		.logout-btn {
+			width: 100%;
+			background: transparent;
+			border: none;
+			text-align: left;
+			cursor: pointer;
+			color: rgba(255, 255, 255, 0.7);
+			transition: all 0.2s;
+
+			&:hover {
+				background: rgba(239, 68, 68, 0.1);
+				color: #ef4444;
+			}
+		}
 	}
 }
 

@@ -26,7 +26,12 @@
     </button>
   </div>
 
-  @if (pedido) {
+  @if (cargando) {
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>Cargando factura...</p>
+    </div>
+  } @else if (pedido) {
   <!-- Factura -->
   <div class="invoice">
     <!-- Header -->
@@ -39,8 +44,8 @@
       </div>
       <div class="invoice-info">
         <h2 class="invoice-title">FACTURA ELECTRÓNICA</h2>
-        <p><strong>N°:</strong> {{pedido.id}}</p>
-        <p><strong>Fecha:</strong> {{pedido.fecha}}</p>
+        <p><strong>N°:</strong> {{pedido.numeroPedido}}</p>
+        <p><strong>Fecha:</strong> {{pedido.fechaPedido | date:'dd/MM/yyyy HH:mm'}}</p>
         <p><strong>Estado:</strong> {{pedido.estado}}</p>
       </div>
     </div>
@@ -52,15 +57,13 @@
       <h3>Datos del Cliente</h3>
       <div class="info-grid">
         <div>
-          <p><strong>Nombre:</strong> {{pedido.cliente.nombre}}</p>
-          <p><strong>DNI:</strong> {{pedido.cliente.dni}}</p>
-        </div>
-        <div>
-          <p><strong>Teléfono:</strong> {{pedido.cliente.telefono}}</p>
-          <p><strong>Email:</strong> {{pedido.cliente.email}}</p>
+          <p><strong>Nombre:</strong> {{pedido.usuarioNombre}}</p>
+          <p><strong>Email:</strong> {{pedido.usuarioEmail}}</p>
         </div>
       </div>
-      <p><strong>Dirección de envío:</strong> {{pedido.cliente.direccion}}</p>
+      @if (pedido.direccionEnvio) {
+        <p><strong>Dirección de envío:</strong> {{pedido.direccionEnvio}}</p>
+      }
     </div>
 
     <div class="divider"></div>
@@ -78,13 +81,13 @@
           </tr>
         </thead>
         <tbody>
-          @for (producto of pedido.productos; track producto.codigo) {
+          @for (item of pedido.items; track item.id) {
           <tr>
-            <td>{{producto.codigo}}</td>
-            <td>{{producto.nombre}}</td>
-            <td class="center">{{producto.cantidad}}</td>
-            <td class="right">S/ {{producto.precioUnitario.toFixed(2)}}</td>
-            <td class="right">S/ {{producto.subtotal.toFixed(2)}}</td>
+            <td>PROD-{{item.productoId}}</td>
+            <td>{{item.productoNombre}}</td>
+            <td class="center">{{item.cantidad}}</td>
+            <td class="right">S/ {{item.precioUnitario.toFixed(2)}}</td>
+            <td class="right">S/ {{item.subtotal.toFixed(2)}}</td>
           </tr>
           }
         </tbody>
@@ -105,11 +108,11 @@
       }
       <div class="totals-row">
         <span>Envío:</span>
-        <span>S/ {{pedido.envio.toFixed(2)}}</span>
+        <span>S/ {{pedido.costoEnvio.toFixed(2)}}</span>
       </div>
       <div class="totals-row">
         <span>IGV (18%):</span>
-        <span>S/ {{pedido.igv.toFixed(2)}}</span>
+        <span>S/ {{(pedido.total * 0.18 / 1.18).toFixed(2)}}</span>
       </div>
       <div class="divider-small"></div>
       <div class="totals-row total">

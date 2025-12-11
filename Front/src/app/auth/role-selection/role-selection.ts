@@ -23,6 +23,13 @@ export class RoleSelectionComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        // Verificar si el usuario ya está autenticado (tiene token)
+        if (this.authService.isAuthenticated()) {
+            console.log('User already authenticated, redirecting to appropriate dashboard');
+            this.redirectToAppropriateRoute();
+            return;
+        }
+
         const state = history.state;
         console.log('RoleSelection initialized with state:', state);
         if (state && state.email) {
@@ -35,6 +42,25 @@ export class RoleSelectionComponent implements OnInit {
         } else {
             console.warn('No state found, redirecting to login');
             // Si no hay email en el estado, volver al login (acceso directo inválido)
+            this.router.navigate(['/auth/login']);
+        }
+    }
+
+    redirectToAppropriateRoute() {
+        const user = this.authService.currentUserValue;
+        if (!user) {
+            this.router.navigate(['/auth/login']);
+            return;
+        }
+
+        // Redirigir según el rol activo
+        if (this.authService.hasRole('ADMIN')) {
+            this.router.navigate(['/admin/dashboard']);
+        } else if (this.authService.hasRole('EMPLEADO')) {
+            this.router.navigate(['/empleado/gestion-pedidos']);
+        } else if (this.authService.hasRole('CLIENTE')) {
+            this.router.navigate(['/cliente/inicio']);
+        } else {
             this.router.navigate(['/auth/login']);
         }
     }

@@ -62,6 +62,28 @@ public class PedidoController {
         return ResponseEntity.ok(convertirAResponse(pedido));
     }
 
+    @PutMapping("/{id}/cancelar")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<PedidoResponse> cancelarPedido(
+            @PathVariable Long id,
+            @RequestHeader("Authorization") String token) {
+        Long usuarioId = obtenerUsuarioIdDelToken(token);
+        Pedido pedido = pedidoService.obtenerPorId(id);
+        
+        // Verificar que el pedido pertenece al usuario
+        if (!pedido.getUsuario().getId().equals(usuarioId)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        
+        // Solo se puede cancelar si está PENDIENTE o PROCESANDO
+        if (pedido.getEstado() != EstadoPedido.PENDIENTE && pedido.getEstado() != EstadoPedido.PROCESANDO) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        
+        Pedido pedidoCancelado = pedidoService.actualizarEstado(id, EstadoPedido.CANCELADO);
+        return ResponseEntity.ok(convertirAResponse(pedidoCancelado));
+    }
+
     @PutMapping("/{id}/estado")
     @PreAuthorize("hasAnyRole('EMPLEADO', 'ADMIN')")
     public ResponseEntity<PedidoResponse> actualizarEstado(

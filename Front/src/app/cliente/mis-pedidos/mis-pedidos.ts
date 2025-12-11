@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastService } from '../../compartido/servicios/toast.service';
+import { AlertaService } from '../../compartido/servicios/alerta.service';
+import { PedidoService } from '../../compartido/servicios/pedido.service';
 import { VentanaComponent } from '../../compartido/componentes/ventana/ventana';
 
 @Component({
@@ -12,7 +13,10 @@ import { VentanaComponent } from '../../compartido/componentes/ventana/ventana';
     templateUrl: './mis-pedidos.html',
     styleUrl: './mis-pedidos.scss',
 })
-export class MisPedidos {
+export class MisPedidos implements OnInit {
+    private alertaService = inject(AlertaService);
+    private pedidoService = inject(PedidoService);
+    
     showCancelModal = false;
     selectedOrder: any = null;
     cancelReason = '';
@@ -23,75 +27,74 @@ export class MisPedidos {
         'Demora en el envío',
         'Otro motivo'
     ];
+    
+    pedidos: any[] = [];
+    cargando = true;
 
     constructor(
-        private router: Router,
-        private toast: ToastService
+        private router: Router
     ) {}
-    pedidos = [
-        {
-            id: 'PED-001',
-            fecha: '2025-12-01',
-            estado: 'entregado',
-            total: 85.00,
-            productos: [
-                { nombre: 'Cuy Raza Perú', cantidad: 2, precio: 35.00 },
-                { nombre: 'Alimento Premium', cantidad: 1, precio: 15.00 }
-            ]
-        },
-        {
-            id: 'PED-002',
-            fecha: '2025-12-03',
-            estado: 'en-camino',
-            total: 120.00,
-            productos: [
-                { nombre: 'Cuy Raza Inti', cantidad: 1, precio: 45.00 },
-                { nombre: 'Jaula Grande', cantidad: 1, precio: 75.00 }
-            ]
-        },
-        {
-            id: 'PED-003',
-            fecha: '2025-12-05',
-            estado: 'procesando',
-            total: 200.00,
-            productos: [
-                { nombre: 'Cuy Raza Andina', cantidad: 3, precio: 40.00 },
-                { nombre: 'Kit Cuidado Completo', cantidad: 1, precio: 80.00 }
-            ]
-        },
-        {
-            id: 'PED-004',
-            fecha: '2025-11-28',
-            estado: 'entregado',
-            total: 65.00,
-            productos: [
-                { nombre: 'Cuy Bebé', cantidad: 1, precio: 25.00 },
-                { nombre: 'Alimento Básico', cantidad: 2, precio: 20.00 }
-            ]
-        }
-    ];
+    
+    ngOnInit() {
+        this.cargarMisPedidos();
+    }
+    
+    cargarMisPedidos() {
+        this.cargando = true;
+        this.pedidoService.listarMisPedidos().subscribe({
+            next: (pedidos) => {
+                this.pedidos = pedidos;
+                this.cargando = false;
+            },
+            error: (error) => {
+                console.error('Error al cargar pedidos:', error);
+                this.alertaService.mostrarError('Error al cargar tus pedidos');
+                this.cargando = false;
+            }
+        });
+    }
 
     selectedPedido: any = null;
     showDetailsModal = false;
 
     getEstadoBadgeClass(estado: string): string {
         const classes: any = {
-            'entregado': 'badge-success',
-            'en-camino': 'badge-warning',
-            'procesando': 'badge-info',
-            'cancelado': 'badge-danger'
+            'ENTREGADO': 'badge-success',
+            'EN_CAMINO': 'badge-warning',
+            'PROCESANDO': 'badge-info',
+            'CANCELADO': 'badge-danger',
+            'PENDIENTE': 'badge-secondary'
         };
         return classes[estado] || 'badge-default';
     }
 
     getEstadoText(estado: string): string {
         const texts: any = {
-            'entregado': 'Entregado',
-            'en-camino': 'En Camino',
-            'procesando': 'Procesando',
-            'cancelado': 'Cancelado'
+            'ENTREGADO': 'Entregado',
+            'EN_CAMINO': 'En Camino',
+            'PROCESANDO': 'Procesando',
+            'CANCELADO': 'Cancelado',
+            'PENDIENTE': 'Pendiente'
         };
         return texts[estado] || estado;
+    }
+
+    getEstadoPagoBadgeClass(estadoPago: string): string {
+        const classes: any = {
+            'PAGADO': 'badge-success',
+            'PENDIENTE': 'badge-warning',
+            'RECHAZADO': 'badge-danger'
+        };
+        return classes[estadoPago] || 'badge-secondary';
+    }
+
+    getEstadoPagoText(estadoPago: string): string {
+        const texts: any = {
+            'PAGADO': 'Pagado',
+            'PENDIENTE': 'Pendiente',
+            'RECHAZADO': 'Rechazado'
+        };
+        return texts[estadoPago] || estadoPago;
     }
 
     viewDetails(pedido: any) {
@@ -105,12 +108,12 @@ export class MisPedidos {
     }
 
     canCancelOrder(estado: string): boolean {
-        return ['procesando', 'en-camino'].includes(estado);
+        return ['PROCESANDO', 'PENDIENTE'].includes(estado);
     }
 
     openCancelModal(pedido: any) {
         if (!this.canCancelOrder(pedido.estado)) {
-            this.toast.show('warning', 'Este pedido no puede ser cancelado');
+            this.alertaService.mostrarAdvertencia('Este pedido no puede ser cancelado');
             return;
         }
         this.selectedOrder = pedido;
@@ -120,19 +123,28 @@ export class MisPedidos {
 
     confirmCancel() {
         if (!this.cancelReason) {
-            this.toast.show('error', 'Selecciona un motivo de cancelación');
+            this.alertaService.mostrarError('Selecciona un motivo de cancelación');
             return;
         }
 
         if (this.selectedOrder) {
-            this.selectedOrder.estado = 'cancelado';
-            this.selectedOrder.cancelReason = this.cancelReason;
-            this.selectedOrder.cancelDate = new Date().toISOString();
-            
-            this.toast.show('success', `Pedido ${this.selectedOrder.id} cancelado exitosamente`);
-            this.showCancelModal = false;
-            this.selectedOrder = null;
-            this.cancelReason = '';
+            this.pedidoService.cancelarPedido(this.selectedOrder.id).subscribe({
+                next: () => {
+                    this.alertaService.mostrarExito(`Pedido ${this.selectedOrder.numeroPedido} cancelado exitosamente`);
+                    this.showCancelModal = false;
+                    this.selectedOrder = null;
+                    this.cancelReason = '';
+                    this.cargarMisPedidos();
+                },
+                error: (error) => {
+                    console.error('Error al cancelar pedido:', error);
+                    if (error.status === 400) {
+                        this.alertaService.mostrarError('Este pedido no puede ser cancelado');
+                    } else {
+                        this.alertaService.mostrarError('No se pudo cancelar el pedido');
+                    }
+                }
+            });
         }
     }
 
@@ -143,7 +155,7 @@ export class MisPedidos {
     }
 
     trackOrder(pedido: any) {
-        alert(`Seguimiento del pedido ${pedido.id}\nEstado: ${this.getEstadoText(pedido.estado)}`);
+        this.viewDetails(pedido);
     }
 
     downloadInvoice(pedido: any) {
@@ -151,6 +163,11 @@ export class MisPedidos {
     }
 
     reorder(pedido: any) {
-        alert(`Agregando productos del pedido ${pedido.id} al carrito`);
+        this.alertaService.mostrarInfo('Función de reordenar en desarrollo');
+    }
+    
+    actualizarPedidos() {
+        this.cargarMisPedidos();
+        this.alertaService.mostrarInfo('Pedidos actualizados');
     }
 }
