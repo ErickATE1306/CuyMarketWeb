@@ -131,22 +131,22 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let producto of productosFiltrados" [class.warning-row]="obtenerEstadoStock(producto) === 'low-stock'">
-                        <td>
+                        <td data-label="Producto">
                             <div class="product-info-simple">
                                 <strong>{{ producto.nombre }}</strong>
                                 <span class="product-sku">{{ producto.raza || 'SKU: ' + producto.id }}</span>
                             </div>
                         </td>
-                        <td>{{ producto.categoriaNombre || 'Sin categoría' }}</td>
-                        <td><strong>{{ producto.stockDisponible || 0 }}</strong> {{ obtenerUnidad(producto) }}</td>
-                        <td>{{ producto.stockMinimo || 0 }} {{ obtenerUnidad(producto) }}</td>
-                        <td>S/ {{ producto.precio.toFixed(2) }}</td>
-                        <td>
+                        <td data-label="Categoría">{{ producto.categoriaNombre || 'Sin categoría' }}</td>
+                        <td data-label="Stock Actual"><strong>{{ producto.stockDisponible || 0 }}</strong> {{ obtenerUnidad(producto) }}</td>
+                        <td data-label="Stock Mínimo">{{ producto.stockMinimo || 0 }} {{ obtenerUnidad(producto) }}</td>
+                        <td data-label="Precio">S/ {{ producto.precio.toFixed(2) }}</td>
+                        <td data-label="Estado">
                             <span class="stock-badge" [ngClass]="obtenerEstadoStock(producto)">
                                 {{ obtenerTextoEstado(producto) }}
                             </span>
                         </td>
-                        <td>
+                        <td data-label="Acciones">
                             <div class="action-buttons">
                                 <button class="btn-action primary" title="Ajustar Stock" (click)="abrirModalStock(producto)">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

@@ -109,8 +109,8 @@
                 <tbody>
                     <tr *ngFor="let pedido of pedidosFiltrados">
                         <td><input type="checkbox"></td>
-                        <td><strong>{{ pedido.numeroPedido }}</strong></td>
-                        <td>
+                        <td data-label="ID Pedido"><strong>{{ pedido.numeroPedido }}</strong></td>
+                        <td data-label="Cliente">
                             <div class="customer-info">
                                 <div class="customer-avatar">{{ obtenerIniciales(pedido.usuarioNombre) }}</div>
                                 <div>
@@ -119,15 +119,15 @@
                                 </div>
                             </div>
                         </td>
-                        <td>
+                        <td data-label="Productos">
                             <div class="product-list">
                                 <span class="product-tag" *ngFor="let item of pedido.items">
                                     {{ item.productoNombre }} ({{ item.cantidad }})
                                 </span>
                             </div>
                         </td>
-                        <td>{{ calcularTotalUnidades(pedido.items) }} unidades</td>
-                        <td>
+                        <td data-label="Cantidad">{{ calcularTotalUnidades(pedido.items) }} unidades</td>
+                        <td data-label="Total">
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <strong>S/ {{ pedido.total.toFixed(2) }}</strong>
                                 <button *ngIf="pedido.tieneComprobante" 
@@ -142,13 +142,13 @@
                                 </button>
                             </div>
                         </td>
-                        <td>{{ formatearFecha(pedido.fechaPedido) }}</td>
-                        <td>
+                        <td data-label="Fecha">{{ formatearFecha(pedido.fechaPedido) }}</td>
+                        <td data-label="Estado">
                             <span [class]="'status-badge ' + obtenerClaseEstado(pedido.estado)">
                                 {{ traducirEstado(pedido.estado) }}
                             </span>
                         </td>
-                        <td>
+                        <td data-label="Acciones">
                             <div class="action-buttons">
                                 <button class="btn-action primary" 
                                         [title]="obtenerTextoAccion(pedido.estado)" 

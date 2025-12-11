@@ -351,6 +351,59 @@
     }
 }
 
+/* ===================================
+   RESPONSIVE
+   =================================== */
+
+/* Mobile - smaller than 480px */
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 1rem;
+    }
+
+    .auth-box {
+        padding: 1.25rem;
+        max-width: 100%;
+    }
+
+    .auth-logo {
+        svg {
+            width: 48px;
+            height: 48px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+        }
+    }
+
+    .auth-form {
+        h2 {
+            font-size: 1.25rem;
+        }
+
+        p {
+            font-size: 0.875rem;
+        }
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-options {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: flex-start;
+    }
+
+    .btn-primary {
+        padding: 0.875rem 1.5rem;
+        font-size: 0.9375rem;
+    }
+}
+
+/* Mobile - 480px to 640px */
 @media (max-width: 640px) {
     .auth-box {
         padding: 1.5rem;
@@ -364,5 +417,16 @@
         flex-direction: column;
         gap: 0.75rem;
         align-items: flex-start;
+    }
+}
+
+/* Tablet and up */
+@media (min-width: 768px) {
+    .auth-container {
+        padding: 2.5rem;
+    }
+
+    .auth-box {
+        padding: 3rem;
     }
 }

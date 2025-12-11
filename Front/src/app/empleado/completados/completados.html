@@ -115,8 +115,8 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let pedido of pedidosFiltrados">
-                            <td><strong>{{ pedido.numeroPedido }}</strong></td>
-                            <td>
+                            <td data-label="ID Pedido"><strong>{{ pedido.numeroPedido }}</strong></td>
+                            <td data-label="Cliente">
                                 <div class="customer-info">
                                     <div class="customer-avatar">{{ obtenerIniciales(pedido.usuarioNombre || '') }}</div>
                                     <div>
@@ -125,7 +125,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>
+                            <td data-label="Productos">
                                 <div class="product-list">
                                     <span class="product-tag" *ngFor="let item of pedido.items.slice(0, 2)">
                                         {{ item.productoNombre }} ({{ item.cantidad }})
@@ -133,14 +133,14 @@
                                     <span class="product-tag" *ngIf="pedido.items.length > 2">+{{ pedido.items.length - 2 }}</span>
                                 </div>
                             </td>
-                            <td><strong>S/ {{ pedido.total.toFixed(2) }}</strong></td>
-                            <td>{{ formatearFecha(pedido.fechaPedido) }}</td>
-                            <td>
+                            <td data-label="Total"><strong>S/ {{ pedido.total.toFixed(2) }}</strong></td>
+                            <td data-label="Fecha Completado">{{ formatearFecha(pedido.fechaPedido) }}</td>
+                            <td data-label="Tiempo Total">
                                 <span class="time-badge" [ngClass]="obtenerClaseTiempo(calcularTiempoTotal(pedido.fechaPedido))">
                                     {{ calcularTiempoTotal(pedido.fechaPedido) }}
                                 </span>
                             </td>
-                            <td>
+                            <td data-label="Acciones">
                                 <div class="action-buttons">
                                     <button class="btn-action" title="Ver detalles" (click)="viewOrderDetails(pedido)">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

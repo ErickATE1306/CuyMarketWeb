@@ -183,15 +183,15 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let reporte of reportesRecientes">
-                        <td><strong>{{ reporte.nombre }}</strong></td>
-                        <td>{{ reporte.tipo }}</td>
-                        <td>{{ formatearFecha(reporte.fechaGeneracion) }}</td>
-                        <td>
+                        <td data-label="Nombre"><strong>{{ reporte.nombre }}</strong></td>
+                        <td data-label="Tipo">{{ reporte.tipo }}</td>
+                        <td data-label="Fecha">{{ formatearFecha(reporte.fechaGeneracion) }}</td>
+                        <td data-label="Formato">
                             <span class="status-badge" [ngClass]="obtenerBadgeFormato(reporte.formato)">
                                 {{ reporte.formato }}
                             </span>
                         </td>
-                        <td>
+                        <td data-label="Acciones">
                             <button class="btn-icon" title="Descargar" (click)="descargarReporte(reporte)">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2">
