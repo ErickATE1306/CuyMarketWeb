@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'http://localhost:8080/api'
+    apiUrl: 'https://tu-backend-cuymarket.onrender.com/api' // Actualizar con tu URL de Render
 };

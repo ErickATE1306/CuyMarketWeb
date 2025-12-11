@@ -1,0 +1,2 @@
+# Script de inicio para Render
+java -Dspring.profiles.active=prod -Dserver.port=$PORT -jar target/backend-0.0.1-SNAPSHOT.jar
