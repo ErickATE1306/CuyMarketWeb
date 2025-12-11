@@ -23,10 +23,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     return next(authReq).pipe(
         catchError((error) => {
             if (error.status === 401 || error.status === 403) {
-                // Token expirado o inválido
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                router.navigate(['/auth/login']);
+                // Solo redirigir al login si había un token (token expirado)
+                // Si no había token, el usuario simplemente no está logueado (caso normal)
+                if (token) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    router.navigate(['/auth/login']);
+                }
             }
             return throwError(() => error);
         })

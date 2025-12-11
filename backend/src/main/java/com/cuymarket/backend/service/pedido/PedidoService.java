@@ -218,6 +218,36 @@ public class PedidoService {
                 .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
     }
 
+    // Cancelar pedido y rechazar pago automáticamente (usado por cliente)
+    public Pedido cancelarPedidoYRechazarPago(Long id) {
+        Pedido pedido = actualizarEstado(id, EstadoPedido.CANCELADO);
+        pedido.setEstadoPago(com.cuymarket.backend.model.enums.EstadoPago.RECHAZADO);
+        pedidoRepository.save(pedido);
+        // Recargar el pedido con todas sus relaciones
+        return pedidoRepository.findByIdWithItems(id)
+                .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
+    }
+
+    // Rechazar pago y cancelar pedido automáticamente (usado por empleado)
+    public Pedido rechazarPagoYCancelarPedido(Long id) {
+        Pedido pedido = obtenerPorId(id);
+        pedido.setEstadoPago(com.cuymarket.backend.model.enums.EstadoPago.RECHAZADO);
+        pedido.setEstado(EstadoPedido.CANCELADO);
+        
+        // Restaurar stock si estaba reducido
+        if (pedido.getEstado() == EstadoPedido.PENDIENTE || pedido.getEstado() == EstadoPedido.EN_PROCESO) {
+            for (ItemPedido item : pedido.getItems()) {
+                productoService.incrementarStock(item.getProducto().getId(), item.getCantidad(),
+                        "Rechazo pago - Pedido #" + pedido.getNumeroPedido());
+            }
+        }
+        
+        pedidoRepository.save(pedido);
+        // Recargar el pedido con todas sus relaciones
+        return pedidoRepository.findByIdWithItems(id)
+                .orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
+    }
+
     // Consultas
     @Transactional(readOnly = true)
     public Pedido obtenerPorId(Long id) {

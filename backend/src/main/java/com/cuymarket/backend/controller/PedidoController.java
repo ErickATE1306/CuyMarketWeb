@@ -75,12 +75,13 @@ public class PedidoController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         
-        // Solo se puede cancelar si está PENDIENTE o PROCESANDO
-        if (pedido.getEstado() != EstadoPedido.PENDIENTE && pedido.getEstado() != EstadoPedido.PROCESANDO) {
+        // Solo se puede cancelar si está PENDIENTE o EN_PROCESO
+        if (pedido.getEstado() != EstadoPedido.PENDIENTE && pedido.getEstado() != EstadoPedido.EN_PROCESO) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         
-        Pedido pedidoCancelado = pedidoService.actualizarEstado(id, EstadoPedido.CANCELADO);
+        // Cancelar pedido y rechazar pago automáticamente
+        Pedido pedidoCancelado = pedidoService.cancelarPedidoYRechazarPago(id);
         return ResponseEntity.ok(convertirAResponse(pedidoCancelado));
     }
 
@@ -98,6 +99,12 @@ public class PedidoController {
     public ResponseEntity<PedidoResponse> actualizarEstadoPago(
             @PathVariable Long id,
             @RequestBody EstadoPagoRequest request) {
+        // Si se rechaza el pago, cancelar pedido automáticamente
+        if (request.getEstadoPago() == com.cuymarket.backend.model.enums.EstadoPago.RECHAZADO) {
+            Pedido pedido = pedidoService.rechazarPagoYCancelarPedido(id);
+            return ResponseEntity.ok(convertirAResponse(pedido));
+        }
+        
         Pedido pedido = pedidoService.actualizarEstadoPago(id, request.getEstadoPago());
         return ResponseEntity.ok(convertirAResponse(pedido));
     }

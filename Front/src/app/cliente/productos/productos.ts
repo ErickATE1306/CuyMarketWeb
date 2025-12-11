@@ -207,27 +207,17 @@ export class Productos implements OnInit {
   addToCart(producto: Producto, event: Event) {
     event.stopPropagation();
 
-    // Verificar autenticación
-    if (!this.authService.isAuthenticated()) {
-      this.toastService.warning('Debes iniciar sesión para agregar productos al carrito');
-      this.router.navigate(['/auth/login']);
-      return;
-    }
-
     this.carritoService.agregarProducto(producto.id, 1).subscribe({
       next: () => {
         this.toastService.success(`${producto.nombre} agregado al carrito`);
-        // NO navegar, solo mostrar el mensaje de éxito
       },
       error: (err) => {
         console.error('Error al agregar al carrito', err);
-        if (err.status === 401) {
-          this.toastService.error('Debes iniciar sesión');
-          this.router.navigate(['/auth/login']);
-        } else if (err.status === 404) {
+        if (err.status === 404) {
           this.toastService.error('Producto no encontrado');
         } else {
-          this.toastService.error('Error al agregar producto. Por favor, intenta de nuevo.');
+          // Si no está logueado, igual se agregó localmente
+          this.toastService.success(`${producto.nombre} agregado al carrito`);
         }
       }
     });

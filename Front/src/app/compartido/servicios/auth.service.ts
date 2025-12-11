@@ -46,9 +46,16 @@ export class AuthService {
 
     private currentUserSubject = new BehaviorSubject<User | null>(null);
     public currentUser$ = this.currentUserSubject.asObservable();
+    
+    // Callback para sincronizar carrito
+    private onLoginCallback?: () => void;
 
     constructor() {
         this.loadUserFromStorage();
+    }
+
+    setOnLoginCallback(callback: () => void) {
+        this.onLoginCallback = callback;
     }
 
     private loadUserFromStorage() {
@@ -111,6 +118,11 @@ export class AuthService {
 
             localStorage.setItem('user', JSON.stringify(user));
             this.currentUserSubject.next(user);
+            
+            // Sincronizar carrito local con el servidor
+            if (this.onLoginCallback) {
+                this.onLoginCallback();
+            }
         }
     }
 
@@ -118,7 +130,7 @@ export class AuthService {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         this.currentUserSubject.next(null);
-        this.router.navigate(['/auth/login']);
+        this.router.navigate(['/cliente/inicio']);
     }
 
     get currentUserValue(): User | null {

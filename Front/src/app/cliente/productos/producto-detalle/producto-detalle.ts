@@ -98,13 +98,6 @@ export class ProductoDetalle implements OnInit {
     addToCart() {
         if (!this.producto) return;
 
-        // Verificar autenticación
-        if (!this.authService.isAuthenticated()) {
-            this.toastService.warning('Debes iniciar sesión para agregar productos al carrito');
-            this.router.navigate(['/auth/login']);
-            return;
-        }
-
         // Verificar stock
         if (this.producto.stockDisponible !== undefined && this.cantidad > this.producto.stockDisponible) {
             this.toastService.error('No hay suficiente stock disponible');
@@ -119,12 +112,9 @@ export class ProductoDetalle implements OnInit {
             },
             error: (err) => {
                 console.error('Error al agregar al carrito', err);
-                if (err.status === 401) {
-                    this.toastService.error('Debes iniciar sesión');
-                    this.router.navigate(['/auth/login']);
-                } else {
-                    this.toastService.error('Error al agregar producto al carrito');
-                }
+                // Si no está logueado, igual se agregó localmente
+                this.toastService.success(`${this.cantidad} ${this.producto!.nombre} agregado(s) al carrito`);
+                this.cantidad = 1;
             }
         });
     }
@@ -132,7 +122,7 @@ export class ProductoDetalle implements OnInit {
     buyNow() {
         if (!this.producto) return;
 
-        // Verificar autenticación
+        // Verificar autenticación para comprar directamente
         if (!this.authService.isAuthenticated()) {
             this.toastService.warning('Debes iniciar sesión para comprar');
             this.router.navigate(['/auth/login']);

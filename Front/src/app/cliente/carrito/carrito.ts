@@ -31,27 +31,32 @@ export class Carrito implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        if (!this.authService.isAuthenticated()) {
-            this.toastService.warning('Debes iniciar sesión para ver tu carrito');
-            this.router.navigate(['/auth/login']);
-            return;
-        }
-
+        // Suscribirse a cambios en el carrito del servidor
         this.carritoSubscription = this.carritoService.carrito$.subscribe(carrito => {
-            if (carrito) {
+            if (carrito && this.authService.isAuthenticated()) {
                 this.cartItems = carrito.items;
                 this.total = carrito.total;
                 // Envío gratis para compras mayores o iguales a S/ 100
                 this.envio = this.total >= 100 ? 0 : (this.cartItems.length > 0 ? 15.00 : 0);
-            } else {
-                this.cartItems = [];
-                this.total = 0;
-                this.envio = 0;
             }
         });
 
-        // Recargar carrito al entrar
-        this.carritoService.cargarCarrito();
+        // Cargar carrito (local o servidor según autenticación)
+        this.cargarCarritoCompleto();
+    }
+
+    cargarCarritoCompleto() {
+        if (this.authService.isAuthenticated()) {
+            // Usuario logueado: cargar del servidor
+            this.carritoService.cargarCarrito();
+        } else {
+            // Usuario NO logueado: cargar carrito local con detalles
+            this.carritoService.obtenerItemsCarrito().subscribe(items => {
+                this.cartItems = items;
+                this.total = items.reduce((sum, item) => sum + item.subtotal, 0);
+                this.envio = this.total >= 100 ? 0 : (items.length > 0 ? 15.00 : 0);
+            });
+        }
     }
 
     ngOnDestroy() {
@@ -69,7 +74,10 @@ export class Carrito implements OnInit, OnDestroy {
         }
 
         this.carritoService.actualizarCantidad(item.id, nuevaCantidad).subscribe({
-            next: () => this.toastService.success('Cantidad actualizada'),
+            next: () => {
+                this.toastService.success('Cantidad actualizada');
+                this.cargarCarritoCompleto(); // Recargar para reflejar cambios
+            },
             error: () => this.toastService.error('Error al actualizar cantidad')
         });
     }
@@ -81,7 +89,10 @@ export class Carrito implements OnInit, OnDestroy {
 
     removeItem(item: ItemCarrito) {
         this.carritoService.removerProducto(item.id).subscribe({
-            next: () => this.toastService.success('Producto eliminado'),
+            next: () => {
+                this.toastService.success('Producto eliminado');
+                this.cargarCarritoCompleto(); // Recargar para reflejar cambios
+            },
             error: () => this.toastService.error('Error al eliminar producto')
         });
     }
@@ -104,7 +115,10 @@ export class Carrito implements OnInit, OnDestroy {
     clearCart() {
         if (confirm('¿Estás seguro de que deseas vaciar el carrito?')) {
             this.carritoService.vaciarCarrito().subscribe({
-                next: () => this.toastService.success('Carrito vaciado'),
+                next: () => {
+                    this.toastService.success('Carrito vaciado');
+                    this.cargarCarritoCompleto(); // Recargar para reflejar cambios
+                },
                 error: () => this.toastService.error('Error al vaciar carrito')
             });
         }
@@ -115,6 +129,14 @@ export class Carrito implements OnInit, OnDestroy {
             this.toastService.warning('Tu carrito está vacío');
             return;
         }
+        
+        // Verificar autenticación para proceder al checkout
+        if (!this.authService.isAuthenticated()) {
+            this.toastService.info('Inicia sesión para completar tu compra');
+            this.router.navigate(['/auth/login'], { queryParams: { returnUrl: '/cliente/checkout' } });
+            return;
+        }
+        
         this.router.navigate(['/cliente/checkout']);
     }
 }

@@ -16,6 +16,7 @@ export class Cliente implements OnInit, OnDestroy {
   userName = 'Usuario';
   cartCount = 0;
   private carritoSubscription?: Subscription;
+  private carritoLocalSubscription?: Subscription;
 
   constructor(
     private router: Router,
@@ -25,18 +26,34 @@ export class Cliente implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // Suscribirse a los cambios del carrito
+    // Suscribirse a los cambios del carrito del servidor
     this.carritoSubscription = this.carritoService.carrito$.subscribe(carrito => {
       if (carrito && carrito.items) {
         this.cartCount = carrito.items.reduce((sum, item) => sum + item.cantidad, 0);
-      } else {
-        this.cartCount = 0;
+      } else if (!this.isLoggedIn) {
+        // Si no hay carrito del servidor y no está logueado, obtener del local
+        this.cartCount = this.carritoService.getCantidadItems();
       }
     });
+    
+    // Suscribirse a cambios del carrito local
+    this.carritoLocalSubscription = this.carritoService.carritoLocalCambio$.subscribe(cantidad => {
+      if (!this.isLoggedIn) {
+        this.cartCount = cantidad;
+      }
+    });
+    
+    // Actualizar contador inicial
+    this.actualizarContadorCarrito();
+  }
+
+  actualizarContadorCarrito() {
+    this.cartCount = this.carritoService.getCantidadItems();
   }
 
   ngOnDestroy() {
     this.carritoSubscription?.unsubscribe();
+    this.carritoLocalSubscription?.unsubscribe();
   }
 
   checkLoginStatus() {

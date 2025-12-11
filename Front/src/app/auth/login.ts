@@ -277,7 +277,13 @@ export class Login implements OnInit {
     }
 
     private redirectUser() {
-        if (this.authService.hasRole('admin') || this.authService.hasRole('empleado')) {
+        // Obtener returnUrl de los query params
+        const returnUrl = this.route.snapshot.queryParams['returnUrl'];
+        
+        if (returnUrl) {
+            // Si hay returnUrl, redirigir allí
+            this.router.navigateByUrl(returnUrl);
+        } else if (this.authService.hasRole('admin') || this.authService.hasRole('empleado')) {
             this.router.navigate(['/auth/select-role']);
         } else {
             this.router.navigate(['/cliente/inicio']);
